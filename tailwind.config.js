@@ -2,8 +2,8 @@
 module.exports = {
   darkMode: ["class"],
   content: [
-    './src/components/**/*.{ts,tsx}',
-    './src/app/**/*.{ts,tsx}',
+    // './src/components/**/*.{ts,tsx}',
+    // './src/app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
 	],
   theme: {
@@ -49,6 +49,7 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        blueGrey: "hsl(var(--blue-grey))",
       },
       borderRadius: {
         lg: "var(--radius)",
