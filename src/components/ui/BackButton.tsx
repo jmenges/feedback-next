@@ -8,7 +8,7 @@ const buttonVariants = cva("underline-offset-1", {
   variants: {
     variant: {
       default:
-        "px-4 bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 ",
+        "px-4 bg-darker-blue text-white hover:bg-darker-blue/90",
       link: "text-blueGrey",
     },
   },

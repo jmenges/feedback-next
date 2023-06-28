@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils'
 import './globals.css'
 import { Jost } from 'next/font/google'
 
@@ -15,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={jost.className}>{children}</body>
+      <body className={cn(jost.className, "bg-lighter-grey text-blue-grey")}>{children}</body>
     </html>
   )
 }

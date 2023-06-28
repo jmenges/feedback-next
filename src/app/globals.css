@@ -4,87 +4,27 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-
-    --primary: 282 83% 52%; /* purple */
-    --primary-foreground: 0 0% 98%; /* white */
-
-    --secondary: 231 33% 34%; /* dark blue */
-    --secondary-foreground: 0 0% 98%; /* white */
-
-    --accent: 230 76% 59%; /* blue */
-    --accent-foreground: 0 0% 98%; /* white */
-
-    --destructive: 0 67% 53%; /* red */
-    --destructive-foreground: 0 0% 98%; /* white */
-
-    --ring: 0 0% 63.9%;
-
-    --radius: 0.5rem;
-
-    /* CUSTOM STYLES */
-    --purple: hsla(282, 83%, 52%, 1);
-    --blue: hsla(230, 76%, 59%, 1);
-    --bright-blue: hsla(204, 94%, 68%, 1);
-    --dark-blue: hsla(230, 31%, 31%, 1);
-    --darker-blue: hsla(231, 33%, 34%, 1);
+    /* Color styles */
+    --darker-blue: 231 33.3% 34.1%;
+    --purple: 282 82.9% 52%;
+    --blue: 230 76.2% 58.8%;
+    --dark-blue: 230 30.8% 31.2%;
+    --white: 0 0% 100%;
+    --light-grey: 231 100% 97.5%;
+    --lighter-grey: 230 60% 98%;
     --blue-grey: 224 20% 49%;
-    --light-grey: hsla(231, 100%, 97%, 1);
-    --lighter-grey: hsla(230, 60%, 98%, 1);
-    --orange: hsla(14, 83%, 74%, 1);
-  }
-
-  .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 85.7% 97.3%;
-
-    --ring: 0 0% 14.9%;
+    --orange: 14 83.5% 73.9%;
+    --bright-blue: 204 93.8% 68.2%;
+    --red: 0 66.7% 52.9%;
   }
 }
 
 @layer base {
-  * {
+  /* * {
     @apply border-border;
   }
 
   body {
     @apply bg-background text-foreground;
-  }
+  } */
 }
