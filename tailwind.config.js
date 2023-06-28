@@ -8,9 +8,6 @@ module.exports = {
     container: {
       center: true,
       padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
     },
     colors: {
       "darker-blue": "hsl(var(--darker-blue))",
@@ -32,10 +29,44 @@ module.exports = {
       sm: "5px",
       md: "10px",
     },
+    screens: {
+      tablet: "640px",
+      desktop: "1024px",
+    },
+    fontSize: {
+      xs: [ "13px", "19px" ],
+      sm: [ "15px", "22px" ],
+      md: [ "16px", "23px" ],
+      h1: [
+        "24px",
+        {
+          lineHeight: "35px",
+          letterSpacing: "-0.033em",
+        },
+      ],
+      h2: [
+        "20px",
+        {
+          lineHeight: "29px",
+          letterSpacing: "-0.025em",
+        },
+      ],
+      h3: [
+        "18px",
+        {
+          lineHeight: "26px",
+          letterSpacing: "-0.025em",
+        },
+      ],
+      h4: [
+        "14px",
+        {
+          lineHeight: "20px",
+          letterSpacing: "-0.02em",
+        },
+      ],
+    },
     extend: {
-      fontSize: {
-        sm: "0.9375rem",
-      },
       keyframes: {
         "accordion-down": {
           from: { height: 0 },
