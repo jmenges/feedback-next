@@ -28,6 +28,7 @@ module.exports = {
     borderRadius: {
       sm: "5px",
       md: "10px",
+      full: "9999px",
     },
     screens: {
       tablet: "640px",
@@ -87,4 +88,8 @@ module.exports = {
     require("tailwindcss-animate"),
     require("@thoughtbot/tailwindcss-aria-attributes"),
   ],
+  safelist: [
+    'bg-bright-blue',
+    'bg-orange',
+  ]
 };
