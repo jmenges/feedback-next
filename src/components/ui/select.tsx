@@ -29,7 +29,7 @@ const SelectTrigger = React.forwardRef<
   >
     {children}
     <SelectPrimitive.Icon asChild>
-      <DownIcon className="" />
+      <DownIcon className="[&>path]:stroke-current" />
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
 ));
