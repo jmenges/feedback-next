@@ -16,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={cn(jost.className, "bg-lighter-grey text-blue-grey text-xs tablet:text-md")}>{children}</body>
+      <body className={cn(jost.className, "bg-lighter-grey text-blue-grey text-xs tablet:text-md container mt-12")}>{children}</body>
     </html>
   )
 }
