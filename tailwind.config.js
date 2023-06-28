@@ -26,6 +26,7 @@ module.exports = {
       red: "hsl(var(--red))",
       transparent: "transparent",
       current: "currentColor",
+      grey: "hsl(var(--grey))",
     },
     borderRadius: {
       sm: "5px",
