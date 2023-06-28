@@ -9,7 +9,7 @@ type Props = {
 
 export default function ActionBar({ feedbackCount = 0 }: Props) {
   return (
-    <div className="flex h-14 items-center bg-darker-blue px-6 py-2">
+    <div className="flex h-14 tablet:h-24 items-center bg-darker-blue px-6 py-2 tablet:rounded-md">
       <div className="hidden text-h3 mr-8 font-bold text-white tablet:flex">
         <IconSuggestions />
         <span className="ml-4">{feedbackCount} Suggestions</span>
