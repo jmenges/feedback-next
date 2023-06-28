@@ -3,13 +3,13 @@ import { VariantProps, cva } from "class-variance-authority";
 import { Button } from "./button";
 
 import BackIcon from "@/../public/icons/icon-arrow-left.svg";
+import IconButton from "@/components/ui/IconButton";
 
 const buttonVariants = cva("underline-offset-1", {
   variants: {
     variant: {
-      default:
-        "px-4 bg-darker-blue text-white hover:bg-darker-blue/90",
-      link: "text-blueGrey",
+      default: "px-4 bg-darker-blue text-white hover:bg-darker-blue/90",
+      link: "text-blue-grey",
     },
   },
   defaultVariants: {
@@ -25,14 +25,12 @@ export interface BackButtonProps
 
 export default function BackButton({ variant, className }: BackButtonProps) {
   return (
-    <Button
+    <IconButton
+      Icon={BackIcon}
       variant="link"
       className={cn(buttonVariants({ variant, className }))}
     >
-      <i className="[&>svg>path]:stroke-current mr-4">
-        <BackIcon />
-      </i>
       Back
-    </Button>
+    </IconButton>
   );
 }
