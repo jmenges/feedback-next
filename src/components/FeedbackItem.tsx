@@ -2,13 +2,16 @@ import Card from "@/components/Card";
 import CommentCounter from "@/components/ui/CommentCounter";
 import Tag from "@/components/ui/Tag";
 import UpvoteButton from "@/components/ui/UpvoteButton";
+import { cn } from "@/lib/utils";
 import React from "react";
 
-type Props = {};
+type Props = {
+  indicateState?: boolean;
+};
 
-export default function FeedbackItem({}: Props) {
+export default function FeedbackItem({ indicateState }: Props) {
   return (
-    <Card className="flex flex-wrap items-start">
+    <Card className={cn("flex flex-wrap items-start", "")}>
       {/* TITLE, DESCRIPTION, TAG */}
       <div className="mb-4 w-full space-y-2 tablet:order-2 tablet:mb-0 tablet:w-auto">
         <h4 className="tablet:text-h3">Add tags for solutions</h4>
