@@ -4,8 +4,7 @@ import Author from "@/components/comments/Author";
 import CommentReply from "@/components/comments/CommentReply";
 import CommentReplyForm from "@/components/comments/CommentReplyForm";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { IComment, IReply } from "@/types";
+import { IComment } from "@/types";
 import React from "react";
 
 type CommentItemProps = {
@@ -39,7 +38,7 @@ export default function CommentItem({
           <p
             className={
               hasReplies
-                ? "before:absolute before:left-0 before:top-0 before:block before:h-[180%] before:border-l before:border-grey"
+                ? "before:absolute before:left-0 before:top-0 tablet:before:block tablet:before:h-[180%] before:border-l before:border-grey"
                 : ""
             }
           >

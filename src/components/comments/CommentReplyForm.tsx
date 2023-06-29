@@ -8,9 +8,9 @@ type Props = {
 
 export default function CommentReplyForm({ onSubmit }: Props) {
   return (
-    <div className="flex flex-1 justify-between">
-      <Input className="w-3/4" placeholder="Type your comment here" />
-      <Button variant="default">Post Reply</Button>
+    <div className="flex flex-1 gap-4 justify-between">
+      <Input className="" placeholder="Type your comment here" />
+      <Button className="flex-shrink-0" variant="default">Post Reply</Button>
     </div>
   );
 }
