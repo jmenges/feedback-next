@@ -8,7 +8,7 @@ import IconButton from "@/components/ui/IconButton";
 const buttonVariants = cva("underline-offset-1", {
   variants: {
     variant: {
-      default: "px-4 bg-darker-blue text-white hover:bg-darker-blue/90",
+      default: "px-4 py-1 bg-darker-blue text-white hover:bg-darker-blue/90",
       link: "text-blue-grey",
     },
   },
@@ -28,7 +28,8 @@ export default function BackButton({ variant, className }: BackButtonProps) {
     <IconButton
       Icon={BackIcon}
       variant="link"
-      className={cn(buttonVariants({ variant, className }))}
+      size="raw"
+      className={cn(buttonVariants({ variant, className }), "px-0 text-xs tablet:text-h4")}
     >
       Back
     </IconButton>
