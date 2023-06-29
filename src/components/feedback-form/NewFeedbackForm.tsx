@@ -1,6 +1,6 @@
 import React from "react";
 import IconNewFeedback from "@/../public/icons/icon-new-feedback.svg";
-import FeedbackForm from "@/components/FeedbackForm";
+import FeedbackForm from "@/components/feedback-form/FeedbackForm";
 import { Button } from "@/components/ui/button";
 
 type Props = {};

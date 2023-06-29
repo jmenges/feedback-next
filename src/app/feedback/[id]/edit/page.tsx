@@ -1,4 +1,4 @@
-import EditFeedbackForm from "@/components/EditFeedbackForm";
+import EditFeedbackForm from "@/components/feedback-form/EditFeedbackForm";
 import BackButton from "@/components/ui/BackButton";
 
 export default function NewFeedback() {

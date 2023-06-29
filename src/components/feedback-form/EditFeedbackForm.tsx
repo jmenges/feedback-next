@@ -1,6 +1,6 @@
 import React from "react";
 import IconEditFeedback from "@/../public/icons/icon-edit-feedback.svg";
-import FeedbackForm from "@/components/FeedbackForm";
+import FeedbackForm from "./FeedbackForm";
 import { Button } from "@/components/ui/button";
 import { IFeedbackPartial } from "@/types";
 

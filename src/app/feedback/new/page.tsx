@@ -1,7 +1,5 @@
-import FeedbackForm from "@/components/FeedbackForm";
-import NewFeedbackForm from "@/components/NewFeedbackForm";
+import NewFeedbackForm from "@/components/feedback-form/NewFeedbackForm";
 import BackButton from "@/components/ui/BackButton";
-import { Button } from "@/components/ui/button";
 
 export default function NewFeedback() {
   return (

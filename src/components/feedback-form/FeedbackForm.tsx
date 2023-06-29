@@ -9,11 +9,9 @@ import {
 } from "@/components/ui/select";
 import React from "react";
 
-import { features } from "@/config.js";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import { features } from "@/config.js";
 
-import IconNewFeedback from "@/../public/icons/icon-new-feedback.svg";
 import { IFeedbackPartial } from "@/types";
 
 type Props = {
