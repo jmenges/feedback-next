@@ -10,8 +10,8 @@ export default function Card({ children, className }: CardProps) {
   return (
     <div
       className={cn(
-        className,
-        "rounded-md bg-white p-6 tablet:px-8 tablet:py-7"
+        "rounded-md bg-white p-6 tablet:px-8 tablet:py-7",
+        className
       )}
     >
       {children}
