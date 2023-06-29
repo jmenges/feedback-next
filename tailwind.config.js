@@ -7,7 +7,11 @@ module.exports = {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: {
+        DEFAULT: '1.5rem',
+        tablet: '2rem',
+        desktop: '4rem',
+      },
     },
     colors: {
       "darker-blue": "hsl(var(--darker-blue))",
@@ -68,6 +72,11 @@ module.exports = {
       ],
     },
     extend: {
+      "backgroundImage": {
+        'app-card-mobile': "url('/assets/background-header-mobile.png')",
+        'app-card-tablet': "url('/assets/background-header-tablet.png')",
+        'app-card-desktop': "url('/assets/background-header-desktop.png')",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: 0 },
