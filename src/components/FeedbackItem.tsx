@@ -3,28 +3,33 @@ import CommentCounter from "@/components/ui/CommentCounter";
 import Tag from "@/components/ui/Tag";
 import UpvoteButton from "@/components/ui/UpvoteButton";
 import { cn } from "@/lib/utils";
-import React from "react";
+import { IFeedback } from "@/types";
 
 type Props = {
-  indicateState?: boolean;
+  feedback: IFeedback;
+  className?: string;
 };
 
-export default function FeedbackItem({ indicateState }: Props) {
+export default function FeedbackItem({
+  feedback,
+  className,
+}: Props) {
+
   return (
-    <Card className={cn("flex flex-wrap items-start", "")}>
+    <Card
+      className={cn("flex flex-wrap items-start", className )}
+    >
       {/* TITLE, DESCRIPTION, TAG */}
       <div className="mb-4 w-full space-y-2 tablet:order-2 tablet:mb-0 tablet:w-auto">
-        <h4 className="tablet:text-h3">Add tags for solutions</h4>
-        <p className="">
-          Easier to search for solutions based on a specific stack.
-        </p>
-        <Tag title="Enhancement" type="info" />
+        <h4 className="tablet:text-h3">{feedback.title}</h4>
+        <p className="">{feedback.description}</p>
+        <Tag title={feedback.category} type="info" />
       </div>
       {/* UPVOTE BUTTON */}
       <UpvoteButton className="tablet:order-1 tablet:mr-10" />
       <CommentCounter
         className="ml-auto tablet:order-3 tablet:self-center"
-        count={0}
+        count={Array.isArray(feedback.comments) ? feedback.comments.length : 0}
       />
       {/* COMMENT COUNT */}
     </Card>
