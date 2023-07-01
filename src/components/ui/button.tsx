@@ -14,14 +14,17 @@ const buttonVariants = cva(
         destructive: "bg-red text-white hover:bg-red/80",
         accent: "bg-blue text-white hover:bg-blue/80",
         link: "text-blue-grey underline-offset-2 hover:underline",
-        interactive: "bg-light-grey hover:bg-[#CFD7FF] aria-active:bg-blue aria-active:text-white",
+        raw: "rounded-none ",
+        interactive:
+          "bg-light-grey hover:bg-[#CFD7FF] aria-active:bg-blue aria-active:text-white",
       },
       size: {
-        default: "h-9 px-4 py-2 tablet:text-h4 tablet:pt-[12.5px] tablet:pb-[11.5px] tablet:px-6",
+        default:
+          "h-9 px-4 py-2 tablet:text-h4 tablet:pt-[12.5px] tablet:pb-[11.5px] tablet:px-6",
         sm: "h-8 rounded-md px-3 text-xs",
         lg: "h-10 rounded-md px-8",
         icon: "h-9 w-9",
-        raw: "h-9",
+        raw: "",
       },
     },
     defaultVariants: {
