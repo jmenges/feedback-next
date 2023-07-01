@@ -26,7 +26,7 @@ export type IFeedback = {
   upvotes: number;
   status: string;
   description: string;
-  comments: IComments;
+  comments?: IComments;
 };
 
 // used for creating and editing feedback
