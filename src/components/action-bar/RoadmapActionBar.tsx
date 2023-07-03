@@ -9,7 +9,7 @@ export default function RoadmapActionBar({ }: Props) {
   return (
     <BaseActionBar>
       <div className="flex flex-col items-start justify-start">
-        <BackButton />
+        <BackButton href="/" />
         <h3 className="text-white tablet:text-h1">Roadmap</h3>
       </div>
     </BaseActionBar>
