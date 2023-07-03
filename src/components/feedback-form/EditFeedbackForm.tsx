@@ -26,7 +26,7 @@ export default function EditFeedbackForm({feedback}: Props) {
       feedback={feedback}
       Icon={IconEditFeedback}
       title="Editing ‘Add a dark theme option’"
-      buttons={[FeedbackActions]}
+      Actions={FeedbackActions}
     />
   );
 }

@@ -10,18 +10,18 @@ import {
 import React from "react";
 
 import { Textarea } from "@/components/ui/textarea";
-import { features } from "@/config.js";
+import { features } from "@/config";
 
 import { IFeedbackPartial } from "@/types";
 
 type Props = {
   Icon: React.ElementType;
   title: string;
-  buttons: React.ElementType[];
+  Actions: React.ElementType;
   feedback?: IFeedbackPartial; // used with edit form
 };
 
-export default function FeedbackForm({ Icon, title, buttons }: Props) {
+export default function FeedbackForm({ Icon, title, Actions }: Props) {
   return (
     <Card className="relative space-y-6 pt-12 text-xs">
       <i className="l-10 absolute top-0 -translate-y-1/2 w-14 h-14 object-contain flex">
@@ -74,9 +74,7 @@ export default function FeedbackForm({ Icon, title, buttons }: Props) {
       </fieldset>
       {/* Form actions */}
       <div className="!mt-10 space-y-4">
-        {buttons.map((Button, index) => (
-          <Button key={index} />
-        ))}
+        <Actions />
       </div>
     </Card>
   );
