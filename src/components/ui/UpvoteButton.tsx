@@ -13,7 +13,7 @@ export default function UpvoteButton({
   onClick,
   className,
   size = "default",
-  upvoteCount = 10,
+  upvoteCount = 0,
 }: UpvoteButtonProps) {
   let sizeClass =
     size === "default" ? "tablet:flex-col tablet:gap-[6px] tablet:py-3.5" : "";
