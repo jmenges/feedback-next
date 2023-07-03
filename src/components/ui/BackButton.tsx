@@ -1,9 +1,8 @@
 import { cn } from "@/lib/utils";
 import { VariantProps, cva } from "class-variance-authority";
-import { Button } from "./button";
 
 import BackIcon from "@/../public/icons/icon-arrow-left.svg";
-import IconButton from "@/components/ui/IconButton";
+import IconLink from "@/components/ui/IconLink";
 
 const buttonVariants = cva("underline-offset-1", {
   variants: {
@@ -21,17 +20,26 @@ export interface BackButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
+  href: string;
 }
 
-export default function BackButton({ variant, className }: BackButtonProps) {
+export default function BackButton({
+  variant,
+  href,
+  className,
+}: BackButtonProps) {
   return (
-    <IconButton
+    <IconLink
       Icon={BackIcon}
       variant="link"
       size="raw"
-      className={cn(buttonVariants({ variant, className }), "px-0 text-xs tablet:text-h4")}
+      className={cn(
+        buttonVariants({ variant, className }),
+        "px-0 text-xs tablet:text-h4"
+      )}
+      href={href}
     >
       Back
-    </IconButton>
+    </IconLink>
   );
 }
