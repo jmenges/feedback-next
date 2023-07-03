@@ -1,5 +1,6 @@
 import Card from "@/components/Card";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import React from "react";
 
 type RoadmapCounterProps = {};
@@ -15,8 +16,8 @@ export default function RoadmapCounter({}: RoadmapCounterProps) {
     <Card>
       <div className="mb-6 flex justify-between">
         <h2>Roadmap</h2>
-        <Button size="raw" variant="link">
-          View
+        <Button size="raw" variant="link" asChild>
+          <Link href="/roadmap">View</Link>
         </Button>
       </div>
       {/* ROADMAPS */}
