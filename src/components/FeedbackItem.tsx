@@ -10,15 +10,9 @@ type Props = {
   className?: string;
 };
 
-export default function FeedbackItem({
-  feedback,
-  className,
-}: Props) {
-
+export default function FeedbackItem({ feedback, className }: Props) {
   return (
-    <Card
-      className={cn("flex flex-wrap items-start", className )}
-    >
+    <Card className={cn("flex flex-wrap items-start", className)}>
       {/* TITLE, DESCRIPTION, TAG */}
       <div className="mb-4 w-full space-y-2 tablet:order-2 tablet:mb-0 tablet:w-auto">
         <h4 className="tablet:text-h3">{feedback.title}</h4>
@@ -26,7 +20,7 @@ export default function FeedbackItem({
         <Tag title={feedback.category} type="info" />
       </div>
       {/* UPVOTE BUTTON */}
-      <UpvoteButton className="tablet:order-1 tablet:mr-10" />
+      <UpvoteButton upvoteCount={feedback.upvotes} className="tablet:order-1 tablet:mr-10" />
       <CommentCounter
         className="ml-auto tablet:order-3 tablet:self-center"
         count={Array.isArray(feedback.comments) ? feedback.comments.length : 0}
