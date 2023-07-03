@@ -13,6 +13,8 @@ export type IComment = {
   replies?: IReply[];
 };
 
+export type IAddComment = Pick<IComment, "content" | "user">;
+
 export type IReply = {
   replyingTo: string;
   content: string;
@@ -28,6 +30,15 @@ export type IFeedback = {
   description: string;
   comments?: IComments;
 };
+
+export type IAddFeedback = Pick<
+  IFeedback,
+  "title" | "category" | "status" | "description"
+>;
+export type IEditFeedback = Pick<
+  IFeedback,
+  "id" | "title" | "category" | "status" | "description"
+>;
 
 // used for creating and editing feedback
 export type IFeedbackPartial = Pick<
