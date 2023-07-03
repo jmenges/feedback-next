@@ -19,7 +19,7 @@ export default function RootLayout({
       <body
         className={cn(
           jost.className,
-          "max-w-[1110px] bg-lighter-grey text-xs text-blue-grey tablet:mx-10 tablet:mt-12 tablet:text-md desktop:mx-auto"
+          "max-w-[1110px] bg-lighter-grey text-xs text-blue-grey tablet:px-10 tablet:pt-12 tablet:text-md desktop:mx-auto"
         )}
       >
         {children}
