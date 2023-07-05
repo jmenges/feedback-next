@@ -6,7 +6,8 @@ import {
   IEditFeedback,
   IFeedback,
 } from "@/types";
-import React from "react";
+import React, { useEffect } from "react";
+import { useLocalStorage } from "usehooks-ts";
 
 type Props = {};
 
@@ -28,6 +29,21 @@ export const useFeedbackStore = (): IFeedbackStore => {
   const [nextId, setNextId] = React.useState<number>(
     initialFeedbacks[initialFeedbacks.length - 1].id + 1
   );
+
+  /**
+   * We temporary use local storage to share state between different pages
+   * This will be replaced by Zustand
+   */
+  const [localFeedbacks, setLocalFeedbacks] = useLocalStorage<IFeedback[]>(
+    "feedbacks",
+    []
+  );
+
+  // on first execution load from storage
+  useEffect(() => {
+    if (localFeedbacks.length === 0) return;
+    setFeedbacks(localFeedbacks);
+  }, []);
 
   /**
    * Function definitions
@@ -129,10 +145,9 @@ export const useFeedbackStore = (): IFeedbackStore => {
     return true;
   };
 
-  // useEffect(()=>{
-  //   console.log("useEffect in useFeedbackStore")
-  //   console.log(feedbacks)
-  // },[feedbacks])
+  useEffect(() => {
+    setLocalFeedbacks(feedbacks);
+  }, [feedbacks]);
 
   return {
     feedbacks,
