@@ -13,8 +13,9 @@ type Props = {};
 
 interface IFeedbackStore {
   feedbacks: IFeedback[];
+  getById: (feedbackId: number) => IFeedback | null;
   addFeedback: (feedback: IAddFeedback) => number | null;
-  editFeedback: (feedback: IFeedback) => boolean;
+  editFeedback: (feedback: IEditFeedback) => boolean;
   removeFeedback: (feedbackId: number) => boolean;
   upvoteFeedback: (feedbackId: number) => boolean;
   addComment: (feedbackId: number, comment: IAddComment) => boolean;
@@ -45,6 +46,10 @@ export const useFeedbackStore = (): IFeedbackStore => {
   /**
    * Function definitions
    */
+  const getById = (feedbackId: number) => {
+    return feedbacks.find((feedback) => feedback.id === feedbackId) || null;
+  };
+
   const addFeedback = (feedback: IAddFeedback) => {
     const feedbackId = getNextId();
 
@@ -155,6 +160,7 @@ export const useFeedbackStore = (): IFeedbackStore => {
 
   return {
     feedbacks,
+    getById,
     addFeedback,
     editFeedback,
     removeFeedback,
