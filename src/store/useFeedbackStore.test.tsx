@@ -1,4 +1,4 @@
-import { initialFeedbacks } from "@/config";
+import { initialFeedbacks } from "@/data/initialFeedbacks";
 import { useFeedbackStore } from "@/store/useFeedbackStore";
 import { IAddComment, IAddFeedback } from "@/types";
 import { act, renderHook } from "@testing-library/react";
@@ -20,7 +20,6 @@ describe("useFeedbackStore", () => {
     const newFeedback: IAddFeedback = {
       title: "New test feedback entry",
       category: "enhancement",
-      status: "suggestion",
       description: "Testing functionality of adding feedbacks.",
     };
     let newFeedbackId: number | null = 0;
@@ -104,5 +103,14 @@ describe("useFeedbackStore", () => {
     //test
     expect(isSuccess).toBe(true);
     expect(result.current.feedbacks[0].comments?.length).toBe(commentCount + 1);
+  });
+
+  test("should get feedback by id", async () => {
+    const { result } = renderHook(() => useFeedbackStore());
+    const store = result.current;
+
+    const feedback = store.getById(1);
+
+    expect(feedback).not.toBeNull
   });
 });
