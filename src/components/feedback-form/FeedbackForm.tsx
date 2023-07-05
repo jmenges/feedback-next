@@ -11,7 +11,7 @@ import React from "react";
 
 import { Textarea } from "@/components/ui/textarea";
 
-import { IFeedbackPartial } from "@/types";
+import { IAddFeedback, IEditFeedback, IFeedbackPartial } from "@/types";
 import { features } from "@/data/features";
 import { Controller, useForm } from "react-hook-form";
 
@@ -19,7 +19,7 @@ type Props = {
   Icon: React.ElementType;
   title: string;
   Actions: React.ElementType;
-  onSubmit: (data) => void;
+  onSubmit: (data: IAddFeedback | IEditFeedback) => void;
   feedback?: IFeedbackPartial; // used with edit form
 };
 
@@ -30,8 +30,13 @@ export default function FeedbackForm({
   feedback,
   onSubmit,
 }: Props) {
-  const { control, register, handleSubmit } = useForm();
-  const onFormSubmit = (data) => {
+  const {
+    control,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IAddFeedback | IEditFeedback>();
+  const onFormSubmit = (data: IAddFeedback) => {
     onSubmit(data);
   };
 
@@ -51,7 +56,15 @@ export default function FeedbackForm({
             Feedback Title
           </label>
           <p className="mb-4">Add a short, descriptive headline</p>
-          <Input {...register("title")} />
+          <Input
+            {...register("title", { required: "Can’t be empty." })}
+            aria-invalid={errors?.title !== undefined}
+          />
+          {!!(errors?.title !== undefined) && (
+            <p className="mt-1 text-red">
+              {errors?.title?.message?.toString()}
+            </p>
+          )}
         </fieldset>
         {/* Category Selector */}
         <fieldset className="">
@@ -94,7 +107,15 @@ export default function FeedbackForm({
             Include any specific comments on what should be improved, added,
             etc.
           </p>
-          <Textarea {...register("description")} />
+          <Textarea
+            {...register("description", { required: "Can’t be empty." })}
+            aria-invalid={errors?.description !== undefined}
+          />
+          {errors?.description !== undefined && (
+            <p className="mt-1 text-red">
+              {errors?.description?.message?.toString()}
+            </p>
+          )}
         </fieldset>
         {/* Form actions */}
         <div className="!mt-10 space-y-4">
