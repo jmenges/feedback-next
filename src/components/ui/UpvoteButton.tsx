@@ -6,14 +6,14 @@ import { cn } from "@/lib/utils";
 export interface UpvoteButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   upvoteCount: number;
-  size: "default" | "small";
+  size?: "default" | "small";
 }
 
 export default function UpvoteButton({
-  onClick,
   className,
   size = "default",
   upvoteCount = 0,
+  ...props
 }: UpvoteButtonProps) {
   let sizeClass =
     size === "default" ? "tablet:flex-col tablet:gap-[6px] tablet:py-3.5" : "";
@@ -26,6 +26,7 @@ export default function UpvoteButton({
         sizeClass,
         className
       )}
+      {...props}
     >
       <i className="[&>svg>path]:stroke-current">
         <UpIcon />
