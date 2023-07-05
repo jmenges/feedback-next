@@ -6,6 +6,8 @@ import FeedbackForm from "@/components/feedback-form/FeedbackForm";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useFeedbackStore } from "@/store/useFeedbackStore";
+import { useRouter } from "next/navigation";
+import { IAddFeedback } from "@/types";
 
 type Props = {
   cancelHref: string;
@@ -26,11 +28,14 @@ const FeedbackActions = ({ cancelHref }: { cancelHref: string }) => {
 
 export default function NewFeedbackForm({ cancelHref }: Props) {
   const { addFeedback } = useFeedbackStore();
+  const router = useRouter();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    console.log(addFeedback(data));
-   };
+  const onSubmit = (data:IAddFeedback) => {
+    const id = addFeedback(data);
+    if (id !== null) {
+      router.push(cancelHref);
+    }
+  };
 
   return (
     <FeedbackForm
