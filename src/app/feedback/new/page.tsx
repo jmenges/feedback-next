@@ -2,7 +2,6 @@ import NewFeedbackForm from "@/components/feedback-form/NewFeedbackForm";
 import BackButton from "@/components/ui/BackButton";
 
 import { headers } from "next/headers";
-import Link from "next/link";
 
 export default function NewFeedback() {
   const headersList = headers();

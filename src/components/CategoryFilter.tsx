@@ -1,6 +1,7 @@
 import Card from "@/components/Card";
 import Category from "@/components/ui/Category";
-import { ICategory, categories } from "@/data/categories";
+import { categories } from "@/data/categories";
+import { ICategory } from "@/types";
 import React from "react";
 
 type CategoryFilterProps = {
