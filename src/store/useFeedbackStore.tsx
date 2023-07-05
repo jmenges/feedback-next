@@ -26,9 +26,6 @@ export const useFeedbackStore = (): IFeedbackStore => {
    */
   const [feedbacks, setFeedbacks] =
     React.useState<IFeedback[]>(initialFeedbacks);
-  const [nextId, setNextId] = React.useState<number>(
-    initialFeedbacks[initialFeedbacks.length - 1].id + 1
-  );
 
   /**
    * We temporary use local storage to share state between different pages
@@ -49,7 +46,7 @@ export const useFeedbackStore = (): IFeedbackStore => {
    * Function definitions
    */
   const addFeedback = (feedback: IAddFeedback) => {
-    const feedbackId = nextId;
+    const feedbackId = getNextId();
 
     setFeedbacks((prev) => {
       return [
@@ -62,7 +59,6 @@ export const useFeedbackStore = (): IFeedbackStore => {
       ];
     });
 
-    setNextId((prev) => prev + 1);
     return feedbackId;
   };
 
@@ -94,6 +90,14 @@ export const useFeedbackStore = (): IFeedbackStore => {
       });
     });
     return true;
+  };
+
+  const getNextId = (): number => {
+    return (
+      feedbacks.reduce((prev, current) => {
+        return prev.id > current.id ? prev : current;
+      }).id + 1
+    );
   };
 
   const upvoteFeedback = (feedbackId: number) => {
