@@ -11,8 +11,8 @@ import React from "react";
 
 import { Textarea } from "@/components/ui/textarea";
 
-import { IAddFeedback, IEditFeedback, IFeedbackPartial } from "@/types";
 import { features } from "@/data/features";
+import { IAddFeedback, IEditFeedback } from "@/types";
 import { Controller, useForm } from "react-hook-form";
 
 type Props = {
@@ -20,7 +20,7 @@ type Props = {
   title: string;
   Actions: React.ElementType;
   onSubmit: (data: IAddFeedback | IEditFeedback) => void;
-  feedback?: IFeedbackPartial; // used with edit form
+  feedback?: IEditFeedback; // used with edit form
 };
 
 export default function FeedbackForm({
@@ -35,7 +35,12 @@ export default function FeedbackForm({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IAddFeedback | IEditFeedback>();
+  } = useForm<IAddFeedback | IEditFeedback>({
+    values: feedback,
+    resetOptions: {
+      keepDirtyValues: true, // keep dirty fields unchanged, but update defaultValues
+    },
+  });
   const onFormSubmit = (data: IAddFeedback) => {
     onSubmit(data);
   };
