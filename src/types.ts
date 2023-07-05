@@ -35,7 +35,7 @@ export type IFeedback = {
 
 export type IAddFeedback = Pick<
   IFeedback,
-  "title" | "category" | "status" | "description"
+  "title" | "category" |  "description"
 >;
 export type IEditFeedback = Pick<
   IFeedback,
