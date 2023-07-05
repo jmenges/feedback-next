@@ -3,15 +3,18 @@ import IconEditFeedback from "@/../public/icons/icon-edit-feedback.svg";
 import FeedbackForm from "./FeedbackForm";
 import { Button } from "@/components/ui/button";
 import { IFeedbackPartial } from "@/types";
+import Link from "next/link";
 
-type Props = {feedback: IFeedbackPartial};
+type EditFeedbackFormProps = { feedback: IFeedbackPartial; cancelHref: string };
 
-const FeedbackActions = () => {
+const FeedbackActions = ({ cancelHref }: { cancelHref: string }) => {
   return (
     <>
-      <Button className="w-full">Save Changes</Button>
-      <Button className="w-full" variant="secondary">
-        Cancel
+      <Button type="submit" className="w-full">
+        Save Changes
+      </Button>
+      <Button className="w-full" variant="secondary" asChild>
+        <Link href={cancelHref}>Cancel</Link>
       </Button>
       <Button className="w-full" variant="destructive">
         Delete
@@ -20,13 +23,18 @@ const FeedbackActions = () => {
   );
 };
 
-export default function EditFeedbackForm({feedback}: Props) {
+export default function EditFeedbackForm({ feedback, cancelHref }: EditFeedbackFormProps) {
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
   return (
     <FeedbackForm
+      onSubmit={onSubmit}
       feedback={feedback}
       Icon={IconEditFeedback}
       title="Editing ‘Add a dark theme option’"
-      Actions={FeedbackActions}
+      Actions={() => <FeedbackActions cancelHref={cancelHref} />}
     />
   );
 }
