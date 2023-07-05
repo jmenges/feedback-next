@@ -6,4 +6,3 @@ export const categories = [
   "Bug",
   "Feature",
 ] as const;
-export type ICategory = (typeof categories)[number];

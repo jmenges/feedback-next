@@ -1,3 +1,5 @@
+import { categories } from "@/data/categories";
+
 export type IUser = {
   name: string;
   username: string;
@@ -45,3 +47,5 @@ export type IFeedbackPartial = Pick<
   IFeedback,
   "id" | "title" | "category" | "status" | "description"
 >;
+
+export type ICategory = (typeof categories)[number];

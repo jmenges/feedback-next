@@ -1,4 +1,4 @@
-import { initialFeedbacks } from "@/config";
+import { initialFeedbacks } from "@/data/initialFeedbacks";
 import {
   IAddComment,
   IAddFeedback,

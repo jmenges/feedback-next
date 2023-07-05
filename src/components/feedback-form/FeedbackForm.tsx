@@ -10,9 +10,9 @@ import {
 import React from "react";
 
 import { Textarea } from "@/components/ui/textarea";
-import { features } from "@/config";
 
 import { IFeedbackPartial } from "@/types";
+import { features } from "@/data/features";
 
 type Props = {
   Icon: React.ElementType;

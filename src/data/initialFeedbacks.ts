@@ -1,20 +1,4 @@
-import { IFeedback } from "./types";
-
-export const features = ["UI", "UX", "Enhancement", "Bug", "Feature"];
-
-export const roadmaps = [
-  {
-    title: "Planned",
-    description: "Ideas prioritized for research",
-    color: "orange",
-  },
-  {
-    title: "In-Progress",
-    description: "Currently being developed",
-    color: "purple",
-  },
-  { title: "Live", description: "Released features", color: "bright-blue" },
-];
+import { IFeedback } from "@/types";
 
 export const initialFeedbacks: IFeedback[] = [
   {

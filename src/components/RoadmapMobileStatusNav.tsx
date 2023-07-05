@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { roadmaps } from "@/config";
+import { roadmaps } from "@/data/roadmaps";
 import { cn } from "@/lib/utils";
 import React from "react";
 

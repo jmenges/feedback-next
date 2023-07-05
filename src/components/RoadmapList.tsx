@@ -2,7 +2,7 @@
 
 import RoadmapItem from "@/components/RoadmapItem";
 import RoadmapMobileStatusNav from "@/components/RoadmapMobileStatusNav";
-import { roadmaps } from "@/config";
+import { roadmaps } from "@/data/roadmaps";
 import { cn } from "@/lib/utils";
 import { IFeedback } from "@/types";
 import { useState } from "react";
@@ -15,7 +15,6 @@ export default function RoadmapList({ feedbacks }: Props) {
   let acc = statusCounts.reduce((acc, val) => acc.set(val, 1 + (acc.get(val) || 0)), new Map());
   console.log(acc)
 
-
   return (
     <div className="flex flex-col overflow-hidden">
       {/* Roadmap list */}
@@ -24,9 +23,8 @@ export default function RoadmapList({ feedbacks }: Props) {
         setActiveIndex={setMobileActiveStatusIndex}
       />
       <div className="flex h-[calc(100vh-174px)] overflow-y-scroll pt-6 tablet:mb-6 tablet:mt-8 tablet:h-auto tablet:w-full tablet:gap-[10px] tablet:overflow-y-auto desktop:mb-8 desktop:mt-12 desktop:gap-[30px]">
+                    {/* On mobile the columns are shown based on the current selected status categroy (mobileActiveStatusIndex) */}
         {roadmaps.map((roadmap, index) => (
-          <>
-            {/* On mobile the columns are shown based on the current selected status categroy (mobileActiveStatusIndex) */}
             <div
               key={index}
               className={cn(
@@ -58,7 +56,6 @@ export default function RoadmapList({ feedbacks }: Props) {
                   ))}
               </div>
             </div>
-          </>
         ))}
       </div>
     </div>
