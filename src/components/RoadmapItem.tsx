@@ -1,6 +1,6 @@
 import Card from "@/components/Card";
 import CommentCounter from "@/components/ui/CommentCounter";
-import Tag from "@/components/ui/Tag";
+import Tag from "@/components/ui/Category";
 import UpvoteButton from "@/components/ui/UpvoteButton";
 import { roadmaps } from "@/config";
 import { cn } from "@/lib/utils";
@@ -43,7 +43,7 @@ export default function RoadmapItem({
         <Tag title={feedback.category} type="info" />
       </div>
       {/* UPVOTE BUTTON */}
-      <UpvoteButton size="small" className="" />
+      <UpvoteButton upvoteCount={feedback.upvotes} size="small" className="" />
       <CommentCounter
         className="ml-auto"
         count={Array.isArray(feedback.comments) ? feedback.comments.length : 0}

@@ -1,6 +1,6 @@
 import Card from "@/components/Card";
 import CommentCounter from "@/components/ui/CommentCounter";
-import Tag from "@/components/ui/Tag";
+import Tag from "@/components/ui/Category";
 import UpvoteButton from "@/components/ui/UpvoteButton";
 import { cn } from "@/lib/utils";
 import { IFeedback } from "@/types";
@@ -8,9 +8,14 @@ import { IFeedback } from "@/types";
 type Props = {
   feedback: IFeedback;
   className?: string;
+  upvoteFeedback: (feedbackId: number) => boolean;
 };
 
-export default function FeedbackItem({ feedback, className }: Props) {
+export default function FeedbackItem({
+  feedback,
+  className,
+  upvoteFeedback,
+}: Props) {
   return (
     <Card className={cn("flex flex-wrap items-start", className)}>
       {/* TITLE, DESCRIPTION, TAG */}
@@ -20,7 +25,13 @@ export default function FeedbackItem({ feedback, className }: Props) {
         <Tag title={feedback.category} type="info" />
       </div>
       {/* UPVOTE BUTTON */}
-      <UpvoteButton upvoteCount={feedback.upvotes} className="tablet:order-1 tablet:mr-10" />
+      <UpvoteButton
+        upvoteCount={feedback.upvotes}
+        onClick={() => {
+          upvoteFeedback(feedback.id);
+        }}
+        className="tablet:order-1 tablet:mr-10"
+      />
       <CommentCounter
         className="ml-auto tablet:order-3 tablet:self-center"
         count={Array.isArray(feedback.comments) ? feedback.comments.length : 0}

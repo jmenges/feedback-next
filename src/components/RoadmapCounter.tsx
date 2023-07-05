@@ -22,8 +22,8 @@ export default function RoadmapCounter({}: RoadmapCounterProps) {
       </div>
       {/* ROADMAPS */}
       <div className="space-y-2">
-        {roadMaps.map((roadMap) => (
-          <div className="flex items-center">
+        {roadMaps.map((roadMap, index) => (
+          <div key={index} className="flex items-center">
             <i className={`mr-2 h-2 w-2 rounded-full bg-${roadMap.color}`} />
             <span className="mr-auto">{roadMap.title}</span>
             <span className="font-bold">9</span>
