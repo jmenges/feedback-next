@@ -15,17 +15,23 @@ interface IFeedbackStore {
   addFeedback: (feedback: IAddFeedback) => number | null;
   editFeedback: (feedback: IFeedback) => boolean;
   removeFeedback: (feedbackId: number) => boolean;
-  toggleUpvoteFeedback: (feedbackId: number) => boolean;
+  upvoteFeedback: (feedbackId: number) => boolean;
   addComment: (feedbackId: number, comment: IAddComment) => boolean;
 }
 
 export const useFeedbackStore = (): IFeedbackStore => {
+  /**
+   * State definitions
+   */
   const [feedbacks, setFeedbacks] =
     React.useState<IFeedback[]>(initialFeedbacks);
   const [nextId, setNextId] = React.useState<number>(
     initialFeedbacks[initialFeedbacks.length - 1].id + 1
   );
 
+  /**
+   * Function definitions
+   */
   const addFeedback = (feedback: IAddFeedback) => {
     const feedbackId = nextId;
 
@@ -74,7 +80,7 @@ export const useFeedbackStore = (): IFeedbackStore => {
     return true;
   };
 
-  const toggleUpvoteFeedback = (feedbackId: number) => {
+  const upvoteFeedback = (feedbackId: number) => {
     const exists = feedbacks.find((feedback) => feedback.id === feedbackId);
     if (!exists) return false;
 
@@ -123,12 +129,17 @@ export const useFeedbackStore = (): IFeedbackStore => {
     return true;
   };
 
+  // useEffect(()=>{
+  //   console.log("useEffect in useFeedbackStore")
+  //   console.log(feedbacks)
+  // },[feedbacks])
+
   return {
     feedbacks,
     addFeedback,
     editFeedback,
     removeFeedback,
-    toggleUpvoteFeedback,
+    upvoteFeedback,
     addComment,
   };
 };

@@ -67,7 +67,7 @@ describe("useFeedbackStore", () => {
     expect(editedFeedback?.title).toBe(editFeedback.title);
   });
 
-  test("should toggle upvote feedback", async () => {
+  test("should upvote feedback", async () => {
     const { result } = renderHook(() => useFeedbackStore());
     const store = result.current;
 
@@ -75,7 +75,7 @@ describe("useFeedbackStore", () => {
     const upvotes = feedback.upvotes;
 
     let isSuccess = false;
-    act(() => (isSuccess = store.toggleUpvoteFeedback(feedback.id)));
+    act(() => (isSuccess = store.upvoteFeedback(feedback.id)));
 
     //test
     expect(isSuccess).toBe(true);
