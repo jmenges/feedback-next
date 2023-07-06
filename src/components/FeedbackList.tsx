@@ -2,6 +2,7 @@
 
 import FeedbackItem from "@/components/FeedbackItem";
 import { IFeedback } from "@/types";
+import Link from "next/link";
 import { useEffect } from "react";
 
 type Props = {
@@ -10,15 +11,15 @@ type Props = {
 };
 
 export default function FeedbackList({ feedbacks, upvoteFeedback }: Props) {
-
   return (
-    <div className="space-y-4">
+    <div className="flex flex-col space-y-4">
       {feedbacks.map((feedback) => (
-        <FeedbackItem
-          key={feedback.id}
-          feedback={feedback}
-          upvoteFeedback={upvoteFeedback}
-        />
+        <Link key={feedback.id} href={`/feedback/${feedback.id}`}>
+          <FeedbackItem
+            feedback={feedback}
+            upvoteFeedback={upvoteFeedback}
+          />
+        </Link>
       ))}
     </div>
   );
