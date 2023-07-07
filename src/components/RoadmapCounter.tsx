@@ -9,12 +9,13 @@ type RoadmapCounterProps = {
     title: string;
     count: number;
   }[];
+  className?: string
 };
 
-export default function RoadmapCounter({ counts }: RoadmapCounterProps) {
+export default function RoadmapCounter({ counts, className }: RoadmapCounterProps) {
   return (
-    <Card>
-      <div className="mb-6 flex justify-between">
+    <Card className={className}>
+      <div className="mb-6 flex gap-6 justify-between">
         <h2>Roadmap</h2>
         <Button size="raw" variant="link" asChild>
           <Link href="/roadmap">View</Link>
