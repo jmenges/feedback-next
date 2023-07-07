@@ -13,12 +13,14 @@ export default function EditFeedback({
   const path = referer?.split(domain)[1] || "";
   const backPath = path === "" || path.endsWith("/edit") ? "/" : path;
 
-  <div className="mt-6 flex flex-col gap-6 tablet:mt-0">
-    {/* Actions */}
-    <div className="mb-10 flex justify-between">
-      <BackButton variant="link" href={backPath} />
+  return (
+    <div className="mt-6 flex flex-col gap-6 tablet:mt-0">
+      {/* Actions */}
+      <div className="mb-10 flex justify-between">
+        <BackButton variant="link" href={backPath} />
+      </div>
+      {/* Feedback Form */}
+      <EditFeedbackForm feedbackId={Number(id)} returnHref={backPath} />
     </div>
-    {/* Feedback Form */}
-    <EditFeedbackForm feedbackId={Number(id)} returnHref={backPath} />
-  </div>;
+  );
 }
