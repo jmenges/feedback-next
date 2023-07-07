@@ -16,6 +16,15 @@ export default function FeedbackItem({
   className,
   upvoteFeedback,
 }: Props) {
+  /**
+   * Calculated values
+   */
+  const replyCount =
+    feedback.comments?.reduce((acc, curr) => {
+      return acc + (curr.replies?.length || 0);
+    }, 0) || 0;
+  const commentCount = (feedback.comments?.length || 0) + replyCount;
+
   return (
     <Card className={cn("flex items-start", className)}>
       {/* TITLE, DESCRIPTION, TAG */}
@@ -36,7 +45,7 @@ export default function FeedbackItem({
       />
       <CommentCounter
         className="ml-auto tablet:order-3 tablet:self-center"
-        count={Array.isArray(feedback.comments) ? feedback.comments.length : 0}
+        count={commentCount}
       />
       {/* COMMENT COUNT */}
     </Card>
