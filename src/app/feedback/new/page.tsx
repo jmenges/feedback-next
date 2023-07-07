@@ -11,7 +11,7 @@ export default function NewFeedback() {
   const backPath = path === "/feedback/new" ? "/" : path;
 
   return (
-    <div className="mt-6 flex flex-col gap-6 tablet:mt-0">
+    <div className="flex flex-col gap-6">
       {/* Actions */}
       <div className="mb-10 flex justify-between">
          <BackButton variant="link" href={backPath} />

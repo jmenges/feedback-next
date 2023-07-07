@@ -12,7 +12,7 @@ type Props = {
 
 export default function FeedbackList({ feedbacks, upvoteFeedback }: Props) {
   return (
-    <div className="flex flex-col space-y-4">
+    <div className="flex flex-col space-y-4 p-6 tablet:p-0">
       {feedbacks.map((feedback) => (
         <Link key={feedback.id} href={`/feedback/${feedback.id}`}>
           <FeedbackItem

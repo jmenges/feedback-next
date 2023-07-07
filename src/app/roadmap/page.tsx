@@ -17,7 +17,7 @@ export default function Roadmap() {
 
   return (
     <div className="flex flex-wrap gap-6">
-      <main className="flex-grow tablet:space-y-4">
+      <main className="flex-grow">
         <header className="">
           <RoadmapActionBar />
         </header>

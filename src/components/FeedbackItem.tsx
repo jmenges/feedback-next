@@ -26,7 +26,7 @@ export default function FeedbackItem({
   const commentCount = (feedback.comments?.length || 0) + replyCount;
 
   return (
-    <Card className={cn("flex items-start", className)}>
+    <Card className={cn("flex items-start flex-wrap", className)}>
       {/* TITLE, DESCRIPTION, TAG */}
       <div className="mb-4 w-full space-y-2 tablet:order-2 tablet:mb-0 tablet:w-auto">
         <h4 className="tablet:text-h3">{feedback.title}</h4>

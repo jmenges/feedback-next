@@ -22,7 +22,7 @@ export default function RoadmapList({ feedbacks, upvoteFeedback }: Props) {
         activeIndex={mobileActiveStatusIndex}
         setActiveIndex={setMobileActiveStatusIndex}
       />
-      <div className="flex h-[calc(100vh-174px)] overflow-y-scroll pt-6 tablet:mb-6 tablet:mt-8 tablet:h-auto tablet:w-full tablet:gap-[10px] tablet:overflow-y-auto desktop:mb-8 desktop:mt-12 desktop:gap-[30px]">
+      <div className="flex h-[calc(100vh-174px)] overflow-y-scroll max-tablet:pt-6 tablet:mb-6 tablet:mt-8 tablet:h-auto tablet:w-full tablet:gap-[10px] tablet:overflow-y-auto desktop:mb-8 desktop:mt-12 desktop:gap-[30px]">
         {/* On mobile the columns are shown based on the current selected status categroy (mobileActiveStatusIndex) */}
         {roadmaps.map((roadmap, index) => {
           const count =
@@ -45,7 +45,7 @@ export default function RoadmapList({ feedbacks, upvoteFeedback }: Props) {
                 {roadmap.description}
               </p>
               {/* Content rows*/}
-              <div className="space-y-4 desktop:space-y-6">
+              <div className="flex flex-col gap-y-4 desktop:gap-y-6">
                 {feedbacks
                   .filter(
                     (feedback) =>

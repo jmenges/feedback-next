@@ -23,7 +23,7 @@ export default function RootLayout({
           "bg-lighter-grey text-xs text-blue-grey tablet:overflow-y-scroll"
         )}
       >
-        <div className="max-w-[1110px] tablet:mx-10 tablet:my-12 tablet:text-md desktop:mx-auto ">
+        <div className="max-w-[1110px] tablet:mx-10 tablet:my-12 tablet:text-md desktop:mx-auto desktop:px-12 ">
           {children}
         </div>
       </body>
