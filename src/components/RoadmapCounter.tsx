@@ -1,17 +1,17 @@
 import Card from "@/components/Card";
 import { Button } from "@/components/ui/button";
+import { roadmaps } from "@/data/roadmaps";
 import Link from "next/link";
 import React from "react";
 
-type RoadmapCounterProps = {};
+type RoadmapCounterProps = {
+  counts: {
+    title: string;
+    count: number;
+  }[];
+};
 
-const roadMaps = [
-  { title: "Planned", color: "orange" },
-  { title: "In-Progress", color: "purple" },
-  { title: "Live", color: "bright-blue" },
-];
-
-export default function RoadmapCounter({}: RoadmapCounterProps) {
+export default function RoadmapCounter({ counts }: RoadmapCounterProps) {
   return (
     <Card>
       <div className="mb-6 flex justify-between">
@@ -22,13 +22,17 @@ export default function RoadmapCounter({}: RoadmapCounterProps) {
       </div>
       {/* ROADMAPS */}
       <div className="space-y-2">
-        {roadMaps.map((roadMap, index) => (
-          <div key={index} className="flex items-center">
-            <i className={`mr-2 h-2 w-2 rounded-full bg-${roadMap.color}`} />
-            <span className="mr-auto">{roadMap.title}</span>
-            <span className="font-bold">9</span>
-          </div>
-        ))}
+        {roadmaps.map((roadmap, index) => {
+          const count = counts.find((count)=> count.title === roadmap.title)?.count;
+
+          return (
+            <div key={index} className="flex items-center">
+              <i className={`mr-2 h-2 w-2 rounded-full bg-${roadmap.color}`} />
+              <span className="mr-auto">{roadmap.title}</span>
+              <span className="font-bold">{count}</span>
+            </div>
+          );
+        })}
       </div>
     </Card>
   );
