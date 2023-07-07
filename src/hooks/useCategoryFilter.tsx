@@ -1,9 +1,9 @@
-import { ICategory, categories } from "@/data/categories";
-import { IFeedback } from "@/types";
+import { categories } from "@/data/categories";
+import { ICategory, IFeedback } from "@/types";
 import { useEffect, useState } from "react";
 
 export default function useCategoryFilter(feedbacks: IFeedback[]) {
-  const [activeCategory, setActiveCategory] = useState<ICategory>();
+  const [activeCategory, setActiveCategory] = useState<ICategory>("All");
   const [filteredFeedbacks, setFilteredFeedbacks] =
     useState<IFeedback[]>(feedbacks);
 
@@ -12,7 +12,7 @@ export default function useCategoryFilter(feedbacks: IFeedback[]) {
    */
   useEffect(() => {
     setFilteredFeedbacks(
-      activeCategory === undefined
+      activeCategory === "All"
         ? feedbacks
         : feedbacks.filter(
             (feedback) =>
