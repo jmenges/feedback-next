@@ -6,9 +6,9 @@ import CategoryFilter from "@/components/CategoryFilter";
 import FeedbackList from "@/components/FeedbackList";
 import RoadmapCounter from "@/components/RoadmapCounter";
 import useCategoryFilter from "@/hooks/useCategoryFilter";
+import useRoadmapCount from "@/hooks/useRoadmapCount";
 import useSortFeedbacks from "@/hooks/useSortFeedbacks";
 import { useFeedbackStore } from "@/store/useFeedbackStore";
-import { useEffect, useMemo } from "react";
 
 export default function Home() {
   /**
@@ -19,6 +19,7 @@ export default function Home() {
     useCategoryFilter(feedbacks);
   const { sortedFeedbacks, options, activeOption, setActiveOption } =
     useSortFeedbacks(filteredFeedbacks);
+  const { counts: roadmapCounts } = useRoadmapCount({ feedbacks });
 
   /**
    * Side effects
@@ -33,32 +34,6 @@ export default function Home() {
    * Calculated values
    */
   const feedbackCount = filteredFeedbacks.length;
-  const roadMapCounts = useMemo(
-    () => [
-      {
-        title: "Planned",
-        count: feedbacks.reduce(
-          (acc, curr) => acc + Number(curr.status === "planned"),
-          0
-        ),
-      },
-      {
-        title: "In-Progress",
-        count: feedbacks.reduce(
-          (acc, curr) => acc + Number(curr.status === "in-progress"),
-          0
-        ),
-      },
-      {
-        title: "Live",
-        count: feedbacks.reduce(
-          (acc, curr) => acc + Number(curr.status === "live"),
-          0
-        ),
-      },
-    ],
-    [feedbacks]
-  );
 
   return (
     <div className="flex flex-wrap gap-6">
@@ -68,7 +43,7 @@ export default function Home() {
           activeCategory={activeCategory}
           setActiveCategory={setActiveCategory}
         />
-        <RoadmapCounter counts={roadMapCounts} />
+        <RoadmapCounter counts={roadmapCounts} />
       </aside>
       <main className="flex-grow">
         <header className="mb-4 tablet:mb-6">
