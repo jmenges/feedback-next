@@ -6,12 +6,18 @@ import { useFeedbackStore } from "@/store/useFeedbackStore";
 import { IEditFeedback } from "@/types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import FeedbackForm from "./FeedbackForm";
 
 type EditFeedbackFormProps = { feedbackId: number; returnHref: string };
 
-const FeedbackActions = ({ cancelHref }: { cancelHref: string }) => {
+const FeedbackActions = ({
+  cancelHref,
+  onDelete,
+}: {
+  cancelHref: string;
+  onDelete: () => void;
+}) => {
   return (
     <>
       <Button type="submit" className="w-full">
@@ -20,7 +26,12 @@ const FeedbackActions = ({ cancelHref }: { cancelHref: string }) => {
       <Button className="w-full" variant="secondary" asChild>
         <Link href={cancelHref}>Cancel</Link>
       </Button>
-      <Button className="w-full" variant="destructive">
+      <Button
+        type="button"
+        onClick={onDelete}
+        className="w-full"
+        variant="destructive"
+      >
         Delete
       </Button>
     </>
@@ -31,17 +42,25 @@ export default function EditFeedbackForm({
   feedbackId,
   returnHref,
 }: EditFeedbackFormProps) {
+  /**
+   * Custom hooks
+   */
   const {
     feedbacks,
     getById: getFeedbackById,
+    removeFeedback,
     editFeedback,
   } = useFeedbackStore();
-  const [feedback, setFeedback] = useState<IEditFeedback | undefined>(
-    undefined
-  );
+
+  /**
+   * Hooks
+   */
   const router = useRouter();
 
-  useEffect(() => {
+  /**
+   * Side effects
+   */
+  const feedback = useMemo<IEditFeedback | undefined>(() => {
     const feedback = getFeedbackById(feedbackId);
     const inputFeedback: IEditFeedback | undefined =
       feedback !== null
@@ -53,9 +72,12 @@ export default function EditFeedbackForm({
             category: feedback.category,
           }
         : undefined;
-    setFeedback(inputFeedback);
+    return inputFeedback;
   }, [feedbacks, feedbackId]);
 
+  /**
+   * Functions
+   */
   const onSubmit = (data: IEditFeedback) => {
     const isSuccess = editFeedback(data);
     console.log(isSuccess);
@@ -64,13 +86,28 @@ export default function EditFeedbackForm({
     }
   };
 
+  const onDelete = () => {
+    if (feedback === undefined) return;
+    const isRemoved = removeFeedback(feedback.id);
+    if (isRemoved) {
+      router.push("/");
+    }
+  };
+
+  if (feedback === undefined) return <div>Feedback not found</div>;
+
+  /**
+   * JSX
+   */
   return (
     <FeedbackForm
-      onSubmit={onSubmit}
       feedback={feedback}
+      title={feedback?.title || ""}
       Icon={IconEditFeedback}
-      title="Editing ‘Add a dark theme option’"
-      Actions={() => <FeedbackActions cancelHref={returnHref} />}
+      Actions={() => (
+        <FeedbackActions cancelHref={returnHref} onDelete={onDelete} />
+      )}
+      onSubmit={onSubmit}
     />
   );
 }
