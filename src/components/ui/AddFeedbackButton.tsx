@@ -1,24 +1,26 @@
 import { cn } from "@/lib/utils";
 
-import IconPlus from "@/../public/icons/icon-plus.svg";
 import { IconButtonProps } from "@/components/ui/IconButton";
-import IconLink from "@/components/ui/IconLink";
+import { buttonVariants } from "@/components/ui/button";
+import Link from "next/link";
 
-export interface AddFeedbackButtonProps extends IconButtonProps {
-  asChild: boolean;
+export interface AddFeedbackButtonProps {
+  className?: string;
 }
 
 export default function AddFeedbackButton({
   className,
 }: AddFeedbackButtonProps) {
   return (
-    <IconLink
-      Icon={IconPlus}
-      variant="default"
-      className={cn(className, "flex-shrink-0")}
+    <Link
+      className={cn(
+        className,
+        buttonVariants({ variant: "default" }),
+        "flex-shrink-0"
+      )}
       href="/feedback/new"
     >
-      Add Feedback
-    </IconLink>
+      + Add Feedback
+    </Link>
   );
 }
