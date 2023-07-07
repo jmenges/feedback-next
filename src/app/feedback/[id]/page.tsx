@@ -7,18 +7,37 @@ import BackButton from "@/components/ui/BackButton";
 import { Button } from "@/components/ui/button";
 import { useFeedbackStore } from "@/store/useFeedbackStore";
 import Link from "next/link";
+import { useMemo } from "react";
 
 export default function FeedbackDetail({
   params: { id },
 }: {
   params: { id: string };
 }) {
-  const { getById, upvoteFeedback } = useFeedbackStore();
-  const feedback = getById(Number(id));
+  /**
+   * Constants
+   */
+  const feedbackId: number = Number(id);
 
+  /**
+   * Custom Hook
+   */
+  const { feedbacks, addComment, addReply, getById, upvoteFeedback } =
+    useFeedbackStore();
+
+  /**
+   * Side Effects
+   * Memo below, does not trigger reerender.
+   * Its triggered by importing the feedbacks from the feedbackStore
+   */
+  const feedback = useMemo(() => getById(feedbackId), [feedbacks]);
+
+  /**
+   * Exit conditions
+   */
   if (!feedback) return;
 
-  // const backHref = genBackLink("")
+  //TODO: Generate real Backref
 
   return (
     <div className="mt-6 flex flex-col gap-6 tablet:mt-0">
@@ -33,8 +52,12 @@ export default function FeedbackDetail({
       {/* Feedback Card */}
       <FeedbackItem upvoteFeedback={upvoteFeedback} feedback={feedback} />
       {/* Comments */}
-      <CommentList />
-      <CommentForm />
+      <CommentList
+        feedbackId={feedbackId}
+        comments={feedback.comments}
+        addReply={addReply}
+      />
+      <CommentForm feedbackId={feedbackId} addComment={addComment} />
     </div>
   );
 }

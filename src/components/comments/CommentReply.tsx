@@ -1,17 +1,55 @@
 import Author from "@/components/comments/Author";
 import CommentReplyForm from "@/components/comments/CommentReplyForm";
 import { Button } from "@/components/ui/button";
+import useCurrentUser from "@/hooks/useCurrentUser";
 import { IReply } from "@/types";
 import React from "react";
 
 type Props = {
   reply: IReply;
+  feedbackId: number;
+  commentId: number;
+  addReply: ({
+    feedbackId,
+    commentId,
+    reply,
+  }: {
+    feedbackId: number;
+    commentId: number;
+    reply: IReply;
+  }) => boolean;
 };
 
 export default function CommentReply({
-  reply: { user, content, replyingTo },
+  reply: { user: replyUser, content, replyingTo },
+  feedbackId,
+  commentId,
+  addReply,
 }: Props) {
+  /**
+   * States
+   */
   const [showReplyForm, setShowReplyForm] = React.useState(false);
+
+  /**
+   * Hooks
+   */
+  const { user } = useCurrentUser();
+
+  /**
+   * Functions
+   */
+  const replyOnSubmit = (data) => {
+    console.log(data);
+
+    const newReply: IReply = {
+      replyingTo: replyUser.username,
+      content: data.content,
+      user,
+    };
+
+    console.log(addReply({ feedbackId, commentId, reply: newReply }));
+  };
 
   return (
     <>
@@ -39,7 +77,7 @@ export default function CommentReply({
             {content}
           </p>
           {/* Conditionally show reply form */}
-          {showReplyForm ? <CommentReplyForm onSubmit={() => {}} /> : null}
+          {showReplyForm ? <CommentReplyForm onSubmit={replyOnSubmit} /> : null}
         </div>
       </div>
     </>
