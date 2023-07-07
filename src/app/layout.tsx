@@ -1,6 +1,7 @@
+import StoreLastMainRouteInLocalStorage from "@/components/StoreLastMainRouteInLocalStorage";
 import { cn } from "@/lib/utils";
-import "./globals.css";
 import { Jost } from "next/font/google";
+import "./globals.css";
 
 const jost = Jost({ subsets: ["latin"] });
 
@@ -26,6 +27,7 @@ export default function RootLayout({
           {children}
         </div>
       </body>
+      <StoreLastMainRouteInLocalStorage />
     </html>
   );
 }

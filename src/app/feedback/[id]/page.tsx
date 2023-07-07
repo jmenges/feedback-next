@@ -5,6 +5,8 @@ import CommentForm from "@/components/comments/CommentForm";
 import CommentList from "@/components/comments/CommentList";
 import BackButton from "@/components/ui/BackButton";
 import { Button } from "@/components/ui/button";
+import useLastMainRoute from "@/hooks/useLastMainRoute";
+import useLastPath from "@/hooks/useLastMainRoute";
 import { useFeedbackStore } from "@/store/useFeedbackStore";
 import Link from "next/link";
 import { useMemo } from "react";
@@ -25,6 +27,8 @@ export default function FeedbackDetail({
   const { feedbacks, addComment, addReply, getById, upvoteFeedback } =
     useFeedbackStore();
 
+  const { path: lastPath } = useLastMainRoute();
+
   /**
    * Side Effects
    * Memo below, does not trigger reerender.
@@ -37,13 +41,11 @@ export default function FeedbackDetail({
    */
   if (!feedback) return;
 
-  //TODO: Generate real Backref
-
   return (
     <div className="mt-6 flex flex-col gap-6 tablet:mt-0">
       {/* Actions */}
       <div className="flex justify-between">
-        <BackButton variant="link" href="/" />
+        <BackButton variant="link" href={lastPath} />
 
         <Button variant="accent" asChild>
           <Link href={`/feedback/${feedback.id}/edit`}>Edit Feedback</Link>
