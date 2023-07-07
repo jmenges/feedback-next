@@ -11,6 +11,7 @@ type Props = {
   feedback: IFeedback;
   className?: string;
   indicateState?: boolean;
+  upvoteFeedback: (id: number) => void;
 };
 
 const getStatusColor = (status: string) => {
@@ -23,14 +24,20 @@ export default function RoadmapItem({
   feedback,
   className,
   indicateState,
+  upvoteFeedback,
 }: Props) {
-
   let classNameColor = "";
   if (indicateState === true) {
     const { status } = feedback;
     const statusColor = getStatusColor(status);
     classNameColor = `border-t-[6px] border-${statusColor}`;
   }
+
+  const onUpvoteClick = (event) => {
+    upvoteFeedback(feedback.id);
+    event.stopPropagation();
+    event.preventDefault();
+  };
 
   return (
     <Card
@@ -43,7 +50,12 @@ export default function RoadmapItem({
         <Tag title={feedback.category} type="info" />
       </div>
       {/* UPVOTE BUTTON */}
-      <UpvoteButton upvoteCount={feedback.upvotes} size="small" className="" />
+      <UpvoteButton
+        onClick={onUpvoteClick}
+        upvoteCount={feedback.upvotes}
+        size="small"
+        className=""
+      />
       <CommentCounter
         className="ml-auto"
         count={Array.isArray(feedback.comments) ? feedback.comments.length : 0}
