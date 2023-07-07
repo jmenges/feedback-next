@@ -5,6 +5,7 @@ import {
   IComments,
   IEditFeedback,
   IFeedback,
+  IReply,
 } from "@/types";
 import React, { useEffect } from "react";
 import { useLocalStorage } from "usehooks-ts";
@@ -19,6 +20,15 @@ interface IFeedbackStore {
   removeFeedback: (feedbackId: number) => boolean;
   upvoteFeedback: (feedbackId: number) => boolean;
   addComment: (feedbackId: number, comment: IAddComment) => boolean;
+  addReply: ({
+    feedbackId,
+    commentId,
+    reply,
+  }: {
+    feedbackId: number;
+    commentId: number;
+    reply: IReply;
+  }) => boolean;
 }
 
 export const useFeedbackStore = (): IFeedbackStore => {
@@ -105,6 +115,16 @@ export const useFeedbackStore = (): IFeedbackStore => {
     );
   };
 
+  const getNextCommentId = (comments?: IComments): number => {
+    if (comments === undefined || comments.length === 0) return 1;
+
+    return (
+      comments.reduce((prev, current) => {
+        return prev.id > current.id ? prev : current;
+      }).id + 1
+    );
+  };
+
   const upvoteFeedback = (feedbackId: number) => {
     const exists = feedbacks.find((feedback) => feedback.id === feedbackId);
     if (!exists) return false;
@@ -141,7 +161,7 @@ export const useFeedbackStore = (): IFeedbackStore => {
             comments: [
               ...newComments,
               {
-                id: newComments.length + 1,
+                id: getNextCommentId(newComments),
                 content: comment.content,
                 user: comment.user,
               },
@@ -154,8 +174,56 @@ export const useFeedbackStore = (): IFeedbackStore => {
     return true;
   };
 
+  const addReply = ({
+    feedbackId,
+    commentId,
+    reply,
+  }: {
+    feedbackId: number;
+    commentId: number;
+    reply: IReply;
+  }): boolean => {
+    // check for existence of feedback and comment
+    const feedback = feedbacks.find((feedback) => feedback.id === feedbackId);
+    if (!feedback) return false;
+    const comment = feedback.comments?.find(
+      (comment) => comment.id === commentId
+    );
+    if (!comment) return false;
+
+    setFeedbacks((prev) => {
+      return prev.map((feedback) => {
+        if (feedback.id === feedbackId) {
+          const comment = feedback.comments?.find(
+            (comment) => comment.id === commentId
+          );
+
+          const hasReplies = comment?.replies?.length ?? 0 > 0;
+          const newReplies = hasReplies ? comment?.replies! : ([] as IReply[]);
+          const newComments = feedback.comments!.map((comment) => {
+            if (comment.id === commentId) {
+              return {
+                ...comment,
+                replies: [...(comment?.replies ?? []), reply],
+              };
+            }
+            return comment;
+          });
+
+          return {
+            ...feedback,
+            comments: newComments
+          };
+        }
+        return feedback;
+      });
+    });
+    return true;
+  };
+
   useEffect(() => {
     setLocalFeedbacks(feedbacks);
+    // console.log(feedbacks);
   }, [feedbacks]);
 
   return {
@@ -166,5 +234,6 @@ export const useFeedbackStore = (): IFeedbackStore => {
     removeFeedback,
     upvoteFeedback,
     addComment,
+    addReply,
   };
 };
