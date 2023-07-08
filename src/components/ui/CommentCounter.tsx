@@ -10,9 +10,19 @@ type Props = {
 
 export default function CommentCounter({ count, className }: Props) {
   return (
-    <div className={cn("inline-flex items-center gap-2 py-1 font-bold text-darker-blue", className)}>
+    <div
+      className={cn(
+        "inline-flex items-center gap-2 py-1 font-bold text-darker-blue",
+        className
+      )}
+    >
       <IconComment className="" />
-      <span className={count === 0 ? "opacity-50" : ""}>{count}</span>
+      <span
+        className={count === 0 ? "opacity-50" : ""}
+        data-cy="feedback-count"
+      >
+        {count}
+      </span>
     </div>
   );
 }
