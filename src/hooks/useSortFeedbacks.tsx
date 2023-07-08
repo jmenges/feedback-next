@@ -63,16 +63,37 @@ export default function useSortFeedbacks(
         break;
       case "comments-desc":
         sortedFeedbacks = [
-          ...feedbacks.sort(
-            (a, b) => (b.comments?.length || 0) - (a.comments?.length || 0)
-          ),
+          ...feedbacks.sort((a, b) => {
+            const bReplyCount =
+              b.comments?.reduce((acc, curr) => {
+                return acc + (curr.replies?.length || 0);
+              }, 0) || 0;
+            const bCount = (b.comments?.length || 0) + bReplyCount;
+            const aReplyCount =
+              a.comments?.reduce((acc, curr) => {
+                return acc + (curr.replies?.length || 0);
+              }, 0) || 0;
+            const aCount = (a.comments?.length || 0) + aReplyCount;
+
+            return bCount - aCount;
+          }),
         ];
         break;
       case "comments-asc":
         sortedFeedbacks = [
-          ...feedbacks.sort(
-            (a, b) => (a.comments?.length || 0) - (b.comments?.length || 0)
-          ),
+          ...feedbacks.sort((a, b) => {
+            const bReplyCount =
+              b.comments?.reduce((acc, curr) => {
+                return acc + (curr.replies?.length || 0);
+              }, 0) || 0;
+            const bCount = (b.comments?.length || 0) + bReplyCount;
+            const aReplyCount =
+              a.comments?.reduce((acc, curr) => {
+                return acc + (curr.replies?.length || 0);
+              }, 0) || 0;
+            const aCount = (a.comments?.length || 0) + aReplyCount;
+            return aCount - bCount;
+          }),
         ];
       default:
         sortedFeedbacks = [...feedbacks];
