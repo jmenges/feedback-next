@@ -8,7 +8,7 @@ export default function NewFeedback() {
   const domain = headersList.get("host") || "";
   const referer = headersList.get("referer");
   const path = referer?.split(domain)[1] || "";
-  const backPath = path === "/feedback/new" ? "/" : path;
+  const backPath = (path === "" || path === "/feedback/new") ? "/" : path;
 
   return (
     <div className="flex flex-col gap-6">
