@@ -1,13 +1,12 @@
 import Card from "@/components/Card";
+import Category from "@/components/ui/Category";
 import CommentCounter from "@/components/ui/CommentCounter";
-import Tag from "@/components/ui/Category";
 import UpvoteButton from "@/components/ui/UpvoteButton";
 import { cn } from "@/lib/utils";
-import { IFeedback } from "@/types/types";
 import { FeedbackPopulated } from "@/types/prisma";
 
 type Props = {
-  feedback: FeedbackPopulated; 
+  feedback: FeedbackPopulated;
   className?: string;
   upvoteFeedback: (feedbackId: number) => boolean;
 };
@@ -17,14 +16,13 @@ export default function FeedbackItem({
   className,
   upvoteFeedback,
 }: Props) {
-
   return (
-    <Card className={cn("flex items-start flex-wrap", className)}>
+    <Card className={cn("flex flex-wrap items-start", className)}>
       {/* TITLE, DESCRIPTION, TAG */}
       <div className="mb-4 w-full space-y-2 tablet:order-2 tablet:mb-0 tablet:w-auto">
         <h4 className="tablet:text-h3">{feedback.title}</h4>
         <p className="">{feedback.description}</p>
-        <Tag title={feedback.category} type="info" />
+        <Category title={feedback.category} type="info" />
       </div>
       {/* UPVOTE BUTTON */}
       <UpvoteButton
