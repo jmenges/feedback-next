@@ -1,20 +1,9 @@
 import Actionbar from "@/components/Actionbar";
 import FeedbackList from "@/components/FeedbackList";
 import NavBar from "@/components/NavBar";
-import useCategoryFilter from "@/hooks/useCategoryFilter";
-import useRoadmapCount from "@/hooks/useRoadmapCount";
-import useSortFeedbacks from "@/hooks/useSortFeedbacks";
-import { db } from "@/lib/server";
-import { Feedback, feedbackPopulated } from "@/models/feedback";
-import { useFeedbackStore } from "@/store/useFeedbackStore";
-import { ICategory } from "@/types/types";
-
-const getFeedbacks = async () => {
-  const feedbacks = await db.feedback.findMany({
-    include: feedbackPopulated,
-  });
-  return feedbacks;
-};
+import { categories } from "@/data/categories";
+import { sortOptions } from "@/data/sortOptions";
+import { Feedback } from "@/models/feedback";
 
 /**
  * As opposed to the client side implementation,
@@ -26,42 +15,40 @@ export default async function Home({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const category = searchParams["category"] as ICategory;
-  const sort = searchParams["sort"];
-  const feedbacks = await Feedback.queryAll({category, sort}); 
-  console.log(searchParams["category"])
+  /* Parse and verify search params: TBD replace with zod */
+  const queryParamCategory = searchParams["category"] as string;
+  const validCategory = categories.find(
+    (category) => category.value === queryParamCategory
+  )?.value;
 
+  const queryParamSort = searchParams["sort"];
+  const validSortOption = sortOptions.find(
+    (option) => option.value === queryParamSort
+  )?.value;
 
-  /**
-   * Custom hooks
-   */
-  // const { feedbacks, upvoteFeedback } = useFeedbackStore();
-  // const { filteredFeedbacks, activeCategory, setActiveCategory } =
-  //   useCategoryFilter(feedbacks);
-  // const { sortedFeedbacks, options, activeOption, setActiveOption } =
-  //   useSortFeedbacks(filteredFeedbacks);
-  // const { counts: roadmapCounts } = useRoadmapCount({ feedbacks });
+  /* Execute query */
+  const feedbacks = await Feedback.queryAll({
+    category: validCategory,
+    sort: validSortOption,
+  });
 
-  /**
-   * Calculated values
-   */
+  /* Calculated values */
   const feedbackCount = feedbacks.length;
 
+  /* JSX */
   return (
     <div className="flex flex-wrap tablet:gap-6">
       <NavBar
-        // roadmapCounts={roadmapCounts}
-        // activeCategory={activeCategory}
-        // setActiveCategory={setActiveCategory}
+      // roadmapCounts={roadmapCounts}
       />
       <main className="mt-[80px] flex-grow tablet:mt-0">
         <header className="mb-4 tablet:mb-6">
-          {/* <Actionbar
+          <Actionbar
             feedbackCount={feedbackCount}
-            sortOptions={options}
-            activeSortOption={activeOption}
-            setActiveSortOption={setActiveOption}
-          /> */}
+            // sortOptions={options}
+            // activeSortOption={activeOption}
+            // setActiveSortOption={setActiveOption}
+          />
         </header>
         <FeedbackList
           feedbacks={feedbacks}
