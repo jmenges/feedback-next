@@ -1,10 +1,8 @@
 "use client";
 
-import { FeedbackPopulated } from "@/types/prisma";
 import FeedbackItem from "@/components/FeedbackItem";
-import { IFeedback } from "@/types/types";
+import { FeedbackPopulated } from "@/types/prisma";
 import Link from "next/link";
-import { useEffect } from "react";
 
 type Props = {
   feedbacks: FeedbackPopulated[];
