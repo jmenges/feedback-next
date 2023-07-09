@@ -1,7 +1,7 @@
+"use client";
+
 import AppCard from "@/components/AppCard";
 import CategoryFilter from "@/components/CategoryFilter";
-import RoadmapCounter from "@/components/RoadmapCounter";
-import { ICategory } from "@/types";
 import React from "react";
 
 import IconClose from "@/../public/icons/mobile/icon-close.svg";
@@ -9,19 +9,18 @@ import IconHamburger from "@/../public/icons/mobile/icon-hamburger.svg";
 import { cn } from "@/lib/utils";
 
 type Props = {
-  activeCategory: ICategory;
-  setActiveCategory: React.Dispatch<ICategory>;
-  roadmapCounts: {
-    title: string;
-    count: number;
-  }[];
+  // activeCategory: ICategory;
+  // setActiveCategory: React.Dispatch<ICategory>;
+  // roadmapCounts: {
+  //   title: string;
+  //   count: number;
+  // }[];
 };
 
-export default function NavBar({
-  roadmapCounts,
-  activeCategory,
-  setActiveCategory,
-}: Props) {
+export default function NavBar({}: // roadmapCounts,
+// activeCategory,
+// setActiveCategory,
+Props) {
   const [mobileSideNavOpen, setMobileSideNavOpen] =
     React.useState<boolean>(false);
 
@@ -41,15 +40,15 @@ export default function NavBar({
       )}
       <div
         className={cn(
-          "fixed basis-2/3 right-0 top-[80px] z-10 flex h-[calc(100%-80px)] w-3/4 flex-col gap-6 bg-lighter-grey p-6 tablet:relative tablet:top-0 tablet:h-auto tablet:w-full tablet:translate-x-0 tablet:flex-row tablet:gap-4 tablet:bg-transparent tablet:p-0 desktop:flex-col",
+          "fixed right-0 top-[80px] z-10 flex h-[calc(100%-80px)] w-3/4 basis-2/3 flex-col gap-6 bg-lighter-grey p-6 tablet:relative tablet:top-0 tablet:h-auto tablet:w-full tablet:translate-x-0 tablet:flex-row tablet:gap-4 tablet:bg-transparent tablet:p-0 desktop:flex-col",
           mobileSideNavOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
         <CategoryFilter
-          activeCategory={activeCategory}
-          setActiveCategory={setActiveCategory}
+        // activeCategory={activeCategory}
+        // setActiveCategory={setActiveCategory}
         />
-        <RoadmapCounter counts={roadmapCounts} className="" />
+        {/* <RoadmapCounter counts={roadmapCounts} className="" /> */}
       </div>
     </aside>
   );

@@ -3,10 +3,11 @@ import CommentCounter from "@/components/ui/CommentCounter";
 import Tag from "@/components/ui/Category";
 import UpvoteButton from "@/components/ui/UpvoteButton";
 import { cn } from "@/lib/utils";
-import { IFeedback } from "@/types";
+import { IFeedback } from "@/types/types";
+import { FeedbackPopulated } from "@/types/prisma";
 
 type Props = {
-  feedback: IFeedback;
+  feedback: FeedbackPopulated; 
   className?: string;
   upvoteFeedback: (feedbackId: number) => boolean;
 };
@@ -16,14 +17,6 @@ export default function FeedbackItem({
   className,
   upvoteFeedback,
 }: Props) {
-  /**
-   * Calculated values
-   */
-  const replyCount =
-    feedback.comments?.reduce((acc, curr) => {
-      return acc + (curr.replies?.length || 0);
-    }, 0) || 0;
-  const commentCount = (feedback.comments?.length || 0) + replyCount;
 
   return (
     <Card className={cn("flex items-start flex-wrap", className)}>
@@ -45,7 +38,7 @@ export default function FeedbackItem({
       />
       <CommentCounter
         className="ml-auto tablet:order-3 tablet:self-center"
-        count={commentCount}
+        count={feedback._count.comments}
       />
       {/* COMMENT COUNT */}
     </Card>

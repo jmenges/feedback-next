@@ -1,16 +1,19 @@
 "use client";
 
+import { FeedbackPopulated } from "@/types/prisma";
 import FeedbackItem from "@/components/FeedbackItem";
-import { IFeedback } from "@/types";
+import { IFeedback } from "@/types/types";
 import Link from "next/link";
 import { useEffect } from "react";
 
 type Props = {
-  feedbacks: IFeedback[];
-  upvoteFeedback: (feedbackId: number) => boolean;
+  feedbacks: FeedbackPopulated[];
+  // upvoteFeedback: (feedbackId: number) => boolean;
 };
 
-export default function FeedbackList({ feedbacks, upvoteFeedback }: Props) {
+export default function FeedbackList({ feedbacks }: Props) {
+  const upvoteFeedback = (feedbackId: number) => {return true}
+
   return (
     <div className="flex flex-col space-y-4 p-6 tablet:p-0">
       {feedbacks.map((feedback) => (
