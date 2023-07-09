@@ -11,19 +11,22 @@ datasource db {
 }
 
 model Feedback {
-  id          Int    @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   title       String
   description String
   category    String
   status      String
   upvotes     Int
-  author      User   @relation(fields: [authorId], references: [id])
+  author      User      @relation(fields: [authorId], references: [id])
   authorId    Int
+  comments    Comment[]
 }
 
 model Comment {
   id                  Int       @id @default(autoincrement())
   content             String
+  feedbackId          Int
+  feedback            Feedback  @relation(fields: [feedbackId], references: [id])
   replyingToUserId    Int?
   replyingToUser      User?     @relation("replyToUser", fields: [replyingToUserId], references: [id])
   replyingToCommentId Int?

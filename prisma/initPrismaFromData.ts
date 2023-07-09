@@ -84,6 +84,7 @@ async function main() {
       const newComment = {
         id: nextCommentId++,
         content: comment.content,
+        feedbackId: dbFeedbacks.find(({ title }) => title === productRequest.title).id,
         authorId: dbUsers.find(
           ({ username }) => username === comment.user.username
         ).id,
@@ -93,6 +94,7 @@ async function main() {
         const newReply = {
           id: nextCommentId++,
           content: reply.content,
+          feedbackId: newComment.feedbackId,
           authorId: dbUsers.find(
             ({ username }) => username === reply.user.username
           ).id,
