@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Select,
   SelectContent,
@@ -5,26 +7,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { SortOptions, SortOptionValue } from "@/hooks/useSortFeedbacks";
-import React, { Dispatch } from "react";
+import useFeedbackSorter from "@/hooks/useFeedbackSorter";
+import { SortOptionValue } from "@/types/sortOptions";
 
-type Props = {
-  sortOptions: SortOptions;
-  activeSortOption: SortOptionValue;
-  setActiveSortOption: Dispatch<SortOptionValue>;
-};
+export default function FeedbackSorter() {
+  /* Custom hook */
+  const {
+    options: sortOptions,
+    activeOption,
+    setActiveOption,
+  } = useFeedbackSorter();
 
-export default function FeedbackSorter({
-  sortOptions,
-  activeSortOption,
-  setActiveSortOption,
-}: Props) {
+  /* Change handler */
   const onValueChange = (value: SortOptionValue) => {
-    setActiveSortOption(value);
+    setActiveOption(value);
   };
 
+  /* JSX */
   return (
-    <Select onValueChange={onValueChange} defaultValue={activeSortOption}>
+    <Select onValueChange={onValueChange} defaultValue={activeOption}>
       <SelectTrigger className="relative inline-flex max-w-[180px] border-none bg-transparent text-xs text-white shadow-none focus:ring-0 tablet:text-h4">
         Sort by:
         <SelectValue />
@@ -32,7 +33,7 @@ export default function FeedbackSorter({
       <SelectContent sideOffset={14}>
         {sortOptions.map((option, index) => (
           <SelectItem key={index} value={option.value}>
-            {option.name}
+            {option.label}
           </SelectItem>
         ))}
       </SelectContent>
