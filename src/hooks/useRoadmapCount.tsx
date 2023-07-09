@@ -1,4 +1,4 @@
-import { IFeedback } from "@/types";
+import { IFeedback } from "@/types/types";
 import React, { useMemo } from "react";
 
 type Props = { feedbacks: IFeedback[] };

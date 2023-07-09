@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useFeedbackStore } from "@/store/useFeedbackStore";
 import { useRouter } from "next/navigation";
-import { IAddFeedback } from "@/types";
+import { IAddFeedback } from "@/types/types";
 
 type Props = {
   cancelHref: string;

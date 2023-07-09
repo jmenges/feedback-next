@@ -2,7 +2,7 @@ import Author from "@/components/comments/Author";
 import CommentReplyForm from "@/components/comments/CommentReplyForm";
 import { Button } from "@/components/ui/button";
 import useCurrentUser from "@/hooks/useCurrentUser";
-import { IReply } from "@/types";
+import { IReply } from "@/types/types";
 import React from "react";
 
 type Props = {

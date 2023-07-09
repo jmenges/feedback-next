@@ -1,5 +1,5 @@
 import { initialFeedbacks } from "@/config";
-import { IFeedback } from "@/types";
+import { IFeedback } from "@/types/types";
 import React, { Dispatch, use, useEffect, useState } from "react";
 
 export type UseSortFeedbacks = {

@@ -1,6 +1,6 @@
 import { initialFeedbacks } from "@/data/initialFeedbacks";
 import { useFeedbackStore } from "@/store/useFeedbackStore";
-import { IAddComment, IAddFeedback } from "@/types";
+import { IAddComment, IAddFeedback } from "@/types/types";
 import { act, renderHook } from "@testing-library/react";
 
 describe("useFeedbackStore", () => {

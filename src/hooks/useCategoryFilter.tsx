@@ -1,5 +1,5 @@
 import { categories } from "@/data/categories";
-import { ICategory, IFeedback } from "@/types";
+import { ICategory, IFeedback } from "@/types/types";
 import { useEffect, useState } from "react";
 
 export default function useCategoryFilter(feedbacks: IFeedback[]) {

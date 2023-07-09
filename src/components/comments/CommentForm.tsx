@@ -2,7 +2,7 @@ import Card from "@/components/Card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import useCurrentUser from "@/hooks/useCurrentUser";
-import { IAddComment } from "@/types";
+import { IAddComment } from "@/types/types";
 import { useForm } from "react-hook-form";
 
 type Props = {

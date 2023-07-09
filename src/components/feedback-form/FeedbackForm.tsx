@@ -12,7 +12,7 @@ import React from "react";
 import { Textarea } from "@/components/ui/textarea";
 
 import { features } from "@/data/features";
-import { IAddFeedback, IEditFeedback } from "@/types";
+import { IAddFeedback, IEditFeedback } from "@/types/types";
 import { Controller, useForm } from "react-hook-form";
 
 type Props = {

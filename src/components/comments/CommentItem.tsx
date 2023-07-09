@@ -5,7 +5,7 @@ import CommentReply from "@/components/comments/CommentReply";
 import CommentReplyForm from "@/components/comments/CommentReplyForm";
 import { Button } from "@/components/ui/button";
 import useCurrentUser from "@/hooks/useCurrentUser";
-import { IComment, IReply } from "@/types";
+import { IComment, IReply } from "@/types/types";
 import React from "react";
 
 type CommentItemProps = {

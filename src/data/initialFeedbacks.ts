@@ -1,4 +1,4 @@
-import { IFeedback } from "@/types";
+import { IFeedback } from "@/types/types";
 
 export const initialFeedbacks: IFeedback[] = [
   {

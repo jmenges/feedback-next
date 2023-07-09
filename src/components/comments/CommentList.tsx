@@ -1,5 +1,5 @@
 import Card from "@/components/Card";
-import { IComments, IReply } from "@/types";
+import { IComments, IReply } from "@/types/types";
 import CommentItem from "./CommentItem";
 
 type CommentsProps = {

@@ -3,7 +3,7 @@ import CommentCounter from "@/components/ui/CommentCounter";
 import Tag from "@/components/ui/Category";
 import UpvoteButton from "@/components/ui/UpvoteButton";
 import { cn } from "@/lib/utils";
-import { IFeedback } from "@/types";
+import { IFeedback } from "@/types/types";
 import React from "react";
 import { roadmaps } from "@/data/roadmaps";
 

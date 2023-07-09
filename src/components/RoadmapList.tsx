@@ -5,7 +5,7 @@ import RoadmapMobileStatusNav from "@/components/RoadmapMobileStatusNav";
 import { roadmaps } from "@/data/roadmaps";
 import useRoadmapCount from "@/hooks/useRoadmapCount";
 import { cn } from "@/lib/utils";
-import { IFeedback } from "@/types";
+import { IFeedback } from "@/types/types";
 import Link from "next/link";
 import { useState } from "react";
 

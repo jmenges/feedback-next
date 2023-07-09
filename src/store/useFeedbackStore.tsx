@@ -6,7 +6,7 @@ import {
   IEditFeedback,
   IFeedback,
   IReply,
-} from "@/types";
+} from "@/types/types";
 import React, { useEffect } from "react";
 import { useLocalStorage } from "usehooks-ts";
 

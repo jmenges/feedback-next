@@ -3,7 +3,7 @@
 import IconEditFeedback from "@/../public/icons/icon-edit-feedback.svg";
 import { Button } from "@/components/ui/button";
 import { useFeedbackStore } from "@/store/useFeedbackStore";
-import { IEditFeedback } from "@/types";
+import { IEditFeedback } from "@/types/types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo } from "react";
