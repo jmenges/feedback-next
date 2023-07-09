@@ -9,18 +9,13 @@ import IconHamburger from "@/../public/icons/mobile/icon-hamburger.svg";
 import { cn } from "@/lib/utils";
 
 type Props = {
-  // activeCategory: ICategory;
-  // setActiveCategory: React.Dispatch<ICategory>;
-  // roadmapCounts: {
-  //   title: string;
-  //   count: number;
-  // }[];
+  roadmapCounts: {
+    title: string;
+    count: number;
+  }[];
 };
 
-export default function NavBar({}: // roadmapCounts,
-// activeCategory,
-// setActiveCategory,
-Props) {
+export default function NavBar({ roadmapCounts }: Props) {
   const [mobileSideNavOpen, setMobileSideNavOpen] =
     React.useState<boolean>(false);
 
@@ -44,10 +39,7 @@ Props) {
           mobileSideNavOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
-        <CategoryFilter
-        // activeCategory={activeCategory}
-        // setActiveCategory={setActiveCategory}
-        />
+        <CategoryFilter />
         {/* <RoadmapCounter counts={roadmapCounts} className="" /> */}
       </div>
     </aside>

@@ -2,10 +2,10 @@
 
 import Card from "@/components/Card";
 import Category from "@/components/ui/Category";
-import { ValidCategory, categories } from "@/data/categories";
-import { ICategory } from "@/types/types";
+import { categories } from "@/data/categories";
+import { CategoryValue } from "@/types/categories";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 /**
  * The CategoryFilter works based on query parameters.
@@ -14,7 +14,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
  */
 export default function CategoryFilter() {
   /* State */
-  const [activeCategory, setActiveCategory] = useState<ValidCategory | null>(
+  const [activeCategory, setActiveCategory] = useState<CategoryValue | null>(
     null
   );
 
@@ -35,7 +35,7 @@ export default function CategoryFilter() {
   useEffect(() => {
     if (queryParamCategory !== null) {
       const validCategory = categories.find(
-        (c) => c.name === queryParamCategory.toLowerCase()
+        (c) => c.value === queryParamCategory.toLowerCase()
       );
       //clear category from query params if invalid
       if (!validCategory) {
@@ -43,7 +43,7 @@ export default function CategoryFilter() {
         return;
       }
 
-      setActiveCategory(validCategory.name);
+      setActiveCategory(validCategory.value);
     } else {
       setActiveCategory("all");
     }
@@ -90,8 +90,8 @@ export default function CategoryFilter() {
           key={index}
           title={category.label}
           type="button"
-          active={category.name === activeCategory}
-          onClick={() => setActiveCategory(category.name)}
+          active={category.value === activeCategory}
+          onClick={() => setActiveCategory(category.value)}
         />
       ))}
     </Card>
