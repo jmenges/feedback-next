@@ -18,3 +18,12 @@ const globalForPrisma = globalThis as unknown as {
 export const db = globalForPrisma.prisma ?? new PrismaClient();
 
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = db;
+
+export function getServerUser() {
+  return {
+    id: 1,
+    image: "/assets/user-images/image-thomas.jpg",
+    name: "Thomas Hood",
+    username: "brawnybrave",
+  };
+}
