@@ -1,12 +1,13 @@
 import { db } from "@/lib/server";
 import { CategoryValue } from "@/types/categories";
-import { FeedbackAdd, FeedbackUpdate } from "@/types/feedbacks";
+import {
+  FeedbackAdd,
+  FeedbackFullyPopulated,
+  FeedbackPopulated,
+  FeedbackUpdate,
+} from "@/types/feedbacks";
 import { SortOptionValue } from "@/types/sortOptions";
 import { Prisma } from "@prisma/client";
-
-// interface FeedbackModel {
-//   static getAll: () => Promise<Prisma.FeedbackGetPayload<{}>[]>;
-// }
 
 /**
  * Prisma validators
@@ -19,6 +20,27 @@ export const feedbackPopulated = Prisma.validator<Prisma.FeedbackInclude>()({
     },
   },
 });
+
+export const feedbackFullyPopulated =
+  Prisma.validator<Prisma.FeedbackInclude>()({
+    author: true,
+    comments: {
+      include: {
+        author: true,
+        replies: {
+          include: { author: true, replyingToUser: true },
+        },
+      },
+      where: {
+        replyingToCommentId: null,
+      },
+    },
+    _count: {
+      select: {
+        comments: true,
+      },
+    },
+  });
 
 export abstract class Feedback {
   static queryAll = async ({
@@ -72,6 +94,19 @@ export abstract class Feedback {
       orderBy: orderBy,
     });
     return feedbacks;
+  };
+
+  static getById = async (
+    id: number
+  ): Promise<FeedbackFullyPopulated | null> => {
+    /* Execute query */
+    const feedback = await db.feedback.findFirst({
+      include: feedbackFullyPopulated,
+      where: {
+        id: id,
+      },
+    });
+    return feedback;
   };
 
   static add = async (
