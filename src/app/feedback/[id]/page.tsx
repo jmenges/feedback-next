@@ -16,7 +16,10 @@ export default async function FeedbackDetail({
   const feedbackId: number = Number(id);
 
   /* Run query */
-  const feedback = await Feedback.getById(feedbackId);
+  const feedback = await Feedback.getById({
+    id: feedbackId,
+    includeRelations: true,
+  });
   // console.log(feedback.comments?.map((comments) => comments.replies));
 
   /* Get back path */
