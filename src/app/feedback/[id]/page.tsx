@@ -1,65 +1,50 @@
-"use client";
-
 import FeedbackItem from "@/components/FeedbackItem";
 import CommentForm from "@/components/comments/CommentForm";
 import CommentList from "@/components/comments/CommentList";
 import BackButton from "@/components/ui/BackButton";
 import { Button } from "@/components/ui/button";
-import useLastMainRoute from "@/hooks/useLastMainRoute";
-import useLastPath from "@/hooks/useLastMainRoute";
-import { useFeedbackStore } from "@/store/useFeedbackStore";
+import { genBackLinkServer } from "@/lib/server";
+import { Feedback } from "@/models/feedback";
 import Link from "next/link";
-import { useMemo } from "react";
 
-export default function FeedbackDetail({
+export default async function FeedbackDetail({
   params: { id },
 }: {
   params: { id: string };
 }) {
-  /**
-   * Constants
-   */
+  /* Constants */
   const feedbackId: number = Number(id);
 
-  /**
-   * Custom Hook
-   */
-  const { feedbacks, addComment, addReply, getById, upvoteFeedback } =
-    useFeedbackStore();
+  /* Run query */
+  const feedback = await Feedback.getById(feedbackId);
+  // console.log(feedback.comments?.map((comments) => comments.replies));
 
-  const { path: lastPath } = useLastMainRoute();
+  /* Get back path */
+  const backPath = genBackLinkServer(`/feedback/${id}`);
 
-  /**
-   * Side Effects
-   * Memo below, does not trigger reerender.
-   * Its triggered by importing the feedbacks from the feedbackStore
-   */
-  const feedback = useMemo(() => getById(feedbackId), [feedbacks]);
-
-  /**
-   * Exit conditions
-   */
+  /* Exit conditions */
   if (!feedback) return;
 
+  /* JSX */
   return (
     <div className="mt-6 flex flex-col gap-6 tablet:mt-0">
       {/* Actions */}
       <div className="flex justify-between">
-        <BackButton variant="link" href={lastPath} />
+        <BackButton variant="link" href={backPath} />
 
         <Button variant="accent" asChild>
-          <Link href={`/feedback/${feedback.id}/edit`}>Edit Feedback</Link>
+          <Link href={`/feedback/${id}/edit`}>Edit Feedback</Link>
         </Button>
       </div>
       {/* Feedback Card */}
-      <FeedbackItem upvoteFeedback={upvoteFeedback} feedback={feedback} />
+      <FeedbackItem feedback={feedback} />
       {/* Comments */}
       <CommentList
         feedbackId={feedbackId}
         comments={feedback.comments}
-        addReply={addReply}
+        count={feedback._count.comments}
       />
-      <CommentForm feedbackId={feedbackId} addComment={addComment} />
+      <CommentForm feedbackId={feedbackId} />
     </div>
   );
 }
