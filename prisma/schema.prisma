@@ -30,7 +30,7 @@ model Comment {
   replyingToUserId    Int?
   replyingToUser      User?     @relation("replyToUser", fields: [replyingToUserId], references: [id])
   replyingToCommentId Int?
-  replyingCommentTo   Comment?  @relation("replies", fields: [replyingToCommentId], references: [id])
+  replyingToComment   Comment?  @relation("replies", fields: [replyingToCommentId], references: [id])
   author              User      @relation(fields: [authorId], references: [id])
   authorId            Int
   replies             Comment[] @relation("replies")
