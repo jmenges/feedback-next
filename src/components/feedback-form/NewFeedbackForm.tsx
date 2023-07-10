@@ -1,13 +1,11 @@
 "use client";
 
-import React from "react";
 import IconNewFeedback from "@/../public/icons/icon-new-feedback.svg";
 import FeedbackForm from "@/components/feedback-form/FeedbackForm";
 import { Button } from "@/components/ui/button";
+import { FeedbackAdd } from "@/types/feedbacks";
 import Link from "next/link";
-import { useFeedbackStore } from "@/store/useFeedbackStore";
 import { useRouter } from "next/navigation";
-import { IAddFeedback } from "@/types/types";
 
 type Props = {
   cancelHref: string;
@@ -27,14 +25,25 @@ const FeedbackActions = ({ cancelHref }: { cancelHref: string }) => {
 };
 
 export default function NewFeedbackForm({ cancelHref }: Props) {
-  const { addFeedback } = useFeedbackStore();
   const router = useRouter();
 
-  const onSubmit = (data:IAddFeedback) => {
-    const id = addFeedback(data);
-    if (id !== null) {
-      router.push(cancelHref);
+  const onSubmit = async (data: FeedbackAdd) => {
+    const postOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    };
+    const res = await fetch("/api/feedback", postOptions);
+
+    if (res.status !== 200) {
+      const json = await res.json();
+      console.log(json);
+      return;
     }
+
+    router.push(cancelHref);
   };
 
   return (
