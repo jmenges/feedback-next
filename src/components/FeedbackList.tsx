@@ -1,7 +1,7 @@
 "use client";
 
 import FeedbackItem from "@/components/FeedbackItem";
-import { FeedbackPopulated } from "@/types/prisma";
+import { FeedbackPopulated } from "@/types/feedbacks";
 import Link from "next/link";
 
 type Props = {

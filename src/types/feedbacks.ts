@@ -7,3 +7,8 @@ import { Prisma } from "@prisma/client";
 export type FeedbackPopulated = Prisma.FeedbackGetPayload<{
   include: typeof feedbackPopulated;
 }>;
+
+export type FeedbackAdd = Pick<
+  Prisma.FeedbackCreateInput,
+  "title" | "category" | "description"
+>;

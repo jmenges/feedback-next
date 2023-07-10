@@ -3,7 +3,7 @@ import Category from "@/components/ui/Category";
 import CommentCounter from "@/components/ui/CommentCounter";
 import UpvoteButton from "@/components/ui/UpvoteButton";
 import { cn } from "@/lib/utils";
-import { FeedbackPopulated } from "@/types/prisma";
+import { FeedbackPopulated } from "@/types/feedbacks";
 
 type Props = {
   feedback: FeedbackPopulated;
