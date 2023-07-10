@@ -2,14 +2,11 @@
 
 import IconEditFeedback from "@/../public/icons/icon-edit-feedback.svg";
 import { Button } from "@/components/ui/button";
-import { useFeedbackStore } from "@/store/useFeedbackStore";
 import { IEditFeedback } from "@/types/types";
+import { Feedback } from "@prisma/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useMemo } from "react";
 import FeedbackForm from "./FeedbackForm";
-
-type EditFeedbackFormProps = { feedbackId: number; returnHref: string };
 
 const FeedbackActions = ({
   cancelHref,
@@ -38,67 +35,62 @@ const FeedbackActions = ({
   );
 };
 
+type EditFeedbackFormProps = { feedback: Feedback; returnHref: string };
+
 export default function EditFeedbackForm({
-  feedbackId,
+  feedback,
   returnHref,
 }: EditFeedbackFormProps) {
-  /**
-   * Custom hooks
-   */
-  const {
-    feedbacks,
-    getById: getFeedbackById,
-    removeFeedback,
-    editFeedback,
-  } = useFeedbackStore();
-
-  /**
-   * Hooks
-   */
+  /* Router hook */
   const router = useRouter();
 
-  /**
-   * Side effects
-   */
-  const feedback = useMemo<IEditFeedback | undefined>(() => {
-    const feedback = getFeedbackById(feedbackId);
-    const inputFeedback: IEditFeedback | undefined =
-      feedback !== null
-        ? {
-            id: feedback.id,
-            title: feedback.title,
-            status: feedback.status,
-            description: feedback.description,
-            category: feedback.category,
-          }
-        : undefined;
-    return inputFeedback;
-  }, [feedbacks, feedbackId]);
+  // /**
+  //  * Side effects
+  //  */
+  // const feedback = useMemo<IEditFeedback | undefined>(() => {
+  //   const feedback = getFeedbackById(feedbackId);
+  //   const inputFeedback: IEditFeedback | undefined =
+  //     feedback !== null
+  //       ? {
+  //           id: feedback.id,
+  //           title: feedback.title,
+  //           status: feedback.status,
+  //           description: feedback.description,
+  //           category: feedback.category,
+  //         }
+  //       : undefined;
+  //   return inputFeedback;
+  // }, [feedbacks, feedbackId]);
 
   /**
    * Functions
    */
   const onSubmit = (data: IEditFeedback) => {
-    const isSuccess = editFeedback(data);
-    console.log(isSuccess);
-    if (isSuccess === true) {
-      router.push(returnHref);
-    }
+    // const isSuccess = editFeedback(data);
+    // console.log(isSuccess);
+    // if (isSuccess === true) {
+    //   router.push(returnHref);
+    // }
   };
 
-  const onDelete = () => {
+  const onDelete = async () => {
     if (feedback === undefined) return;
-    const isRemoved = removeFeedback(feedback.id);
-    if (isRemoved) {
-      router.push("/");
+
+    const res = await fetch(`/api/feedback/${feedback.id}`, {
+      method: "DELETE",
+    });
+
+    if (res.status !== 200) {
+      const error = await res.json();
+      console.error(error);
+      return;
     }
+
+    /* Success */
+    router.push("/");
   };
 
-  if (feedback === undefined) return <div>Feedback not found</div>;
-
-  /**
-   * JSX
-   */
+  /* JSX */
   return (
     <FeedbackForm
       feedback={feedback}
