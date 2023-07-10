@@ -79,7 +79,7 @@ export default function useFeedbackSorter(): UseFeedbackSorter {
 
   return {
     options: sortOptions,
-    activeOption,
+    activeOption: activeOption || "upvotes-desc",
     setActiveOption,
   };
 }
