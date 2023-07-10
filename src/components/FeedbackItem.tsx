@@ -8,13 +8,11 @@ import { FeedbackPopulated } from "@/types/feedbacks";
 type Props = {
   feedback: FeedbackPopulated;
   className?: string;
-  upvoteFeedback: (feedbackId: number) => boolean;
 };
 
 export default function FeedbackItem({
   feedback,
   className,
-  upvoteFeedback,
 }: Props) {
   return (
     <Card className={cn("flex flex-wrap items-start", className)}>
@@ -27,11 +25,6 @@ export default function FeedbackItem({
       {/* UPVOTE BUTTON */}
       <UpvoteButton
         upvoteCount={feedback.upvotes}
-        onClick={(e) => {
-          upvoteFeedback(feedback.id);
-          e.stopPropagation();
-          e.preventDefault();
-        }}
         className="tablet:order-1 tablet:mr-10"
       />
       <CommentCounter
