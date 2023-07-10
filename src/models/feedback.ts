@@ -1,5 +1,6 @@
 import { db } from "@/lib/server";
 import { CategoryValue } from "@/types/categories";
+import { FeedbackAdd } from "@/types/feedbacks";
 import { SortOptionValue } from "@/types/sortOptions";
 import { Prisma } from "@prisma/client";
 
@@ -71,6 +72,30 @@ export abstract class Feedback {
       orderBy: orderBy,
     });
     return feedbacks;
+  };
+
+  static add = async (
+    feedback: FeedbackAdd,
+    authorId: number
+  ): Promise<boolean> => {
+    try {
+      const newFeedback = await db.feedback.create({
+        data: {
+          title: feedback.title,
+          description: feedback.description,
+          category: feedback.category,
+          author: {
+            connect: {
+              id: authorId,
+            },
+          },
+        },
+      });
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
   };
 
   static getAll = async () => {
