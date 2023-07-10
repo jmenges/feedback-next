@@ -1,37 +1,58 @@
+"use client";
+
 import Card from "@/components/Card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import useCurrentUser from "@/hooks/useCurrentUser";
-import { IAddComment } from "@/types/types";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 type Props = {
   feedbackId: number;
-  addComment: (feedbackId: number, comment: IAddComment) => boolean;
 };
 
-export default function CommentForm({ feedbackId, addComment }: Props) {
-  const { user } = useCurrentUser();
+export default function CommentForm({ feedbackId }: Props) {
+  /* Form Hook */
   const {
     register,
     reset,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm({});
+  } = useForm<{ content: string }>({});
 
+  /* Router */
+  const router = useRouter();
+
+  /* Calculated Fields */
   const textLength = watch("content", "").length;
   const remainingText = Math.max(250 - textLength, 0);
 
-  const onSubmit = (data) => {
-    const newComment: IAddComment = {
-      content: data.content,
-      user,
+  /* Functions */
+  const onSubmit = async ({ content }: { content: string }) => {
+    const postOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ content }),
     };
-    const isSuccess = addComment(feedbackId, newComment);
-    if (isSuccess) reset();
+    const res = await fetch(
+      `/api/feedback/${feedbackId}/comments`,
+      postOptions
+    );
+
+    if (res.status !== 200) {
+      const json = res.json();
+      console.log(json);
+      return;
+    }
+
+    /* Success */
+    router.refresh();
+    reset();
   };
 
+  /* JSX */
   return (
     <Card>
       <h2 className="mb-6">Add Comment</h2>

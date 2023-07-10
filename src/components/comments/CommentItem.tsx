@@ -4,68 +4,37 @@ import Author from "@/components/comments/Author";
 import CommentReply from "@/components/comments/CommentReply";
 import CommentReplyForm from "@/components/comments/CommentReplyForm";
 import { Button } from "@/components/ui/button";
-import useCurrentUser from "@/hooks/useCurrentUser";
-import { IComment, IReply } from "@/types/types";
+import { CommentPopulated } from "@/types/comments";
 import React from "react";
 
 type CommentItemProps = {
+  comment: CommentPopulated;
   feedbackId: number;
-  comment: IComment;
-  addReply: ({
-    feedbackId,
-    commentId,
-    reply,
-  }: {
-    feedbackId: number;
-    commentId: number;
-    reply: IReply;
-  }) => boolean;
 };
 
 export default function CommentItem({
-  comment: { id: commentId, user: commentUser, content, replies },
+  comment: { id: commentId, author, content, replies },
   feedbackId,
-  addReply,
 }: CommentItemProps) {
-  /**
-   * States
-   */
+  /* States */
   const [showReplyForm, setShowReplyForm] = React.useState(false);
 
-  /**
-   * Calculations
-   */
+  /* Calculations */
   const hasReplies = Array.isArray(replies) && replies.length > 0;
 
-  /**
-   * Hooks
-   */
-  const { user } = useCurrentUser();
-
-  /**
-   * Functions
-   */
-  const replyOnSubmit = (data) => {
-
-    const newReply: IReply = {
-      replyingTo: commentUser.username,
-      content: data.content,
-      user,
-    };
-
-    console.log(addReply({ feedbackId, commentId, reply: newReply }));
+  /* Functions */ 
+  const hideShowReplyForm = () => {
+    setShowReplyForm(false);
   };
 
-  /**
-   * JSX
-   */
+  /* JSX */
   return (
     <div>
       {/* Comment */}
       <div className="my-6 tablet:my-8">
         {/* Header with Author and Reply Button  */}
         <div className="mb-4 flex items-center justify-between">
-          <Author author={commentUser} />
+          <Author author={author} />
           <Button
             onClick={() => setShowReplyForm((prev) => !prev)}
             variant="link"
@@ -86,18 +55,24 @@ export default function CommentItem({
             {content}
           </p>
           {/* Conditionally show reply form */}
-          {showReplyForm ? <CommentReplyForm onSubmit={replyOnSubmit} /> : null}
+          {!!showReplyForm && (
+            <CommentReplyForm
+              commentId={commentId}
+              feedbackId={feedbackId}
+              replyingToUserId={author.id}
+              onSubmitted={hideShowReplyForm}
+            />
+          )}
         </div>
       </div>
       {/* Replies */}
       {hasReplies ? (
         <div className="tablet:before relative before:absolute before:block before:h-[70%] before:border-l before:border-grey tablet:pl-5">
-          {replies.map((reply, index) => (
+          {replies.map((reply) => (
             <CommentReply
+              key={reply.id}
               commentId={commentId}
               feedbackId={feedbackId}
-              addReply={addReply}
-              key={index}
               reply={reply}
             />
           ))}

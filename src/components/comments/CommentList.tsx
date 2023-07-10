@@ -1,43 +1,29 @@
 import Card from "@/components/Card";
-import { IComments, IReply } from "@/types/types";
+import { CommentPopulated } from "@/types/comments";
 import CommentItem from "./CommentItem";
 
 type CommentsProps = {
-  comments?: IComments;
+  comments?: CommentPopulated[];
+  count: number;
   feedbackId: number;
-  addReply: ({
-    feedbackId,
-    commentId,
-    reply,
-  }: {
-    feedbackId: number;
-    commentId: number;
-    reply: IReply;
-  }) => boolean;
 };
 
 export default function CommentList({
   comments,
+  count,
   feedbackId,
-  addReply,
 }: CommentsProps) {
   if (comments === undefined) return;
 
-  const replyCount = comments.reduce((acc, curr) => {
-    return acc + (curr.replies?.length || 0);
-  }, 0);
-  const commentCount = comments.length + replyCount;
-
   return (
     <Card>
-      <h2 className="">{commentCount} Comments</h2>
+      <h2 className="">{count} Comments</h2>
       <div className="flex flex-col divide-y divide-grey">
         {comments.map((comment) => (
           <CommentItem
-            feedbackId={feedbackId}
-            addReply={addReply}
             key={comment.id}
             comment={comment}
+            feedbackId={feedbackId}
           />
         ))}
       </div>
