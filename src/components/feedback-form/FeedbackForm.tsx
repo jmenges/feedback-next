@@ -11,15 +11,16 @@ import React from "react";
 
 import { Textarea } from "@/components/ui/textarea";
 
-import { features } from "@/data/features";
-import { IAddFeedback, IEditFeedback } from "@/types/types";
+import { categories } from "@/data/categories";
+import { IEditFeedback } from "@/types/types";
 import { Controller, useForm } from "react-hook-form";
+import { FeedbackAdd } from "@/types/feedbacks";
 
 type Props = {
   Icon: React.ElementType;
   title: string;
   Actions: React.ElementType;
-  onSubmit: (data: IAddFeedback | IEditFeedback) => void;
+  onSubmit: (data: FeedbackAdd | IEditFeedback) => void;
   feedback?: IEditFeedback; // used with edit form
 };
 
@@ -35,13 +36,13 @@ export default function FeedbackForm({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IAddFeedback | IEditFeedback>({
+  } = useForm<FeedbackAdd | IEditFeedback>({
     values: feedback,
     resetOptions: {
       keepDirtyValues: true, // keep dirty fields unchanged, but update defaultValues
     },
   });
-  const onFormSubmit = (data: IAddFeedback) => {
+  const onFormSubmit = (data: FeedbackAdd) => {
     onSubmit(data);
   };
 
@@ -90,9 +91,9 @@ export default function FeedbackForm({
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {features.map((feature) => (
-                    <SelectItem key={feature} value={feature.toLowerCase()}>
-                      {feature}
+                  {categories.map((category) => (
+                    <SelectItem key={category.value} value={category.value}>
+                      {category.label}
                     </SelectItem>
                   ))}
                 </SelectContent>
