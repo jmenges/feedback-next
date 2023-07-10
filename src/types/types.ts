@@ -31,10 +31,6 @@ export type IFeedback = {
   comments?: IComments;
 };
 
-export type AddFeedback = Pick<
-  IFeedback,
-  "title" | "category" |  "description"
->;
 export type IEditFeedback = Pick<
   IFeedback,
   "id" | "title" | "category" | "status" | "description"
