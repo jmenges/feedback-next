@@ -1,6 +1,6 @@
 import { db } from "@/lib/server";
 import { CategoryValue } from "@/types/categories";
-import { FeedbackAdd } from "@/types/feedbacks";
+import { FeedbackAdd, FeedbackUpdate } from "@/types/feedbacks";
 import { SortOptionValue } from "@/types/sortOptions";
 import { Prisma } from "@prisma/client";
 
@@ -89,6 +89,40 @@ export abstract class Feedback {
               id: authorId,
             },
           },
+        },
+      });
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  };
+
+  static update = async (
+    feedback: FeedbackUpdate,
+    authorId: number
+  ): Promise<boolean> => {
+    try {
+      /* Verify feedback exists and author is the same */
+      const dbFeedback = await db.feedback.findFirstOrThrow({
+        where: {
+          id: feedback.id,
+        },
+      });
+      if (dbFeedback.authorId !== authorId) {
+        throw new Error("Trying to update feedback of other user");
+      }
+
+      /* Update feedback */
+      const updatedFeedback = await db.feedback.update({
+        data: {
+          title: feedback.title,
+          description: feedback.description,
+          category: feedback.category,
+          status: feedback.status,
+        },
+        where: {
+          id: feedback.id,
         },
       });
       return true;
