@@ -3,11 +3,10 @@ import { CategoryValue } from "@/types/categories";
 import {
   FeedbackAdd,
   FeedbackFullyPopulated,
-  FeedbackPopulated,
   FeedbackUpdate,
 } from "@/types/feedbacks";
 import { SortOptionValue } from "@/types/sortOptions";
-import { Prisma } from "@prisma/client";
+import { Prisma, Feedback as FeedbackBase } from "@prisma/client";
 
 /**
  * Prisma validators
@@ -96,12 +95,16 @@ export abstract class Feedback {
     return feedbacks;
   };
 
-  static getById = async (
-    id: number
-  ): Promise<FeedbackFullyPopulated | null> => {
+  static getById = async ({
+    id,
+    includeRelations,
+  }: {
+    id: number;
+    includeRelations: boolean;
+  }): Promise<FeedbackBase | FeedbackFullyPopulated | null> => {
     /* Execute query */
     const feedback = await db.feedback.findFirst({
-      include: feedbackFullyPopulated,
+      include: includeRelations ? feedbackFullyPopulated : null,
       where: {
         id: id,
       },
@@ -163,6 +166,39 @@ export abstract class Feedback {
       return true;
     } catch (error) {
       console.log(error);
+      return false;
+    }
+  };
+
+  static remove = async ({
+    id,
+    userId,
+  }: {
+    id: number;
+    userId: number;
+  }): Promise<boolean> => {
+    try {
+      const dbFeedback = await db.feedback.findFirstOrThrow({
+        where: {
+          id: id,
+        },
+      });
+
+      if (dbFeedback.authorId !== userId) {
+        throw new Error("Trying to delete feedback of other user");
+      }
+
+      const removedFeedback = await db.feedback.delete({
+        where: {
+          id: id,
+        },
+      });
+
+      /* Success */
+      return true;
+    } catch (error) {
+      console.log(error);
+      /* Failure */
       return false;
     }
   };

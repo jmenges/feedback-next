@@ -1,0 +1,32 @@
+import { getServerUser } from "@/lib/server";
+import { Feedback } from "@/models/feedback";
+import { NextRequest, NextResponse } from "next/server";
+
+/* Remove a given feedback */
+export async function DELETE(
+  req: NextRequest,
+  { params: { id } }: { params: { id: string } }
+) {
+  const user = getServerUser();
+  const feedbackId = Number(id);
+
+  try {
+    /* Delete feedback using model */
+    const isSuccess = await Feedback.remove({
+      id: feedbackId,
+      userId: user.id,
+    });
+
+    if (!isSuccess) {
+      throw new Error("Failed to add feedback to db");
+    }
+  } catch (error) {
+    let errorMsg: string = "An error occurred";
+    console.log(error);
+    return NextResponse.json(
+      { message: errorMsg, success: false },
+      { status: 404 }
+    );
+  }
+  return NextResponse.json({ message: "This Worked", success: true });
+}
