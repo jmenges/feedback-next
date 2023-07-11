@@ -13,6 +13,11 @@ import { Prisma, Feedback as FeedbackBase } from "@prisma/client";
  */
 export const feedbackPopulated = Prisma.validator<Prisma.FeedbackInclude>()({
   author: true,
+  upvotes: {
+    select: {
+      id: true,
+    },
+  },
   _count: {
     select: {
       comments: true,
@@ -50,9 +55,11 @@ export abstract class Feedback {
   static queryAll = async ({
     category,
     sort,
+    authUserId,
   }: {
     category?: CategoryValue;
     sort?: SortOptionValue;
+    authUserId?: number;
   }) => {
     /* Handle sorting */
     let orderBy: Prisma.FeedbackOrderByWithRelationInput;
@@ -100,7 +107,17 @@ export abstract class Feedback {
       where: {
         category: category?.toLowerCase(), //TBD what happens if undefined
       },
-      include: feedbackPopulated,
+      include: {
+        ...feedbackPopulated,
+        upvotes: {
+          where: {
+            userId: authUserId,
+          },
+          select: {
+            id: true,
+          },
+        },
+      },
       orderBy: orderBy,
     });
     return feedbacks;
@@ -240,6 +257,35 @@ export abstract class Feedback {
       });
       if (!upvoteId) {
         throw new Error("Could not upvote feedback");
+      }
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+    return true;
+  };
+
+  static removeUpvote = async ({
+    id,
+    userId,
+  }: {
+    id: number;
+    userId: number;
+  }): Promise<boolean> => {
+    try {
+      const removedUpvoteId = await db.upvote.delete({
+        where: {
+          userId_feedbackId: {
+            userId,
+            feedbackId: id,
+          },
+        },
+        select: {
+          id: true,
+        },
+      });
+      if (!removedUpvoteId) {
+        throw new Error("Could not remove feedback");
       }
     } catch (error) {
       console.log(error);

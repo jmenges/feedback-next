@@ -25,6 +25,7 @@ export default function FeedbackItem({
       {/* UPVOTE BUTTON */}
       <UpvoteButton
         upvoteCount={feedback._count.upvotes}
+        isUpvoted={feedback.upvotes.length > 0}
         feedbackId={feedback.id}
         className="tablet:order-1 tablet:mr-10"
       />
