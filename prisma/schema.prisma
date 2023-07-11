@@ -20,7 +20,7 @@ model Feedback {
   author      User      @relation(fields: [authorId], references: [id])
   authorId    Int
   comments    Comment[]
-  upvotes     Upvotes[]
+  upvotes     Upvote[]
 }
 
 model Comment {
@@ -45,13 +45,18 @@ model User {
   feedbacks       Feedback[]
   comments        Comment[]
   repliedComments Comment[]  @relation("replyToUser")
-  upvotes         Upvotes[]
+  upvotes         Upvote[]
 }
 
-model Upvotes {
+model Upvote {
   id         Int      @id @default(autoincrement())
   feedbackId Int
   feedback   Feedback @relation(fields: [feedbackId], references: [id])
   userId     Int
   user       User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, feedbackId], name: "userId_feedbackId") // <-- this is the unique constraint
+  @@index([feedbackId])
+  @@index([userId])
+  @@map("upvotes")
 }
