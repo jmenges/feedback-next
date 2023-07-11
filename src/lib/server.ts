@@ -1,5 +1,7 @@
 import { headers } from "next/headers";
 import { PrismaClient } from "@prisma/client";
+import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth";
 
 export function genBackLinkServer(currentPath: string) {
   const headersList = headers();
@@ -26,4 +28,9 @@ export function getServerUser() {
     name: "Thomas Hood",
     username: "brawnybrave",
   };
+}
+
+export const getServerSessionUser = async () => {
+  const session = await getServerSession(authOptions)
+  return session?.user
 }

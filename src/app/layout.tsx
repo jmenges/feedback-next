@@ -1,4 +1,5 @@
 import StoreLastMainRouteInLocalStorage from "@/components/StoreLastMainRouteInLocalStorage";
+import SessionContext from "@/context/SessionContext";
 import { cn } from "@/lib/utils";
 import { Jost } from "next/font/google";
 import "./globals.css";
@@ -24,7 +25,7 @@ export default function RootLayout({
         )}
       >
         <div className="max-w-[1110px] tablet:mx-10 tablet:my-12 tablet:text-md desktop:mx-auto desktop:px-12 ">
-          {children}
+          <SessionContext>{children}</SessionContext>
         </div>
       </body>
       <StoreLastMainRouteInLocalStorage />
