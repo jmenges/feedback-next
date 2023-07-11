@@ -18,7 +18,6 @@ export const postFeedbackSchema = z.object({
 const statusValues = status.map(({ value }) => value) as [string, ...string[]];
 
 export const patchFeedbackSchema = z.object({
-  id: z.number(),
   title: z.string(),
   description: z.string(),
   category: z.enum(categoryValues),

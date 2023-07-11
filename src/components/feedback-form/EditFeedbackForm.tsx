@@ -2,7 +2,7 @@
 
 import IconEditFeedback from "@/../public/icons/icon-edit-feedback.svg";
 import { Button } from "@/components/ui/button";
-import { IEditFeedback } from "@/types/types";
+import { patchFeedbackSchema } from "@/validations/feedback";
 import { Feedback } from "@prisma/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -44,33 +44,26 @@ export default function EditFeedbackForm({
   /* Router hook */
   const router = useRouter();
 
-  // /**
-  //  * Side effects
-  //  */
-  // const feedback = useMemo<IEditFeedback | undefined>(() => {
-  //   const feedback = getFeedbackById(feedbackId);
-  //   const inputFeedback: IEditFeedback | undefined =
-  //     feedback !== null
-  //       ? {
-  //           id: feedback.id,
-  //           title: feedback.title,
-  //           status: feedback.status,
-  //           description: feedback.description,
-  //           category: feedback.category,
-  //         }
-  //       : undefined;
-  //   return inputFeedback;
-  // }, [feedbacks, feedbackId]);
+  /* Functions */
+  const onSubmit = async (data: Feedback) => {
+    const patchFeedback = patchFeedbackSchema.parse(data);
+    const fetchOptions = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(patchFeedback),
+    };
 
-  /**
-   * Functions
-   */
-  const onSubmit = (data: IEditFeedback) => {
-    // const isSuccess = editFeedback(data);
-    // console.log(isSuccess);
-    // if (isSuccess === true) {
-    //   router.push(returnHref);
-    // }
+    const res = await fetch(`/api/feedback/${feedback.id}`, fetchOptions);
+
+    if (res.status !== 200) {
+      const json = await res.json();
+      console.log(json);
+      return;
+    }
+
+    router.push(returnHref);
   };
 
   const onDelete = async () => {

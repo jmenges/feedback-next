@@ -12,15 +12,16 @@ import React from "react";
 import { Textarea } from "@/components/ui/textarea";
 
 import { categories } from "@/data/categories";
-import { IEditFeedback } from "@/types/types";
-import { Controller, useForm } from "react-hook-form";
 import { FeedbackAdd } from "@/types/feedbacks";
+import { IEditFeedback } from "@/types/types";
+import { Feedback } from "@prisma/client";
+import { Controller, useForm } from "react-hook-form";
 
 type Props = {
   Icon: React.ElementType;
   title: string;
   Actions: React.ElementType;
-  onSubmit: (data: FeedbackAdd | IEditFeedback) => void;
+  onSubmit: (data: FeedbackAdd | Feedback) => void;
   feedback?: IEditFeedback; // used with edit form
 };
 
@@ -36,13 +37,13 @@ export default function FeedbackForm({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FeedbackAdd | IEditFeedback>({
+  } = useForm<FeedbackAdd | Feedback>({
     values: feedback,
     resetOptions: {
       keepDirtyValues: true, // keep dirty fields unchanged, but update defaultValues
     },
   });
-  const onFormSubmit = (data: FeedbackAdd) => {
+  const onFormSubmit = (data: FeedbackAdd | Feedback) => {
     onSubmit(data);
   };
 

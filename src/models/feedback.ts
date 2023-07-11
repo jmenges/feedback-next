@@ -183,10 +183,13 @@ export abstract class Feedback {
     }
   };
 
-  static update = async (
-    feedback: FeedbackUpdate,
-    authorId: number
-  ): Promise<boolean> => {
+  static update = async ({
+    feedback,
+    authUserId,
+  }: {
+    feedback: FeedbackUpdate;
+    authUserId: number;
+  }): Promise<boolean> => {
     try {
       /* Verify feedback exists and author is the same */
       const dbFeedback = await db.feedback.findFirstOrThrow({
@@ -194,7 +197,7 @@ export abstract class Feedback {
           id: feedback.id,
         },
       });
-      if (dbFeedback.authorId !== authorId) {
+      if (dbFeedback.authorId !== authUserId) {
         throw new Error("Trying to update feedback of other user");
       }
 
