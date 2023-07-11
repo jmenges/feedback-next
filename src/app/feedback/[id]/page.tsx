@@ -3,7 +3,7 @@ import CommentForm from "@/components/comments/CommentForm";
 import CommentList from "@/components/comments/CommentList";
 import BackButton from "@/components/ui/BackButton";
 import { Button } from "@/components/ui/button";
-import { genBackLinkServer } from "@/lib/server";
+import { genBackLinkServer, getServerUser } from "@/lib/server";
 import { Feedback } from "@/models/feedback";
 import Link from "next/link";
 
@@ -15,9 +15,13 @@ export default async function FeedbackDetail({
   /* Constants */
   const feedbackId: number = Number(id);
 
+  /* Get auth user */
+  const user = getServerUser();
+
   /* Run query */
   const feedback = await Feedback.getById({
     id: feedbackId,
+    authUserId: user?.id,
     includeRelations: true,
   });
   // console.log(feedback.comments?.map((comments) => comments.replies));

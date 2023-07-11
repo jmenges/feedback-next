@@ -29,6 +29,11 @@ export const feedbackPopulated = Prisma.validator<Prisma.FeedbackInclude>()({
 export const feedbackFullyPopulated =
   Prisma.validator<Prisma.FeedbackInclude>()({
     author: true,
+    upvotes: {
+      select: {
+        id: true,
+      },
+    },
     comments: {
       include: {
         author: true,
@@ -125,14 +130,28 @@ export abstract class Feedback {
 
   static getById = async ({
     id,
+    authUserId,
     includeRelations,
   }: {
     id: number;
+    authUserId?: number;
     includeRelations: boolean;
   }): Promise<FeedbackBase | FeedbackFullyPopulated | null> => {
     /* Execute query */
     const feedback = await db.feedback.findFirst({
-      include: includeRelations ? feedbackFullyPopulated : null,
+      include: includeRelations
+        ? {
+            ...feedbackFullyPopulated,
+            upvotes: {
+              where: {
+                userId: authUserId,
+              },
+              select: {
+                id: true,
+              },
+            },
+          }
+        : null,
       where: {
         id: id,
       },
