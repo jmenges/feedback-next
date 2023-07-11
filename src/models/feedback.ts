@@ -214,16 +214,39 @@ export abstract class Feedback {
     }
   };
 
-  // static upvote = async ({
-  //   id,
-  //   userId,
-  // }: {
-  //   id: number;
-  //   userId: number;
-  // }): Promise<boolean> => {
-  //   try {
-  //   } catch (error) {}
-  // };
+  static upvote = async ({
+    id,
+    userId,
+  }: {
+    id: number;
+    userId: number;
+  }): Promise<boolean> => {
+    try {
+      const upvoteId = await db.upvote.upsert({
+        where: {
+          userId_feedbackId: {
+            userId,
+            feedbackId: id,
+          },
+        },
+        update: {},
+        create: {
+          userId,
+          feedbackId: id,
+        },
+        select: {
+          id: true,
+        },
+      });
+      if (!upvoteId) {
+        throw new Error("Could not upvote feedback");
+      }
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+    return true;
+  };
 
   static getAll = async () => {
     const feedbacks = await db.feedback.findMany({
