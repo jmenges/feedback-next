@@ -4,25 +4,47 @@ import { Button } from "@/components/ui/button";
 
 import UpIcon from "@/../public/icons/icon-arrow-up.svg";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 export interface UpvoteButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   upvoteCount: number;
+  feedbackId: number;
   size?: "default" | "small";
 }
 
 export default function UpvoteButton({
+  upvoteCount = 0,
+  feedbackId,
   className,
   size = "default",
-  upvoteCount = 0,
   ...props
 }: UpvoteButtonProps) {
+  /* Router */
+  const router = useRouter();
+
   let sizeClass =
     size === "default" ? "tablet:flex-col tablet:gap-[6px] tablet:py-3.5" : "";
 
-  const onClick = (e) => {
-    e.stopPropagation();
-    e.preventDefault();
+  const onClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    const res = await fetch(`/api/feedback/${feedbackId}/upvotes  `, {
+      method: "POST",
+    });
+
+    if (res.status !== 200) {
+      try {
+        const error = await res.json();
+        console.error(error);
+      } catch (e) {
+        console.error(e);
+      }
+      return;
+    }
+
+    router.refresh();
   };
 
   return (
