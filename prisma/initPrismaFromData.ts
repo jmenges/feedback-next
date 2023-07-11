@@ -57,7 +57,6 @@ async function main() {
     description: productRequest.description,
     category: productRequest.category,
     status: productRequest.status,
-    upvotes: productRequest.upvotes,
     authorId: Math.floor(Math.random() * (maxId - minId + 1)) + minId, //random id between min and max
   }));
 

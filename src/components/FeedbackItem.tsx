@@ -24,7 +24,7 @@ export default function FeedbackItem({
       </div>
       {/* UPVOTE BUTTON */}
       <UpvoteButton
-        upvoteCount={feedback.upvotes}
+        upvoteCount={feedback._count.upvotes}
         className="tablet:order-1 tablet:mr-10"
       />
       <CommentCounter

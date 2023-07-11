@@ -16,10 +16,11 @@ model Feedback {
   description String
   category    String
   status      String    @default("suggestion")
-  upvotes     Int       @default(0)
+  // upvotes     Int       @default(0)
   author      User      @relation(fields: [authorId], references: [id])
   authorId    Int
   comments    Comment[]
+  upvotes     Upvotes[]
 }
 
 model Comment {
@@ -44,4 +45,13 @@ model User {
   feedbacks       Feedback[]
   comments        Comment[]
   repliedComments Comment[]  @relation("replyToUser")
+  upvotes         Upvotes[]
+}
+
+model Upvotes {
+  id         Int      @id @default(autoincrement())
+  feedbackId Int
+  feedback   Feedback @relation(fields: [feedbackId], references: [id])
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id])
 }

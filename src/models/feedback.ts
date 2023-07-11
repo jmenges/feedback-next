@@ -16,6 +16,7 @@ export const feedbackPopulated = Prisma.validator<Prisma.FeedbackInclude>()({
   _count: {
     select: {
       comments: true,
+      upvotes: true,
     },
   },
 });
@@ -37,10 +38,14 @@ export const feedbackFullyPopulated =
     _count: {
       select: {
         comments: true,
+        upvotes: true,
       },
     },
   });
 
+/**
+ * Model definition
+ */
 export abstract class Feedback {
   static queryAll = async ({
     category,
@@ -54,12 +59,16 @@ export abstract class Feedback {
     switch (sort) {
       case "upvotes-desc":
         orderBy = {
-          upvotes: Prisma.SortOrder.desc,
+          upvotes: {
+            _count: Prisma.SortOrder.desc,
+          },
         };
         break;
       case "upvotes-asc":
         orderBy = {
-          upvotes: Prisma.SortOrder.asc,
+          upvotes: {
+            _count: Prisma.SortOrder.asc,
+          },
         };
         break;
       case "comments-desc":
@@ -79,7 +88,9 @@ export abstract class Feedback {
       default:
         /* Default sort by upvotes desc */
         orderBy = {
-          upvotes: Prisma.SortOrder.desc,
+          upvotes: {
+            _count: Prisma.SortOrder.desc,
+          },
         };
         break;
     }
@@ -202,6 +213,17 @@ export abstract class Feedback {
       return false;
     }
   };
+
+  // static upvote = async ({
+  //   id,
+  //   userId,
+  // }: {
+  //   id: number;
+  //   userId: number;
+  // }): Promise<boolean> => {
+  //   try {
+  //   } catch (error) {}
+  // };
 
   static getAll = async () => {
     const feedbacks = await db.feedback.findMany({
