@@ -24,6 +24,8 @@ export default async function FeedbackDetail({
     authUserId: user?.id,
     includeRelations: true,
   });
+
+  const isOwner = feedback?.authorId === user?.id;
   // console.log(feedback.comments?.map((comments) => comments.replies));
 
   /* Get back path */
@@ -39,9 +41,20 @@ export default async function FeedbackDetail({
       <div className="flex justify-between">
         <BackButton variant="link" href={backPath} />
 
-        <Button variant="accent" asChild>
-          <Link href={`/feedback/${id}/edit`}>Edit Feedback</Link>
-        </Button>
+        {isOwner ? (
+          <Button variant="accent" asChild>
+            <Link href={`/feedback/${id}/edit`}>Edit Feedback</Link>
+          </Button>
+        ) : (
+          <Button
+            variant="accent"
+            className="!pointer-events-auto"
+            disabled
+            title="Only the author can edit a feedback"
+          >
+            Edit Feedback
+          </Button>
+        )}
       </div>
       {/* Feedback Card */}
       <FeedbackItem feedback={feedback} />

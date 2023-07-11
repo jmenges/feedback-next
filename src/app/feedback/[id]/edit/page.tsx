@@ -1,7 +1,9 @@
 import EditFeedbackForm from "@/components/feedback-form/EditFeedbackForm";
 import BackButton from "@/components/ui/BackButton";
+import { getServerUser } from "@/lib/server";
 import { Feedback } from "@/models/feedback";
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 /* TODO: validate auth and role */
 export default async function EditFeedback({
@@ -17,6 +19,13 @@ export default async function EditFeedback({
     id: feedbackId,
     includeRelations: false,
   });
+
+  /* Get auth user */
+  const user = getServerUser();
+  const isOwner = feedback?.authorId === user?.id;
+
+  /* Redirect if unauthenticated or  user is not author*/
+  if(!user || !isOwner) redirect('/',)
 
   /* Generate back links */
   const headersList = headers();
