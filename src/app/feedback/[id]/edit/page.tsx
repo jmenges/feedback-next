@@ -5,24 +5,23 @@ import { Feedback } from "@/models/feedback";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-/* TODO: validate auth and role */
 export default async function EditFeedback({
   params: { id: feedbackId },
 }: {
   params: { id: string };
 }) {
+  /* Get auth user */
+  const user = await getServerUser();
+
   /* Run query */
   const feedback = await Feedback.getById({
     id: feedbackId,
-    includeRelations: false,
+    authUserId: user?.id,
   });
-  /* Redirect, if feedback does not exist*/
-  if (!feedback) redirect("/");
-
-  /* Get auth user */
-  const user = await getServerUser();
   const isOwner = feedback?.authorId === user?.id;
 
+  /* Redirect, if feedback does not exist*/
+  if (!feedback) redirect("/");
   /* Redirect if user is not author*/
   if (!isOwner) redirect("/");
 

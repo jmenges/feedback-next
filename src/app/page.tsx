@@ -27,16 +27,17 @@ export default async function Home({
     (option) => option.value === queryParamSort
   )?.value;
 
-  /* Execute query */
-  const feedbacks = await Feedback.queryAll({
-    category: validCategory,
-    sort: validSortOption,
-  });
-
   /* Get auth user */
   const user = await getServerUser();
   // const isAuthenticated = user?.id !== undefined
   const isAuthenticated = user?.id !== undefined;
+
+  /* Execute query */
+  const feedbacks = await Feedback.queryAll({
+    category: validCategory,
+    sort: validSortOption,
+    authUserId: user?.id,
+  });
 
   /* Calculated values */
   const feedbackCount = feedbacks.length;
@@ -45,22 +46,17 @@ export default async function Home({
   return (
     <div className="flex flex-wrap tablet:gap-6">
       <NavBar
-      // roadmapCounts={roadmapCounts}
+        isAuthenticated={isAuthenticated}
+        // roadmapCounts={roadmapCounts}
       />
       <main className="mt-[80px] flex-grow tablet:mt-0">
         <header className="mb-4 tablet:mb-6">
           <Actionbar
             feedbackCount={feedbackCount}
             isAuthenticated={isAuthenticated}
-            // sortOptions={options}
-            // activeSortOption={activeOption}
-            // setActiveSortOption={setActiveOption}
           />
         </header>
-        <FeedbackList
-          feedbacks={feedbacks}
-          // upvoteFeedback={upvoteFeedback}
-        />
+        <FeedbackList isAuthenticated={isAuthenticated} feedbacks={feedbacks} />
       </main>
     </div>
   );

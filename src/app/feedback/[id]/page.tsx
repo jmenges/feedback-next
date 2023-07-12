@@ -18,9 +18,8 @@ export default async function FeedbackDetail({
   /* Run query */
   const feedback = await Feedback.getById({
     id: feedbackId,
-    authUserId: user?.id,
-    includeRelations: true,
-  });
+    authUserId: user?.id
+   });
 
   /* Exit conditions */
   if (!feedback) return;
