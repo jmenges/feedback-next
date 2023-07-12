@@ -1,10 +1,10 @@
 import { db } from "@/lib/server";
-import { CommentAdd, CommentPopulated } from "@/types/comments";
+import { CommentPopulated } from "@/types/comments";
 import { Prisma } from "@prisma/client";
 
 export abstract class Comment {
   static queryByFeedbackId = async (
-    feedbackId: number
+    feedbackId: string
   ): Promise<CommentPopulated[] | null> => {
     /* Execute query */
     const comments = await db.comment.findMany({
@@ -24,10 +24,10 @@ export abstract class Comment {
     replyingToUserId,
   }: {
     content: string;
-    authorId: number;
-    feedbackId: number;
-    replyingToCommentId?: number;
-    replyingToUserId?: number;
+    authorId: string;
+    feedbackId: string;
+    replyingToCommentId?: string;
+    replyingToUserId?: string;
   }): Promise<boolean> => {
     try {
       /* Handle normal comment */

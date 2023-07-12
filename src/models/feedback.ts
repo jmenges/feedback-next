@@ -64,7 +64,7 @@ export abstract class Feedback {
   }: {
     category?: CategoryValue;
     sort?: SortOptionValue;
-    authUserId?: number;
+    authUserId?: string;
   }) => {
     /* Handle sorting */
     let orderBy: Prisma.FeedbackOrderByWithRelationInput;
@@ -133,8 +133,8 @@ export abstract class Feedback {
     authUserId,
     includeRelations,
   }: {
-    id: number;
-    authUserId?: number;
+    id: string;
+    authUserId?: string;
     includeRelations: boolean;
   }): Promise<FeedbackBase | FeedbackFullyPopulated | null> => {
     /* Execute query */
@@ -159,10 +159,13 @@ export abstract class Feedback {
     return feedback;
   };
 
-  static add = async (
-    feedback: FeedbackAdd,
-    authorId: number
-  ): Promise<boolean> => {
+  static add = async ({
+    feedback,
+    authUserId,
+  }: {
+    feedback: FeedbackAdd;
+    authUserId: string;
+  }): Promise<boolean> => {
     try {
       const newFeedback = await db.feedback.create({
         data: {
@@ -171,7 +174,7 @@ export abstract class Feedback {
           category: feedback.category,
           author: {
             connect: {
-              id: authorId,
+              id: authUserId,
             },
           },
         },
@@ -188,7 +191,7 @@ export abstract class Feedback {
     authUserId,
   }: {
     feedback: FeedbackUpdate;
-    authUserId: number;
+    authUserId: string;
   }): Promise<boolean> => {
     try {
       /* Verify feedback exists and author is the same */
@@ -222,10 +225,10 @@ export abstract class Feedback {
 
   static remove = async ({
     id,
-    userId,
+    authUserId,
   }: {
-    id: number;
-    userId: number;
+    id: string;
+    authUserId: string;
   }): Promise<boolean> => {
     try {
       const dbFeedback = await db.feedback.findFirstOrThrow({
@@ -234,7 +237,7 @@ export abstract class Feedback {
         },
       });
 
-      if (dbFeedback.authorId !== userId) {
+      if (dbFeedback.authorId !== authUserId) {
         throw new Error("Trying to delete feedback of other user");
       }
 
@@ -251,69 +254,6 @@ export abstract class Feedback {
       /* Failure */
       return false;
     }
-  };
-
-  static upvote = async ({
-    id,
-    userId,
-  }: {
-    id: number;
-    userId: number;
-  }): Promise<boolean> => {
-    try {
-      const upvoteId = await db.upvote.upsert({
-        where: {
-          userId_feedbackId: {
-            userId,
-            feedbackId: id,
-          },
-        },
-        update: {},
-        create: {
-          userId,
-          feedbackId: id,
-        },
-        select: {
-          id: true,
-        },
-      });
-      if (!upvoteId) {
-        throw new Error("Could not upvote feedback");
-      }
-    } catch (error) {
-      console.log(error);
-      return false;
-    }
-    return true;
-  };
-
-  static removeUpvote = async ({
-    id,
-    userId,
-  }: {
-    id: number;
-    userId: number;
-  }): Promise<boolean> => {
-    try {
-      const removedUpvoteId = await db.upvote.delete({
-        where: {
-          userId_feedbackId: {
-            userId,
-            feedbackId: id,
-          },
-        },
-        select: {
-          id: true,
-        },
-      });
-      if (!removedUpvoteId) {
-        throw new Error("Could not remove feedback");
-      }
-    } catch (error) {
-      console.log(error);
-      return false;
-    }
-    return true;
   };
 
   static getAll = async () => {
