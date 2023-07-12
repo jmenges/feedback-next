@@ -5,10 +5,10 @@ import { db } from "@/lib/server";
  */
 export abstract class Upvote {
   static add = async ({
-    id,
+    feedbackId,
     authUserId,
   }: {
-    id: string;
+    feedbackId: string;
     authUserId: string;
   }): Promise<boolean> => {
     try {
@@ -16,13 +16,13 @@ export abstract class Upvote {
         where: {
           userId_feedbackId: {
             userId: authUserId,
-            feedbackId: id,
+            feedbackId: feedbackId,
           },
         },
         update: {},
         create: {
           userId: authUserId,
-          feedbackId: id,
+          feedbackId: feedbackId,
         },
         select: {
           id: true,
@@ -39,10 +39,10 @@ export abstract class Upvote {
   };
 
   static remove = async ({
-    id,
+    feedbackId,
     authUserId,
   }: {
-    id: string;
+    feedbackId: string;
     authUserId: string;
   }): Promise<boolean> => {
     try {
@@ -50,7 +50,7 @@ export abstract class Upvote {
         where: {
           userId_feedbackId: {
             userId: authUserId,
-            feedbackId: id,
+            feedbackId: feedbackId,
           },
         },
         select: {
