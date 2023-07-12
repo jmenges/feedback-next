@@ -3,16 +3,19 @@ import Category from "@/components/ui/Category";
 import CommentCounter from "@/components/ui/CommentCounter";
 import UpvoteButton from "@/components/ui/UpvoteButton";
 import { cn } from "@/lib/utils";
-import { FeedbackPopulated } from "@/types/feedbacks";
+import { FeedbackFullyPopulated, FeedbackPopulated } from "@/types/feedbacks";
+import { Feedback } from "@prisma/client";
 
 type Props = {
-  feedback: FeedbackPopulated;
+  feedback: Feedback | FeedbackPopulated | FeedbackFullyPopulated;
   className?: string;
+  isAuthenticated: boolean;
 };
 
 export default function FeedbackItem({
   feedback,
   className,
+  isAuthenticated,
 }: Props) {
   return (
     <Card className={cn("flex flex-wrap items-start", className)}>
@@ -28,6 +31,7 @@ export default function FeedbackItem({
         isUpvoted={feedback.upvotes.length > 0}
         feedbackId={feedback.id}
         className="tablet:order-1 tablet:mr-10"
+        isAuthenticated={isAuthenticated}
       />
       <CommentCounter
         className="ml-auto tablet:order-3 tablet:self-center"

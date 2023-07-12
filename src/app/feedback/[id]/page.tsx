@@ -22,13 +22,14 @@ export default async function FeedbackDetail({
     includeRelations: true,
   });
 
+  /* Exit conditions */
+  if (!feedback) return;
+
+  const isAuthenticated = user !== undefined;
   const isOwner = feedback?.authorId === user?.id;
 
   /* Get back path */
   const backPath = genBackLinkServer(`/feedback/${feedbackId}`);
-
-  /* Exit conditions */
-  if (!feedback) return;
 
   /* JSX */
   return (
@@ -53,14 +54,15 @@ export default async function FeedbackDetail({
         )}
       </div>
       {/* Feedback Card */}
-      <FeedbackItem feedback={feedback} />
+      <FeedbackItem feedback={feedback} isAuthenticated={isAuthenticated}/>
       {/* Comments */}
       <CommentList
         feedbackId={feedbackId}
         comments={feedback.comments}
         count={feedback._count.comments}
+        isAuthenticated={isAuthenticated}
       />
-      <CommentForm feedbackId={feedbackId} />
+      <CommentForm feedbackId={feedbackId} isAuthenticated={isAuthenticated} />
     </div>
   );
 }

@@ -6,12 +6,14 @@ type CommentsProps = {
   comments?: CommentPopulated[];
   count: number;
   feedbackId: string;
+  isAuthenticated: boolean;
 };
 
 export default function CommentList({
   comments,
   count,
   feedbackId,
+  isAuthenticated,
 }: CommentsProps) {
   if (comments === undefined) return;
 
@@ -24,6 +26,7 @@ export default function CommentList({
             key={comment.id}
             comment={comment}
             feedbackId={feedbackId}
+            isAuthenticated={isAuthenticated}
           />
         ))}
       </div>

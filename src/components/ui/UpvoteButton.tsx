@@ -12,6 +12,7 @@ export interface UpvoteButtonProps
   isUpvoted: boolean;
   feedbackId: string;
   size?: "default" | "small";
+  isAuthenticated?: boolean;
 }
 
 export default function UpvoteButton({
@@ -20,6 +21,7 @@ export default function UpvoteButton({
   feedbackId,
   className,
   size = "default",
+  isAuthenticated,
   ...props
 }: UpvoteButtonProps) {
   /* Router */
@@ -27,7 +29,6 @@ export default function UpvoteButton({
 
   let sizeClass =
     size === "default" ? "tablet:flex-col tablet:gap-[6px] tablet:py-3.5" : "";
-
 
   /* Function for handleing upvote or remove upvote */
   const onClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -74,6 +75,7 @@ export default function UpvoteButton({
         sizeClass,
         className
       )}
+      title={!isAuthenticated ? "You must be logged in to upvote" : ""}
       {...props}
     >
       <i className="[&>svg>path]:stroke-current">

@@ -8,9 +8,10 @@ import { useForm } from "react-hook-form";
 
 type Props = {
   feedbackId: number;
+  isAuthenticated: boolean;
 };
 
-export default function CommentForm({ feedbackId }: Props) {
+export default function CommentForm({ feedbackId, isAuthenticated }: Props) {
   /* Form Hook */
   const {
     register,
@@ -67,7 +68,12 @@ export default function CommentForm({ feedbackId }: Props) {
           })}
           aria-invalid={errors?.content ? true : false}
           className=""
-          placeholder="Type your comment here"
+          placeholder={
+            isAuthenticated
+              ? "Type your comment here"
+              : "Please login to comment"
+          }
+          disabled={!isAuthenticated}
         />
         {errors?.content !== undefined && (
           <p className="mt-1 text-sm text-red">
@@ -76,7 +82,7 @@ export default function CommentForm({ feedbackId }: Props) {
         )}
         <div className="mt-4 flex justify-between">
           <span>{remainingText} Characters left</span>
-          <Button variant="default" type="submit">
+          <Button variant="default" type="submit" disabled={!isAuthenticated}>
             Post Comment
           </Button>
         </div>

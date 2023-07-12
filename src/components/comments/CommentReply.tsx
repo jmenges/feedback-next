@@ -1,21 +1,21 @@
 import Author from "@/components/comments/Author";
 import CommentReplyForm from "@/components/comments/CommentReplyForm";
 import { Button } from "@/components/ui/button";
-import useCurrentUser from "@/hooks/useCurrentUser";
 import { ReplyPopulated } from "@/types/comments";
-import { IReply } from "@/types/types";
 import React from "react";
 
 type Props = {
   reply: ReplyPopulated;
   commentId: string;
   feedbackId: string;
+  isAuthenticated: boolean;
 };
 
 export default function CommentReply({
   reply: { content, author, replyingToUser },
   commentId,
   feedbackId,
+  isAuthenticated,
 }: Props) {
   /* States */
   const [showReplyForm, setShowReplyForm] = React.useState(false);
@@ -33,14 +33,16 @@ export default function CommentReply({
         {/* Header with Author and Reply Button  */}
         <div className="mb-4 flex items-center justify-between">
           <Author author={author} />
-          <Button
-            variant="link"
-            className="text-xs text-blue hover:text-blue/80"
-            size="raw"
-            onClick={() => setShowReplyForm((prev) => !prev)}
-          >
-            Reply
-          </Button>
+          {!!isAuthenticated && (
+            <Button
+              variant="link"
+              className="text-xs text-blue hover:text-blue/80"
+              size="raw"
+              onClick={() => setShowReplyForm((prev) => !prev)}
+            >
+              Reply
+            </Button>
+          )}
         </div>
         <div className="relative space-y-4 tablet:ml-5 tablet:pl-[50px] tablet:text-sm desktop:text-md">
           <p>

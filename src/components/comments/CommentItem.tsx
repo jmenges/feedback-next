@@ -10,11 +10,13 @@ import React from "react";
 type CommentItemProps = {
   comment: CommentPopulated;
   feedbackId: string;
+  isAuthenticated: boolean;
 };
 
 export default function CommentItem({
   comment: { id: commentId, author, content, replies },
   feedbackId,
+  isAuthenticated,
 }: CommentItemProps) {
   /* States */
   const [showReplyForm, setShowReplyForm] = React.useState(false);
@@ -35,14 +37,16 @@ export default function CommentItem({
         {/* Header with Author and Reply Button  */}
         <div className="mb-4 flex items-center justify-between">
           <Author author={author} />
-          <Button
-            onClick={() => setShowReplyForm((prev) => !prev)}
-            variant="link"
-            className="text-xs text-blue hover:text-blue/80"
-            size="raw"
-          >
-            Reply
-          </Button>
+          {!!isAuthenticated && (
+            <Button
+              onClick={() => setShowReplyForm((prev) => !prev)}
+              variant="link"
+              className="text-xs text-blue hover:text-blue/80"
+              size="raw"
+            >
+              Reply
+            </Button>
+          )}
         </div>
         <div className="relative space-y-4 tablet:ml-5 tablet:pl-[50px] tablet:text-sm desktop:text-md">
           <p
@@ -74,6 +78,7 @@ export default function CommentItem({
               commentId={commentId}
               feedbackId={feedbackId}
               reply={reply}
+              isAuthenticated={isAuthenticated}
             />
           ))}
         </div>
