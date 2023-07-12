@@ -3,18 +3,19 @@ import { z } from "zod";
 
 import { Comment } from "@/models/comment";
 import { postCommentSchema } from "@/validations/comment";
-import { getServerUser } from "@/lib/server";
+import { getServerUser, getServerUserOrThrow } from "@/lib/server";
 
 /* Create new comment  */
-/* TODO: use real user authentication */
 export async function POST(
   req: NextRequest,
-  { params: { id } }: { params: { id: string } }
+  { params: { id: feedbackId} }: { params: { id: string } }
 ) {
-  const user = getServerUser();
-  const feedbackId = Number(id);
-
+  const user = await getServerUser();
   try {
+    const user = await getServerUserOrThrow({
+      errorMsg: "Only authenticated users can add comments",
+    });
+
     const body = await req.json();
     const commentParsed = postCommentSchema.parse(body);
 
@@ -27,7 +28,7 @@ export async function POST(
       replyingToUserId: commentParsed.replyingToUserId,
     });
     if (!isSuccess) {
-      throw new Error("Failed to add feedback to db");
+      throw new Error("Failed to add comment");
     }
   } catch (error) {
     let errorMsg: string = "";

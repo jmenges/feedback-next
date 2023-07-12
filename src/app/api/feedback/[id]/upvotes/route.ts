@@ -1,25 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { getServerUser } from "@/lib/server";
-import { Feedback } from "@/models/feedback";
+import { getServerUserOrThrow } from "@/lib/server";
+import { Upvote } from "@/models/uptvote";
 
 /* Add upvote for authenticated user  */
-/* TODO: use real user authentication */
 export async function POST(
   req: NextRequest,
-  { params: { id } }: { params: { id: string } }
+  { params: { id: feedbackId } }: { params: { id: string } }
 ) {
-  const user = getServerUser();
-  const feedbackId = Number(id);
-
   try {
+    const user = await getServerUserOrThrow({
+      errorMsg: "Only authenticated users can upvote feedbacks",
+    });
+
     /* Upvote feedback for authenticated user */
-    const isSuccess = await Feedback.upvote({
-      id: feedbackId,
-      userId: user.id,
+    const isSuccess = await Upvote.add({
+      feedbackId: feedbackId,
+      authUserId: user.id,
     });
     if (!isSuccess) {
-      throw new Error("Failed upvote feedback");
+      throw new Error("Failed to upvote feedback");
     }
   } catch (error) {
     const errorMsg = "An error occurred";
@@ -35,19 +35,20 @@ export async function POST(
 /* Remove upvote for authenticated user  */
 export async function DELETE(
   req: NextRequest,
-  { params: { id } }: { params: { id: string } }
+  { params: { id: feedbackId } }: { params: { id: string } }
 ) {
-  const user = getServerUser();
-  const feedbackId = Number(id);
-
   try {
+    const user = await getServerUserOrThrow({
+      errorMsg: "Only authenticated users can remove its upvotes",
+    });
+
     /* Upvote feedback for authenticated user */
-    const isSuccess = await Feedback.removeUpvote({
-      id: feedbackId,
-      userId: user.id,
+    const isSuccess = await Upvote.remove({
+      feedbackId: feedbackId,
+      authUserId: user.id,
     });
     if (!isSuccess) {
-      throw new Error("Failed remove upvote of feedback");
+      throw new Error("Failed to remove upvote of feedback");
     }
   } catch (error) {
     const errorMsg = "An error occurred";
