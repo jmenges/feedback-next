@@ -38,8 +38,8 @@ export default function NewFeedbackForm({ cancelHref }: Props) {
     const res = await fetch("/api/feedback", postOptions);
 
     if (res.status !== 200) {
-      const json = await res.json();
-      console.log(json);
+      const error = await res.json();
+      console.error(error);
       return;
     }
 
