@@ -9,7 +9,7 @@ export type ReplyPopulated = Prisma.CommentGetPayload<{
   include: typeof replyPopulated;
 }>;
 
-export type CommentAdd = { feedbackId: number } & Pick<
+export type CommentAdd = { feedbackId: string } & Pick<
   Prisma.CommentCreateInput,
   "content"
 >;

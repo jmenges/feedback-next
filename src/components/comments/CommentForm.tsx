@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 type Props = {
-  feedbackId: number;
+  feedbackId: string;
   isAuthenticated: boolean;
 };
 
