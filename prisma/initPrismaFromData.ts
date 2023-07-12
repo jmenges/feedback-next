@@ -1,6 +1,8 @@
 // @ts-nocheck
 const { PrismaClient } = require("@prisma/client");
 const data = require("../challenge/starter-code/data.json");
+var cuid = require('cuid');
+
 
 const prisma = new PrismaClient();
 
@@ -35,7 +37,6 @@ async function main() {
     const dbUser = await prisma.user.create({
       data: {
         image: user.image.slice(1),
-        name: user.name,
         username: user.username,
       },
     });
@@ -48,16 +49,13 @@ async function main() {
    * Generate feedbacks from input
    * Uses random authorId because input does not provide author
    */
-  const ids = dbUsers.map(({ id }) => id);
-  const minId = Math.min(...ids);
-  const maxId = Math.max(...ids);
 
   const feedbacks = data.productRequests.map((productRequest) => ({
     title: productRequest.title,
     description: productRequest.description,
     category: productRequest.category,
     status: productRequest.status,
-    authorId: Math.floor(Math.random() * (maxId - minId + 1)) + minId, //random id between min and max
+    authorId: dbUsers[Math.floor(Math.random() * (dbUsers.length-1))].id, //random id between min and max
   }));
 
   /**
@@ -81,7 +79,7 @@ async function main() {
   data.productRequests.forEach((productRequest) => {
     productRequest.comments?.forEach((comment) => {
       const newComment = {
-        id: nextCommentId++,
+        id: cuid(),
         content: comment.content,
         feedbackId: dbFeedbacks.find(({ title }) => title === productRequest.title).id,
         authorId: dbUsers.find(
@@ -91,7 +89,7 @@ async function main() {
       comments.push(newComment);
       comment.replies?.forEach((reply) => {
         const newReply = {
-          id: nextCommentId++,
+          id: cuid(),
           content: reply.content,
           feedbackId: newComment.feedbackId,
           authorId: dbUsers.find(
