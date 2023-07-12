@@ -31,7 +31,7 @@ export const getServerUserOrThrow = async ({
 }: {
   errorMsg: string;
 }) => {
-  const user = await getServerSessionUser();
+  const user = await getServerUser();
   if (user === undefined) {
     throw new Error(errorMsg);
   }
