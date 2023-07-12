@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 const isReply = z.object({
-  replyingToCommentId: z.number(),
-  replyingToUserId: z.number(),
+  replyingToCommentId: z.string(),
+  replyingToUserId: z.string(),
 });
 const isComment = z.object({
   replyingToCommentId: z.undefined(),
