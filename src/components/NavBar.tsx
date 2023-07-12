@@ -13,9 +13,10 @@ type Props = {
     title: string;
     count: number;
   }[];
+  isAuthenticated: boolean;
 };
 
-export default function NavBar({ roadmapCounts }: Props) {
+export default function NavBar({ roadmapCounts, isAuthenticated }: Props) {
   const [mobileSideNavOpen, setMobileSideNavOpen] =
     React.useState<boolean>(false);
 
@@ -29,7 +30,7 @@ export default function NavBar({ roadmapCounts }: Props) {
           {mobileSideNavOpen === false ? <IconHamburger /> : <IconClose />}
         </button>
       </div>
-      <AppCard />
+      <AppCard isAuthenticated={isAuthenticated}/>
       {mobileSideNavOpen && (
         <div className="fixed -z-10 h-full w-full bg-[black]/30 tablet:hidden" />
       )}
