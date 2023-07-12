@@ -21,16 +21,19 @@ export const db = globalForPrisma.prisma ?? new PrismaClient();
 
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = db;
 
-export function getServerUser() {
-  return {
-    id: 1,
-    image: "/assets/user-images/image-thomas.jpg",
-    name: "Thomas Hood",
-    username: "brawnybrave",
-  };
-}
+export const getServerUser = async () => {
+  const session = await getServerSession(authOptions);
+  return session?.user;
+};
 
-export const getServerSessionUser = async () => {
-  const session = await getServerSession(authOptions)
-  return session?.user
-}
+export const getServerUserOrThrow = async ({
+  errorMsg = "Authentication required",
+}: {
+  errorMsg: string;
+}) => {
+  const user = await getServerSessionUser();
+  if (user === undefined) {
+    throw new Error(errorMsg);
+  }
+  return user;
+};
