@@ -3,6 +3,7 @@ import FeedbackList from "@/components/FeedbackList";
 import NavBar from "@/components/NavBar";
 import { categories } from "@/data/categories";
 import { sortOptions } from "@/data/sortOptions";
+import { getServerUser } from "@/lib/server";
 import { Feedback } from "@/models/feedback";
 
 /**
@@ -32,6 +33,11 @@ export default async function Home({
     sort: validSortOption,
   });
 
+  /* Get auth user */
+  const user = await getServerUser();
+  // const isAuthenticated = user?.id !== undefined
+  const isAuthenticated = user?.id !== undefined;
+
   /* Calculated values */
   const feedbackCount = feedbacks.length;
 
@@ -45,6 +51,7 @@ export default async function Home({
         <header className="mb-4 tablet:mb-6">
           <Actionbar
             feedbackCount={feedbackCount}
+            isAuthenticated={isAuthenticated}
             // sortOptions={options}
             // activeSortOption={activeOption}
             // setActiveSortOption={setActiveOption}
