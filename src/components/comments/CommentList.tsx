@@ -5,7 +5,7 @@ import CommentItem from "./CommentItem";
 type CommentsProps = {
   comments?: CommentPopulated[];
   count: number;
-  feedbackId: number;
+  feedbackId: string;
 };
 
 export default function CommentList({

@@ -9,7 +9,7 @@ import React from "react";
 
 type CommentItemProps = {
   comment: CommentPopulated;
-  feedbackId: number;
+  feedbackId: string;
 };
 
 export default function CommentItem({
@@ -22,7 +22,7 @@ export default function CommentItem({
   /* Calculations */
   const hasReplies = Array.isArray(replies) && replies.length > 0;
 
-  /* Functions */ 
+  /* Functions */
   const hideShowReplyForm = () => {
     setShowReplyForm(false);
   };

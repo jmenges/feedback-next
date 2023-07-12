@@ -8,8 +8,8 @@ import React from "react";
 
 type Props = {
   reply: ReplyPopulated;
-  commentId: number;
-  feedbackId: number;
+  commentId: string;
+  feedbackId: string;
 };
 
 export default function CommentReply({

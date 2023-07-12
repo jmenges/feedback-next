@@ -7,12 +7,10 @@ import { redirect } from "next/navigation";
 
 /* TODO: validate auth and role */
 export default async function EditFeedback({
-  params: { id },
+  params: { id: feedbackId},
 }: {
   params: { id: string };
 }) {
-  /* Constants */
-  const feedbackId: number = Number(id);
 
   /* Run query */
   const feedback = await Feedback.getById({
@@ -21,11 +19,11 @@ export default async function EditFeedback({
   });
 
   /* Get auth user */
-  const user = getServerUser();
+  const user = await getServerUser();
   const isOwner = feedback?.authorId === user?.id;
 
-  /* Redirect if unauthenticated or  user is not author*/
-  if(!user || !isOwner) redirect('/',)
+  /* Redirect if user is not author*/
+  if(!isOwner) redirect('/',)
 
   /* Generate back links */
   const headersList = headers();

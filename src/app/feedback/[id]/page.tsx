@@ -3,20 +3,17 @@ import CommentForm from "@/components/comments/CommentForm";
 import CommentList from "@/components/comments/CommentList";
 import BackButton from "@/components/ui/BackButton";
 import { Button } from "@/components/ui/button";
-import { genBackLinkServer, getServerSessionUser } from "@/lib/server";
+import { genBackLinkServer, getServerUser } from "@/lib/server";
 import { Feedback } from "@/models/feedback";
 import Link from "next/link";
 
 export default async function FeedbackDetail({
-  params: { id },
+  params: { id: feedbackId },
 }: {
   params: { id: string };
 }) {
-  /* Constants */
-  const feedbackId: number = Number(id);
-
   /* Get auth user */
-  const user = await getServerSessionUser();
+  const user = await getServerUser();
 
   /* Run query */
   const feedback = await Feedback.getById({
@@ -26,10 +23,9 @@ export default async function FeedbackDetail({
   });
 
   const isOwner = feedback?.authorId === user?.id;
-  // console.log(feedback.comments?.map((comments) => comments.replies));
 
   /* Get back path */
-  const backPath = genBackLinkServer(`/feedback/${id}`);
+  const backPath = genBackLinkServer(`/feedback/${feedbackId}`);
 
   /* Exit conditions */
   if (!feedback) return;
@@ -43,7 +39,7 @@ export default async function FeedbackDetail({
 
         {isOwner ? (
           <Button variant="accent" asChild>
-            <Link href={`/feedback/${id}/edit`}>Edit Feedback</Link>
+            <Link href={`/feedback/${feedbackId}/edit`}>Edit Feedback</Link>
           </Button>
         ) : (
           <Button

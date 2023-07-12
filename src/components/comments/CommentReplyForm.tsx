@@ -4,9 +4,9 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 type Props = {
-  commentId: number;
-  feedbackId: number;
-  replyingToUserId: number;
+  commentId: string;
+  feedbackId: string;
+  replyingToUserId: string;
   onSubmitted: () => void;
 };
 

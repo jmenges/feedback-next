@@ -10,7 +10,7 @@ export interface UpvoteButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   upvoteCount: number;
   isUpvoted: boolean;
-  feedbackId: number;
+  feedbackId: string;
   size?: "default" | "small";
 }
 

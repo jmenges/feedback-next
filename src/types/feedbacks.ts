@@ -17,7 +17,7 @@ export type FeedbackAdd = Pick<
   "title" | "category" | "description"
 >;
 
-export type FeedbackUpdate = { id: number } & Pick<
+export type FeedbackUpdate = { id: string } & Pick<
   Prisma.FeedbackUpdateInput,
   "title" | "category" | "description" | "status"
 >;
