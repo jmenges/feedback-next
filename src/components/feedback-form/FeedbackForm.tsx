@@ -13,7 +13,6 @@ import { Textarea } from "@/components/ui/textarea";
 
 import { categories } from "@/data/categories";
 import { FeedbackAdd } from "@/types/feedbacks";
-import { IEditFeedback } from "@/types/types";
 import { Feedback } from "@prisma/client";
 import { Controller, useForm } from "react-hook-form";
 
@@ -21,8 +20,8 @@ type Props = {
   Icon: React.ElementType;
   title: string;
   Actions: React.ElementType;
-  onSubmit: (data: FeedbackAdd | Feedback) => void;
-  feedback?: IEditFeedback; // used with edit form
+  onSubmit: (data: FeedbackAdd | Feedback) => Promise<void>;
+  feedback?: Feedback; // used with edit form
 };
 
 export default function FeedbackForm({

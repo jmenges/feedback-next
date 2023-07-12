@@ -7,6 +7,7 @@ import { Feedback } from "@prisma/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import FeedbackForm from "./FeedbackForm";
+import { FeedbackAdd } from "@/types/feedbacks";
 
 const FeedbackActions = ({
   cancelHref,
@@ -45,7 +46,7 @@ export default function EditFeedbackForm({
   const router = useRouter();
 
   /* Functions */
-  const onSubmit = async (data: Feedback) => {
+  const onSubmit = async (data: Feedback | FeedbackAdd) => {
     const patchFeedback = patchFeedbackSchema.parse(data);
     const fetchOptions = {
       method: "PATCH",
@@ -58,8 +59,8 @@ export default function EditFeedbackForm({
     const res = await fetch(`/api/feedback/${feedback.id}`, fetchOptions);
 
     if (res.status !== 200) {
-      const json = await res.json();
-      console.log(json);
+      const error = await res.json();
+      console.error(error);
       return;
     }
 
