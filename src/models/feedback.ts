@@ -3,21 +3,25 @@ import { CategoryValue } from "@/types/categories";
 import {
   FeedbackAdd,
   FeedbackFullyPopulated,
+  FeedbackFullyPopulatedAuthenticated,
   FeedbackUpdate,
 } from "@/types/feedbacks";
 import { SortOptionValue } from "@/types/sortOptions";
-import { Prisma, Feedback as FeedbackBase } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
 /**
  * Prisma validators
  */
-export const feedbackPopulated = Prisma.validator<Prisma.FeedbackInclude>()({
-  author: true,
+const withUpvotes = Prisma.validator<Prisma.FeedbackInclude>()({
   upvotes: {
     select: {
       id: true,
     },
   },
+});
+
+export const feedbackPopulated = Prisma.validator<Prisma.FeedbackInclude>()({
+  author: true,
   _count: {
     select: {
       comments: true,
@@ -26,14 +30,14 @@ export const feedbackPopulated = Prisma.validator<Prisma.FeedbackInclude>()({
   },
 });
 
+export const feedbackPopulatedAuthenticated = {
+  ...feedbackPopulated,
+  ...withUpvotes,
+};
+
 export const feedbackFullyPopulated =
   Prisma.validator<Prisma.FeedbackInclude>()({
     author: true,
-    upvotes: {
-      select: {
-        id: true,
-      },
-    },
     comments: {
       include: {
         author: true,
@@ -52,6 +56,11 @@ export const feedbackFullyPopulated =
       },
     },
   });
+
+export const feedbackFullyPopulatedAuthenticated = {
+  ...feedbackFullyPopulated,
+  ...withUpvotes,
+};
 
 /**
  * Model definition
@@ -112,17 +121,20 @@ export abstract class Feedback {
       where: {
         category: category?.toLowerCase(), //TBD what happens if undefined
       },
-      include: {
-        ...feedbackPopulated,
-        upvotes: {
-          where: {
-            userId: authUserId,
-          },
-          select: {
-            id: true,
-          },
-        },
-      },
+      include:
+        authUserId !== undefined
+          ? {
+              ...feedbackPopulated,
+              upvotes: {
+                where: {
+                  userId: authUserId,
+                },
+                select: {
+                  id: true,
+                },
+              },
+            }
+          : feedbackPopulated,
       orderBy: orderBy,
     });
     return feedbacks;
@@ -131,27 +143,28 @@ export abstract class Feedback {
   static getById = async ({
     id,
     authUserId,
-    includeRelations,
   }: {
     id: string;
     authUserId?: string;
-    includeRelations: boolean;
-  }): Promise<FeedbackBase | FeedbackFullyPopulated | null> => {
+  }): Promise<
+    FeedbackFullyPopulated | FeedbackFullyPopulatedAuthenticated | null
+  > => {
     /* Execute query */
     const feedback = await db.feedback.findFirst({
-      include: includeRelations
-        ? {
-            ...feedbackFullyPopulated,
-            upvotes: {
-              where: {
-                userId: authUserId,
+      include:
+        authUserId !== undefined
+          ? {
+              ...feedbackFullyPopulated,
+              upvotes: {
+                where: {
+                  userId: authUserId,
+                },
+                select: {
+                  id: true,
+                },
               },
-              select: {
-                id: true,
-              },
-            },
-          }
-        : null,
+            }
+          : feedbackFullyPopulated,
       where: {
         id: id,
       },

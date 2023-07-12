@@ -3,11 +3,19 @@ import Category from "@/components/ui/Category";
 import CommentCounter from "@/components/ui/CommentCounter";
 import UpvoteButton from "@/components/ui/UpvoteButton";
 import { cn } from "@/lib/utils";
-import { FeedbackFullyPopulated, FeedbackPopulated } from "@/types/feedbacks";
-import { Feedback } from "@prisma/client";
+import {
+  FeedbackFullyPopulated,
+  FeedbackFullyPopulatedAuthenticated,
+  FeedbackPopulated,
+  FeedbackPopulatedAuthenticated,
+} from "@/types/feedbacks";
 
 type Props = {
-  feedback: Feedback | FeedbackPopulated | FeedbackFullyPopulated;
+  feedback:
+    | FeedbackPopulated
+    | FeedbackPopulatedAuthenticated
+    | FeedbackFullyPopulated
+    | FeedbackFullyPopulatedAuthenticated;
   className?: string;
   isAuthenticated: boolean;
 };
@@ -17,6 +25,11 @@ export default function FeedbackItem({
   className,
   isAuthenticated,
 }: Props) {
+  let isUpvoted = false;
+  if ('upvotes' in feedback ){
+    isUpvoted = feedback.upvotes.length > 0;
+  }
+
   return (
     <Card className={cn("flex flex-wrap items-start", className)}>
       {/* TITLE, DESCRIPTION, TAG */}
@@ -28,7 +41,7 @@ export default function FeedbackItem({
       {/* UPVOTE BUTTON */}
       <UpvoteButton
         upvoteCount={feedback._count.upvotes}
-        isUpvoted={feedback.upvotes.length > 0}
+        isUpvoted={isUpvoted}
         feedbackId={feedback.id}
         className="tablet:order-1 tablet:mr-10"
         isAuthenticated={isAuthenticated}
