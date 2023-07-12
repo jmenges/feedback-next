@@ -1,4 +1,4 @@
-import { getServerUser } from "@/lib/server";
+import { getServerUser, getServerUserOrThrow } from "@/lib/server";
 import { Feedback } from "@/models/feedback";
 import { patchFeedbackSchema } from "@/validations/feedback";
 import { NextRequest, NextResponse } from "next/server";
@@ -6,12 +6,13 @@ import { NextRequest, NextResponse } from "next/server";
 /* Remove a given feedback */
 export async function DELETE(
   req: NextRequest,
-  { params: { id } }: { params: { id: string } }
+  { params: { id: feedbackId } }: { params: { id: string } }
 ) {
-  const user = getServerUser();
-  const feedbackId = Number(id);
-
   try {
+    const user = await getServerUserOrThrow({
+      errorMsg: "Only authenticated users can remove feedbacks",
+    });
+
     /* Delete feedback using model */
     const isSuccess = await Feedback.remove({
       id: feedbackId,
@@ -35,12 +36,13 @@ export async function DELETE(
 /* Updates a given feedback */
 export async function PATCH(
   req: NextRequest,
-  { params: { id } }: { params: { id: string } }
+  { params: { id: feedbackId } }: { params: { id: string } }
 ) {
-  const user = getServerUser();
-  const feedbackId = Number(id);
-
   try {
+    const user = await getServerUserOrThrow({
+      errorMsg: "Only authenticated users can update feedbacks",
+    });
+
     const body = await req.json();
     const feedbackParsed = patchFeedbackSchema.parse(body);
 
