@@ -24,6 +24,7 @@ export default async function Login() {
       <div className="flex flex-col items-center justify-center gap-4 p-8">
         <h1 className="text-center text-h1 font-extrabold">
           Welcome to Feedback Board
+          {csrfToken}
         </h1>
         <h3 className="text-lg text-center font-medium text-blue-grey">
           Please login to your account
