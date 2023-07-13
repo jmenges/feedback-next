@@ -9,13 +9,16 @@ type RoadmapCounterProps = {
     title: string;
     count: number;
   }[];
-  className?: string
+  className?: string;
 };
 
-export default function RoadmapCounter({ counts, className }: RoadmapCounterProps) {
+export default function RoadmapCounter({
+  counts,
+  className,
+}: RoadmapCounterProps) {
   return (
     <Card className={className}>
-      <div className="mb-6 flex gap-6 justify-between">
+      <div className="mb-6 flex justify-between gap-6">
         <h2>Roadmap</h2>
         <Button size="raw" variant="link" asChild>
           <Link href="/roadmap">View</Link>
@@ -24,7 +27,9 @@ export default function RoadmapCounter({ counts, className }: RoadmapCounterProp
       {/* ROADMAPS */}
       <div className="space-y-2">
         {roadmaps.map((roadmap, index) => {
-          const count = counts.find((count)=> count.title === roadmap.title)?.count;
+          const count = counts.find(
+            (count) => count.title === roadmap.value
+          )?.count;
 
           return (
             <div key={index} className="flex items-center">
