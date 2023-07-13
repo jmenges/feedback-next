@@ -16,6 +16,7 @@ export default function RoadmapMobileStatusNav({activeIndex, setActiveIndex}: Pr
     <div className="tablet:hidden flex border-b border-grey">
       {roadmaps.map((roadmap, index) => (
         <Button
+          key={roadmap.value}
           variant="raw"
           size="raw"
           onClick={() => setActiveIndex(index)}

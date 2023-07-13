@@ -40,7 +40,7 @@ export default function RoadmapList({
 
           return (
             <div
-              key={index}
+              key={roadmap.value}
               className={cn(
                 "px-6 tablet:block tablet:w-1/3 tablet:px-0",
                 index !== mobileActiveStatusIndex ? "hidden" : ""
