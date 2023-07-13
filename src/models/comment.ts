@@ -92,12 +92,14 @@ export abstract class Comment {
 /**
  * Prisma validators
  */
-export const commentPopulated = Prisma.validator<Prisma.CommentInclude>()({
-  author: true,
-  replies: true,
-});
-
 export const replyPopulated = Prisma.validator<Prisma.CommentInclude>()({
   author: true,
   replyingToUser: true,
+});
+
+export const commentPopulated = Prisma.validator<Prisma.CommentInclude>()({
+  author: true,
+  replies: {
+    include: replyPopulated,
+  },
 });

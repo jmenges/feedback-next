@@ -12,8 +12,8 @@ import Link from "next/link";
 import { useState } from "react";
 
 type RoadmapListProps = {
-  feedbacks: FeedbackPopulated[] | FeedbackPopulatedAuthenticated[];
-  roadmapCounts: { title: string; count: number }[];
+  feedbacks: FeedbackPopulated[] | FeedbackPopulatedAuthenticated[] | undefined;
+  roadmapCounts: { title: string; count: number }[] | [];
   isAuthenticated: boolean;
 };
 
@@ -55,17 +55,22 @@ export default function RoadmapList({
               </p>
               {/* Content rows*/}
               <div className="flex flex-col gap-y-4 desktop:gap-y-6">
-                {feedbacks
-                  .filter(
-                    (feedback) =>
-                      feedback.status.toLowerCase() ===
-                      roadmap.title.toLocaleLowerCase()
-                  )
-                  .map((feedback) => (
-                    <Link href={`/feedback/${feedback.id}`} key={feedback.id}>
-                      <RoadmapItem feedback={feedback} indicateState isAuthenticated={isAuthenticated}/>
-                    </Link>
-                  ))}
+                {!!feedbacks &&
+                  feedbacks
+                    .filter(
+                      (feedback) =>
+                        feedback.status.toLowerCase() ===
+                        roadmap.title.toLocaleLowerCase()
+                    )
+                    .map((feedback) => (
+                      <Link href={`/feedback/${feedback.id}`} key={feedback.id}>
+                        <RoadmapItem
+                          feedback={feedback}
+                          indicateState
+                          isAuthenticated={isAuthenticated}
+                        />
+                      </Link>
+                    ))}
               </div>
             </div>
           );
