@@ -1,17 +1,19 @@
 import Card from "@/components/Card";
-import CommentCounter from "@/components/ui/CommentCounter";
 import Tag from "@/components/ui/Category";
+import CommentCounter from "@/components/ui/CommentCounter";
 import UpvoteButton from "@/components/ui/UpvoteButton";
-import { cn } from "@/lib/utils";
-import { IFeedback } from "@/types/types";
-import React from "react";
 import { roadmaps } from "@/data/roadmaps";
+import { cn } from "@/lib/utils";
+import {
+  FeedbackPopulated,
+  FeedbackPopulatedAuthenticated,
+} from "@/types/feedbacks";
 
 type Props = {
-  feedback: IFeedback;
+  feedback: FeedbackPopulated | FeedbackPopulatedAuthenticated;
   className?: string;
   indicateState?: boolean;
-  upvoteFeedback: (id: number) => void;
+  isAuthenticated: boolean;
 };
 
 const getStatusColor = (status: string) => {
@@ -24,7 +26,7 @@ export default function RoadmapItem({
   feedback,
   className,
   indicateState,
-  upvoteFeedback,
+  isAuthenticated,
 }: Props) {
   let classNameColor = "";
   if (indicateState === true) {
@@ -33,11 +35,10 @@ export default function RoadmapItem({
     classNameColor = `border-t-[6px] border-${statusColor}`;
   }
 
-  const onUpvoteClick = (event) => {
-    upvoteFeedback(feedback.id);
-    event.stopPropagation();
-    event.preventDefault();
-  };
+  let isUpvoted = false;
+  if ("upvotes" in feedback) {
+    isUpvoted = feedback.upvotes.length > 0;
+  }
 
   return (
     <Card
@@ -51,15 +52,14 @@ export default function RoadmapItem({
       </div>
       {/* UPVOTE BUTTON */}
       <UpvoteButton
-        onClick={onUpvoteClick}
-        upvoteCount={feedback.upvotes}
+        upvoteCount={feedback._count.upvotes}
         size="small"
         className=""
+        isUpvoted={isUpvoted}
+        feedbackId={feedback.id}
+        isAuthenticated={isAuthenticated}
       />
-      <CommentCounter
-        className="ml-auto"
-        count={Array.isArray(feedback.comments) ? feedback.comments.length : 0}
-      />
+      <CommentCounter className="ml-auto" count={feedback._count.comments} />
       {/* COMMENT COUNT */}
     </Card>
   );

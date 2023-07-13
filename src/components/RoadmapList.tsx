@@ -3,17 +3,26 @@
 import RoadmapItem from "@/components/RoadmapItem";
 import RoadmapMobileStatusNav from "@/components/RoadmapMobileStatusNav";
 import { roadmaps } from "@/data/roadmaps";
-import useRoadmapCount from "@/hooks/useRoadmapCount";
 import { cn } from "@/lib/utils";
-import { IFeedback } from "@/types/types";
+import {
+  FeedbackPopulated,
+  FeedbackPopulatedAuthenticated,
+} from "@/types/feedbacks";
 import Link from "next/link";
 import { useState } from "react";
 
-type Props = { feedbacks: IFeedback[]; upvoteFeedback: (id: number) => void };
+type RoadmapListProps = {
+  feedbacks: FeedbackPopulated[] | FeedbackPopulatedAuthenticated[];
+  roadmapCounts: { title: string; count: number }[];
+  isAuthenticated: boolean;
+};
 
-export default function RoadmapList({ feedbacks, upvoteFeedback }: Props) {
+export default function RoadmapList({
+  feedbacks,
+  roadmapCounts,
+  isAuthenticated,
+}: RoadmapListProps) {
   const [mobileActiveStatusIndex, setMobileActiveStatusIndex] = useState(0);
-  const { counts: roadmapCounts } = useRoadmapCount({ feedbacks });
 
   return (
     <div className="flex flex-col overflow-hidden">
@@ -54,11 +63,7 @@ export default function RoadmapList({ feedbacks, upvoteFeedback }: Props) {
                   )
                   .map((feedback) => (
                     <Link href={`/feedback/${feedback.id}`} key={feedback.id}>
-                      <RoadmapItem
-                        upvoteFeedback={upvoteFeedback}
-                        feedback={feedback}
-                        indicateState
-                      />
+                      <RoadmapItem feedback={feedback} indicateState isAuthenticated={isAuthenticated}/>
                     </Link>
                   ))}
               </div>
