@@ -105,6 +105,9 @@ export const authOptions: NextAuthOptions = {
       session.user.id = token.userId;
       return session;
     },
+    redirect: async ({url, baseUrl}) => {
+      return Promise.resolve(url)
+    }
   },
   debug: true,
 };
