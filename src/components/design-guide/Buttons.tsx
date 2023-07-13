@@ -20,8 +20,9 @@ export default function Buttons({}: Props) {
         Descructive
       </Button>
 
-      <BackButton variant="default" />
-      <BackButton variant="link" />
+      <BackButton href="" variant="default" />
+
+      <BackButton href="" variant="link" />
 
     </div>
   );
