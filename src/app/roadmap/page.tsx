@@ -1,19 +1,26 @@
-"use client";
-
 import RoadmapList from "@/components/RoadmapList";
 import RoadmapActionBar from "@/components/action-bar/RoadmapActionBar";
 import { roadmaps } from "@/data/roadmaps";
-import { useFeedbackStore } from "@/store/useFeedbackStore";
-import { useMemo } from "react";
+import { getRoadmapCounts, getServerUser } from "@/lib/server";
+import { Feedback } from "@/models/feedback";
 
 const validStatus = roadmaps.map((roadmap) => roadmap.title.toLowerCase());
 
-export default function Roadmap() {
-  const { feedbacks, upvoteFeedback } = useFeedbackStore();
-  const feedbacksWithRelevantStatus = useMemo(
-    () => feedbacks.filter((feedback) => validStatus.includes(feedback.status)),
-    [feedbacks]
+export default async function Roadmap() {
+  /* Get auth user */
+  const user = await getServerUser();
+  const isAuthenticated = user !== undefined;
+
+  /* Execute query */
+  const feedbacks = await Feedback.queryAll({
+    authUserId: user?.id,
+  });
+
+  /* Calculated values based on query results */
+  const feedbacksWithRelevantStatus = feedbacks.filter((feedback) =>
+    validStatus.includes(feedback.status)
   );
+  const { counts: roadmapCounts } = getRoadmapCounts({ feedbacks });
 
   return (
     <div className="flex flex-wrap gap-6">
@@ -21,7 +28,11 @@ export default function Roadmap() {
         <header className="">
           <RoadmapActionBar />
         </header>
-        <RoadmapList upvoteFeedback={upvoteFeedback} feedbacks={feedbacksWithRelevantStatus} />
+        <RoadmapList
+          feedbacks={feedbacksWithRelevantStatus}
+          roadmapCounts={roadmapCounts}
+          isAuthenticated={isAuthenticated}
+        />
       </main>
     </div>
   );
