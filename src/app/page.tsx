@@ -32,31 +32,39 @@ export default async function Home({
   // const isAuthenticated = user?.id !== undefined
   const isAuthenticated = user?.id !== undefined;
 
-  /* Execute query */
+  /* Execute queries */
   const feedbacks = await Feedback.queryAll({
     category: validCategory,
     sort: validSortOption,
     authUserId: user?.id,
   });
+  const dbRroadmapCounts = await Feedback.getRoadmapCounts();
 
   /* Calculated values */
-  const feedbackCount = feedbacks.length;
+  const feedbackCount = feedbacks?.length || 0;
+  const roadmapCounts = dbRroadmapCounts.map((roadmapCount) => ({
+    title: roadmapCount.status,
+    count: roadmapCount._count.status,
+  }));
 
   /* JSX */
   return (
     <div className="flex flex-wrap tablet:gap-6">
-      <NavBar
-        isAuthenticated={isAuthenticated}
-        // roadmapCounts={roadmapCounts}
-      />
+      <NavBar user={user} roadmapCounts={roadmapCounts} />
       <main className="mt-[80px] flex-grow tablet:mt-0">
-        <header className="mb-4 tablet:mb-6">
+        <div className="tablet:mb-6">
           <Actionbar
             feedbackCount={feedbackCount}
             isAuthenticated={isAuthenticated}
           />
-        </header>
-        <FeedbackList isAuthenticated={isAuthenticated} feedbacks={feedbacks} />
+        </div>
+        {!!feedbacks && (
+          <FeedbackList
+            className="p-6 pt-8  tablet:p-0 max-tablet:h-[calc(100vh-136px)] overflow-y-auto"
+            isAuthenticated={isAuthenticated}
+            feedbacks={feedbacks}
+          />
+        )}
       </main>
     </div>
   );
