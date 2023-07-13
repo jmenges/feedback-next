@@ -14,9 +14,9 @@ export default async function Login() {
   const providers = await getProviders();
 
   /* Exit conditions*/
-  if (user || !csrfToken) {
-    redirect("/");
-  }
+  // if (user || !csrfToken) {
+  //   redirect("/");
+  // }
 
   /* JSX */
   return (
