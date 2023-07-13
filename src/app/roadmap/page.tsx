@@ -17,10 +17,12 @@ export default async function Roadmap() {
   });
 
   /* Calculated values based on query results */
-  const feedbacksWithRelevantStatus = feedbacks.filter((feedback) =>
+  const feedbacksWithRelevantStatus = feedbacks?.filter((feedback) =>
     validStatus.includes(feedback.status)
   );
-  const { counts: roadmapCounts } = getRoadmapCounts({ feedbacks });
+  const { counts: roadmapCounts } = !!feedbacks
+    ? getRoadmapCounts({ feedbacks })
+    : { counts: [] };
 
   return (
     <div className="flex flex-wrap gap-6">
