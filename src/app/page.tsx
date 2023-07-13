@@ -38,11 +38,11 @@ export default async function Home({
     sort: validSortOption,
     authUserId: user?.id,
   });
-  const dbRroadmapCounts = await Feedback.getRoadmapCounts();
+  const dbRoadmapCounts = await Feedback.getRoadmapCounts();
 
   /* Calculated values */
   const feedbackCount = feedbacks?.length || 0;
-  const roadmapCounts = dbRroadmapCounts.map((roadmapCount) => ({
+  const roadmapCounts = dbRoadmapCounts.map((roadmapCount) => ({
     title: roadmapCount.status,
     count: roadmapCount._count.status,
   }));

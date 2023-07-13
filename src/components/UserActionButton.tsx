@@ -8,22 +8,23 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { User } from "next-auth";
 
 export default function UserActions({
   className,
-  isAuthenticated,
+  user,
 }: {
   className?: string;
-  isAuthenticated: boolean;
+  user?: User;
 }) {
-   if (isAuthenticated) {
+  if (user !== undefined) {
     return (
-      <div className={cn("text-white", className)}>
+      <div className={cn("text-white flex", className)}>
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <Avatar className="h-10 w-10">
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>CN</AvatarFallback>
+            <Avatar className="h-10 w-10 flex">
+              <AvatarImage src={user.image || ""} />
+              <AvatarFallback>{user?.name?.slice(0,2).toUpperCase()}</AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent>

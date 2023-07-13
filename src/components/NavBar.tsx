@@ -7,16 +7,18 @@ import React from "react";
 import IconClose from "@/../public/icons/mobile/icon-close.svg";
 import IconHamburger from "@/../public/icons/mobile/icon-hamburger.svg";
 import { cn } from "@/lib/utils";
+import RoadmapCounter from "@/components/RoadmapCounter";
+import { User } from "next-auth";
 
 type Props = {
   roadmapCounts: {
     title: string;
     count: number;
   }[];
-  isAuthenticated: boolean;
+  user?: User;
 };
 
-export default function NavBar({ roadmapCounts, isAuthenticated }: Props) {
+export default function NavBar({ roadmapCounts, user }: Props) {
   const [mobileSideNavOpen, setMobileSideNavOpen] =
     React.useState<boolean>(false);
 
@@ -30,7 +32,7 @@ export default function NavBar({ roadmapCounts, isAuthenticated }: Props) {
           {mobileSideNavOpen === false ? <IconHamburger /> : <IconClose />}
         </button>
       </div>
-      <AppCard isAuthenticated={isAuthenticated}/>
+      <AppCard user={user}/>
       {mobileSideNavOpen && (
         <div className="fixed -z-10 h-full w-full bg-[black]/30 tablet:hidden" />
       )}
@@ -40,8 +42,8 @@ export default function NavBar({ roadmapCounts, isAuthenticated }: Props) {
           mobileSideNavOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
-        <CategoryFilter />
-        {/* <RoadmapCounter counts={roadmapCounts} className="" /> */}
+        <CategoryFilter className="min-w-[200px]" />
+        <RoadmapCounter counts={roadmapCounts} className="" />
       </div>
     </aside>
   );
