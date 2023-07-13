@@ -44,6 +44,7 @@ export default function NewFeedbackForm({ cancelHref }: Props) {
     }
 
     router.push(cancelHref);
+    router.refresh();
   };
 
   return (

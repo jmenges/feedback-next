@@ -1,13 +1,17 @@
 "use client";
 
 import IconEditFeedback from "@/../public/icons/icon-edit-feedback.svg";
+import FormFieldGroup from "@/components/feedback-form/FormFieldGroup";
 import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { status } from "@/data/status";
+import { FeedbackAdd } from "@/types/feedbacks";
 import { patchFeedbackSchema } from "@/validations/feedback";
 import { Feedback } from "@prisma/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form";
 import FeedbackForm from "./FeedbackForm";
-import { FeedbackAdd } from "@/types/feedbacks";
 
 const FeedbackActions = ({
   cancelHref,
@@ -33,6 +37,46 @@ const FeedbackActions = ({
         Delete
       </Button>
     </>
+  );
+};
+
+type AdditionalFormFieldGroupsProps = {
+  register: UseFormRegister<FeedbackAdd | Feedback>;
+  control: Control<FeedbackAdd | Feedback>;
+  errors: FieldErrors<FeedbackAdd | Feedback>;
+};
+
+const AdditionalFormFieldGroups = ({
+  register,
+  control,
+  errors,
+}: AdditionalFormFieldGroupsProps) => {
+  return (
+    <FormFieldGroup
+      fieldName="status"
+      title="Feedback Status"
+      description="Change feature state"
+    >
+      <Controller
+        name="status"
+        control={control}
+        defaultValue="suggestion"
+        render={({ field: { onChange, value, ref } }) => (
+          <Select onValueChange={onChange} value={value}>
+            <SelectTrigger ref={ref} className="">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {status.map((status) => (
+                <SelectItem key={status.value} value={status.value}>
+                  {status.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        )}
+      />
+    </FormFieldGroup>
   );
 };
 
@@ -65,6 +109,7 @@ export default function EditFeedbackForm({
     }
 
     router.push(returnHref);
+    router.refresh();
   };
 
   const onDelete = async () => {
@@ -82,6 +127,7 @@ export default function EditFeedbackForm({
 
     /* Success */
     router.push("/");
+    router.refresh();
   };
 
   /* JSX */
@@ -93,6 +139,7 @@ export default function EditFeedbackForm({
       Actions={() => (
         <FeedbackActions cancelHref={returnHref} onDelete={onDelete} />
       )}
+      AdditionalFormFieldGroups={AdditionalFormFieldGroups}
       onSubmit={onSubmit}
     />
   );

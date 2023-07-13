@@ -11,14 +11,26 @@ import React from "react";
 
 import { Textarea } from "@/components/ui/textarea";
 
+import FormFieldGroup from "@/components/feedback-form/FormFieldGroup";
 import { categories } from "@/data/categories";
 import { FeedbackAdd } from "@/types/feedbacks";
 import { Feedback } from "@prisma/client";
-import { Controller, useForm } from "react-hook-form";
+import {
+  Control,
+  Controller,
+  FieldErrors,
+  UseFormRegister,
+  useForm,
+} from "react-hook-form";
 
 type Props = {
   Icon: React.ElementType;
   title: string;
+  AdditionalFormFieldGroups?: React.ElementType<{
+    register: UseFormRegister<FeedbackAdd | Feedback>;
+    control: Control<FeedbackAdd | Feedback>;
+    errors: FieldErrors<FeedbackAdd | Feedback>;
+  }>;
   Actions: React.ElementType;
   onSubmit: (data: FeedbackAdd | Feedback) => Promise<void>;
   feedback?: Feedback; // used with edit form
@@ -27,6 +39,7 @@ type Props = {
 export default function FeedbackForm({
   Icon,
   title,
+  AdditionalFormFieldGroups,
   Actions,
   feedback,
   onSubmit,
@@ -44,6 +57,7 @@ export default function FeedbackForm({
   });
   const onFormSubmit = (data: FeedbackAdd | Feedback) => {
     onSubmit(data);
+    // console.log(data);
   };
 
   return (
@@ -53,34 +67,27 @@ export default function FeedbackForm({
       </i>
       <form className="space-y-6 pt-8" onSubmit={handleSubmit(onFormSubmit)}>
         <h2 className="">{title}</h2>
+
         {/* Feedback title */}
-        <fieldset className="">
-          <label
-            className="mb-2 text-h4 font-bold text-darker-blue"
-            htmlFor="title"
-          >
-            Feedback Title
-          </label>
-          <p className="mb-4">Add a short, descriptive headline</p>
+        <FormFieldGroup
+          fieldName="title"
+          title="Feedback Title"
+          description="Add a short, descriptive headline"
+          errorMsg={errors?.title?.message?.toString()}
+        >
           <Input
             {...register("title", { required: "Can’t be empty." })}
             aria-invalid={errors?.title !== undefined}
           />
-          {!!(errors?.title !== undefined) && (
-            <p className="mt-1 text-red">
-              {errors?.title?.message?.toString()}
-            </p>
-          )}
-        </fieldset>
-        {/* Category Selector */}
-        <fieldset className="">
-          <label
-            className="mb-2 text-h4 font-bold text-darker-blue"
-            htmlFor="title"
-          >
-            Category
-          </label>
-          <p className="mb-4">Choose a category for your feedback</p>
+        </FormFieldGroup>
+
+        {/* Category selector */}
+        <FormFieldGroup
+          fieldName="category"
+          title="Category"
+          description="Choose a category for your feedback"
+          errorMsg={errors?.category?.message?.toString()}
+        >
           <Controller
             name="category"
             control={control}
@@ -100,29 +107,30 @@ export default function FeedbackForm({
               </Select>
             )}
           />
-        </fieldset>
-        {/* Detail Textarea */}
-        <fieldset className="">
-          <label
-            className="mb-2 text-h4 font-bold text-darker-blue"
-            htmlFor="title"
-          >
-            Feedback Detail
-          </label>
-          <p className="mb-4">
-            Include any specific comments on what should be improved, added,
-            etc.
-          </p>
+        </FormFieldGroup>
+
+        {!!AdditionalFormFieldGroups && (
+          <AdditionalFormFieldGroups
+            register={register}
+            errors={errors}
+            control={control}
+          />
+        )}
+
+        {/* Detail textarea */}
+        <FormFieldGroup
+          fieldName="description"
+          title="Feedback Detail"
+          description="Include any specific comments on what should be improved, added,
+          etc."
+          errorMsg={errors?.description?.message?.toString()}
+        >
           <Textarea
             {...register("description", { required: "Can’t be empty." })}
             aria-invalid={errors?.description !== undefined}
           />
-          {errors?.description !== undefined && (
-            <p className="mt-1 text-red">
-              {errors?.description?.message?.toString()}
-            </p>
-          )}
-        </fieldset>
+        </FormFieldGroup>
+
         {/* Form actions */}
         <div className="!mt-10 space-y-4">
           <Actions />
