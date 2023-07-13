@@ -106,6 +106,8 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
     redirect: async ({url, baseUrl}) => {
+      console.error(url)
+      console.error(baseUrl)
       return Promise.resolve(url)
     }
   },
