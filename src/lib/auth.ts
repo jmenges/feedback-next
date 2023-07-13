@@ -31,9 +31,9 @@ prismaAdapter.createUser = (data) => {
 };
 
 export const authOptions: NextAuthOptions = {
-  pages: {
-    signIn: "/auth/login",
-  },
+  // pages: {
+  //   signIn: "/auth/login",
+  // },
   providers: [
     GithubProvider({
       // @ts-ignore
