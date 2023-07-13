@@ -1,18 +1,20 @@
 import { categories } from "@/data/categories";
-import { ICategory, IFeedback } from "@/types/types";
+import { CategoryValue } from "@/types/categories";
+import { Feedback } from "@prisma/client";
+// import { ICategory, IFeedback } from "@/types/types";
 import { useEffect, useState } from "react";
 
-export default function useCategoryFilter(feedbacks: IFeedback[]) {
-  const [activeCategory, setActiveCategory] = useState<ICategory>("All");
+export default function useCategoryFilter(feedbacks: Feedback[]) {
+  const [activeCategory, setActiveCategory] = useState<CategoryValue>("all");
   const [filteredFeedbacks, setFilteredFeedbacks] =
-    useState<IFeedback[]>(feedbacks);
+    useState<Feedback[]>(feedbacks);
 
   /**
    * Handle filtering
    */
   useEffect(() => {
     setFilteredFeedbacks(
-      activeCategory === "All"
+      activeCategory === "all"
         ? feedbacks
         : feedbacks.filter(
             (feedback) =>
