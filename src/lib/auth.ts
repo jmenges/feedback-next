@@ -26,14 +26,14 @@ prismaAdapter.createUser = (data) => {
 
   return prisma.user.create({
     // @ts-ignore
-    data: newUser
+    data: newUser,
   });
 };
 
 export const authOptions: NextAuthOptions = {
-  // pages: {
-  //   signIn: "/auth/login",
-  // },
+  pages: {
+    signIn: "/auth/login",
+  },
   providers: [
     GithubProvider({
       // @ts-ignore
@@ -105,13 +105,7 @@ export const authOptions: NextAuthOptions = {
       session.user.id = token.userId;
       return session;
     },
-    redirect: async ({url, baseUrl}) => {
-      console.log("base url", baseUrl)
-      console.log("url: ", url)
-      return Promise.resolve(url)
-    }
   },
-  debug: true,
 };
 
 export default NextAuth(authOptions);
