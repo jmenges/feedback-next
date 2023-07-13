@@ -2,7 +2,10 @@ import { headers } from "next/headers";
 import { Feedback, PrismaClient } from "@prisma/client";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
-import { FeedbackPopulated } from "@/types/feedbacks";
+import {
+  FeedbackPopulated,
+  FeedbackPopulatedAuthenticated,
+} from "@/types/feedbacks";
 
 export function genBackLinkServer(currentPath: string) {
   const headersList = headers();
@@ -42,33 +45,34 @@ export const getServerUserOrThrow = async ({
 export const getRoadmapCounts = ({
   feedbacks,
 }: {
-  feedbacks: FeedbackPopulated[];
+  feedbacks: FeedbackPopulated[] | FeedbackPopulatedAuthenticated[];
 }): {
   counts: {
     title: string;
     count: number;
   }[];
 } => {
+  const feedbacksStatus = feedbacks.map(({ status }) => status);
   return {
     counts: [
       {
         title: "Planned",
-        count: feedbacks.reduce(
-          (acc, curr) => acc + Number(curr.status === "planned"),
+        count: feedbacksStatus.reduce(
+          (acc: number, curr) => acc + Number(curr === "planned"),
           0
         ),
       },
       {
         title: "In-Progress",
-        count: feedbacks.reduce(
-          (acc, curr) => acc + Number(curr.status === "in-progress"),
+        count: feedbacksStatus.reduce(
+          (acc: number, curr) => acc + Number(curr === "in-progress"),
           0
         ),
       },
       {
         title: "Live",
-        count: feedbacks.reduce(
-          (acc, curr) => acc + Number(curr.status === "live"),
+        count: feedbacksStatus.reduce(
+          (acc: number, curr) => acc + Number(curr === "live"),
           0
         ),
       },
