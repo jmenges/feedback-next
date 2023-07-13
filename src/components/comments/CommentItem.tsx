@@ -52,7 +52,7 @@ export default function CommentItem({
           <p
             className={
               hasReplies
-                ? "before:absolute before:left-0 before:top-0 before:border-l before:border-grey tablet:before:block tablet:before:h-[180%]"
+                ? "before:absolute before:left-0 before:top-0 before:border-l before:border-grey tablet:before:block tablet:before:h-[260%]"
                 : ""
             }
           >

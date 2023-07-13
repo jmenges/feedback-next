@@ -3,6 +3,7 @@
 import Card from "@/components/Card";
 import Category from "@/components/ui/Category";
 import { categories } from "@/data/categories";
+import { cn } from "@/lib/utils";
 import { CategoryValue } from "@/types/categories";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -12,7 +13,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
  * The local state will be initialized based on the URL.
  * Afterwards the URL will be updated based on the local state.
  */
-export default function CategoryFilter() {
+export default function CategoryFilter({ className }: { className?: string }) {
   /* State */
   const [activeCategory, setActiveCategory] = useState<CategoryValue | null>(
     null
@@ -84,7 +85,7 @@ export default function CategoryFilter() {
    * JSX
    */
   return (
-    <Card className="flex flex-wrap gap-x-2 gap-y-2">
+    <Card className={cn("flex flex-wrap gap-x-2 gap-y-2", className)}>
       {categories.map((category, index) => (
         <Category
           key={index}
