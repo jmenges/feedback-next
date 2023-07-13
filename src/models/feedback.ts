@@ -4,6 +4,8 @@ import {
   FeedbackAdd,
   FeedbackFullyPopulated,
   FeedbackFullyPopulatedAuthenticated,
+  FeedbackPopulated,
+  FeedbackPopulatedAuthenticated,
   FeedbackUpdate,
 } from "@/types/feedbacks";
 import { SortOptionValue } from "@/types/sortOptions";
@@ -66,18 +68,11 @@ export const feedbackFullyPopulatedAuthenticated = {
  * Model definition
  */
 export abstract class Feedback {
-  static queryAll = async ({
-    category,
-    sort,
-    authUserId,
-  }: {
-    category?: CategoryValue;
-    sort?: SortOptionValue;
-    authUserId?: string;
-  }) => {
-    /* Handle sorting */
+  static getSortOrder = (
+    sortOption?: SortOptionValue
+  ): Prisma.FeedbackOrderByWithRelationInput => {
     let orderBy: Prisma.FeedbackOrderByWithRelationInput;
-    switch (sort) {
+    switch (sortOption) {
       case "upvotes-desc":
         orderBy = {
           upvotes: {
@@ -115,6 +110,22 @@ export abstract class Feedback {
         };
         break;
     }
+    return orderBy;
+  };
+
+  static queryAll = async ({
+    category,
+    sort,
+    authUserId,
+  }: {
+    category?: CategoryValue;
+    sort?: SortOptionValue;
+    authUserId?: string;
+  }): Promise<
+    FeedbackPopulated[] | FeedbackPopulatedAuthenticated[] | null
+  > => {
+    /* Handle sorting */
+    const orderBy = this.getSortOrder(sort);
 
     /* Execute query */
     const feedbacks = await db.feedback.findMany({
@@ -268,6 +279,16 @@ export abstract class Feedback {
       return false;
     }
   };
+
+  static getRoadmapCounts = async () => {
+    const roadmapCounts = await db.feedback.groupBy({
+      by: ["status"],
+      _count: {
+        status: true,
+      },
+    });
+    return roadmapCounts;
+  }
 
   static getAll = async () => {
     const feedbacks = await db.feedback.findMany({
