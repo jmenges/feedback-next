@@ -1,8 +1,7 @@
 // @ts-nocheck
 const { PrismaClient } = require("@prisma/client");
 const data = require("../challenge/starter-code/data.json");
-var cuid = require('cuid');
-
+var cuid = require("cuid");
 
 const prisma = new PrismaClient();
 
@@ -55,7 +54,7 @@ async function main() {
     description: productRequest.description,
     category: productRequest.category,
     status: productRequest.status,
-    authorId: dbUsers[Math.floor(Math.random() * (dbUsers.length-1))].id, //random id between min and max
+    authorId: dbUsers[Math.floor(Math.random() * (dbUsers.length - 1))].id, //random id between min and max
   }));
 
   /**
@@ -81,7 +80,9 @@ async function main() {
       const newComment = {
         id: cuid(),
         content: comment.content,
-        feedbackId: dbFeedbacks.find(({ title }) => title === productRequest.title).id,
+        feedbackId: dbFeedbacks.find(
+          ({ title }) => title === productRequest.title
+        ).id,
         authorId: dbUsers.find(
           ({ username }) => username === comment.user.username
         ).id,
@@ -117,6 +118,21 @@ async function main() {
   }
 
   console.log("Inserted comments into db: \r\n", dbComments);
+
+  const userId = dbUsers.find(({ username }) => username === "velvetround").id;
+  const mockAccount = {
+    id: cuid(),
+    userId: userId,
+    type: "credentials",
+    provider: "credentials",
+    providerAccountId: userId,
+    password: "test1234",
+  };
+  const dbAccount = await prisma.account.create({
+    data: mockAccount,
+  });
+
+  console.log("Inserted mock account into db: \r\n", dbAccount);
 }
 
 main()
