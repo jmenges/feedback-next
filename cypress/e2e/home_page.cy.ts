@@ -31,6 +31,7 @@ describe("The home page", () => {
     cy.visit("/");
     cy.get("button").contains("Sort by").click();
     cy.findByText("Least Comments").click();
+    cy.wait(50);
     cy.get("a[href^='/feedback/'] [data-cy='feedback-count']").then(
       (counts) => {
         let lastCount = 0;

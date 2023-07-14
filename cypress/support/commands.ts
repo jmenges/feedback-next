@@ -1,4 +1,4 @@
-import '@testing-library/cypress/add-commands'
+import "@testing-library/cypress/add-commands";
 
 /// <reference types="cypress" />
 // ***********************************************
@@ -36,4 +36,5 @@ import '@testing-library/cypress/add-commands'
 //       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
 //     }
 //   }
-// }
+//
+//}
