@@ -2,12 +2,13 @@
 import BaseActionBar from "@/components/action-bar/BaseActionBar";
 import BackButton from "@/components/ui/BackButton";
 
-type Props = {
+type RoadmapActionBarProps = {
+  isAuthenticated?: boolean;
 };
 
-export default function RoadmapActionBar({ }: Props) {
+export default function RoadmapActionBar({ isAuthenticated}: RoadmapActionBarProps) {
   return (
-    <BaseActionBar>
+    <BaseActionBar isAuthenticated={isAuthenticated}>
       <div className="flex flex-col items-start justify-start">
         <BackButton href="/" />
         <h3 className="text-white tablet:text-h1">Roadmap</h3>

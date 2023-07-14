@@ -1,6 +1,6 @@
-import Actionbar from "@/components/Actionbar";
 import FeedbackList from "@/components/FeedbackList";
 import NavBar from "@/components/NavBar";
+import HomeActionBar from "@/components/action-bar/HomeActionBar";
 import { categories } from "@/data/categories";
 import { sortOptions } from "@/data/sortOptions";
 import { getServerUser } from "@/lib/server";
@@ -53,14 +53,14 @@ export default async function Home({
       <NavBar user={user} roadmapCounts={roadmapCounts} />
       <main className="mt-[80px] flex-grow tablet:mt-0">
         <div className="tablet:mb-6">
-          <Actionbar
+          <HomeActionBar
             feedbackCount={feedbackCount}
             isAuthenticated={isAuthenticated}
           />
         </div>
         {!!feedbacks && (
           <FeedbackList
-            className="p-6 pt-8  tablet:p-0 max-tablet:h-[calc(100vh-136px)] overflow-y-auto"
+            className="overflow-y-auto p-6  pt-8 max-tablet:h-[calc(100vh-136px)] tablet:p-0"
             isAuthenticated={isAuthenticated}
             feedbacks={feedbacks}
           />

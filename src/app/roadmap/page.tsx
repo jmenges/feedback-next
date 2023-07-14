@@ -28,7 +28,7 @@ export default async function Roadmap() {
     <div className="flex flex-wrap gap-6">
       <main className="flex-grow">
         <header className="">
-          <RoadmapActionBar />
+          <RoadmapActionBar isAuthenticated={isAuthenticated} />
         </header>
         <RoadmapList
           feedbacks={feedbacksWithRelevantStatus}
