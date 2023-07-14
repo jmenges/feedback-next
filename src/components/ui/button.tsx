@@ -16,7 +16,7 @@ const buttonVariants = cva(
         link: "text-blue-grey underline-offset-2 hover:underline",
         raw: "rounded-none ",
         interactive:
-          "bg-light-grey hover:bg-[#CFD7FF] aria-active:bg-blue aria-active:text-white",
+          "bg-light-grey hover:bg-[#CFD7FF] aria-selected:bg-blue aria-selected:text-white",
       },
       size: {
         default:
