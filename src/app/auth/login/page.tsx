@@ -10,7 +10,11 @@ import Link from "next/link";
 export default async function Login() {
   const user = await getServerUser();
   const cookieStore = cookies();
-  const csrfToken = cookieStore.get("__Host-next-auth.csrf-token")?.value;
+  const csrfTokenPrefix =
+    process.env.NODE_ENV === "production" ? "__Host-" : "";
+  const csrfToken = cookieStore.get(
+    csrfTokenPrefix + "next-auth.csrf-token"
+  )?.value;
   const providers = await getProviders();
 
   /* Exit conditions*/
