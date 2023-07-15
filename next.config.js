@@ -31,8 +31,5 @@ module.exports = {
 
     return config;
   },
-  compiler: {
-    removeConsole: false,
-  },
   // ...other config
 };
