@@ -25,12 +25,8 @@ export default async function EditFeedback({
   /* Redirect if user is not author*/
   if (!isOwner) redirect("/");
 
-  /* Generate back links */
-  const headersList = headers();
-  const domain = headersList.get("host") || "";
-  const referer = headersList.get("referer");
-  const path = referer?.split(domain)[1] || "";
-  const backPath = path === "" || path.endsWith("/edit") ? "/" : path;
+  /* Generate back link */
+  const backPath = `/feedback/${feedbackId}`;
 
   /* JSX */
   return (

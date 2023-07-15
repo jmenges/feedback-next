@@ -3,13 +3,10 @@
 import IconNewFeedback from "@/../public/icons/icon-new-feedback.svg";
 import FeedbackForm from "@/components/feedback-form/FeedbackForm";
 import { Button } from "@/components/ui/button";
+import useLastMainRoute from "@/hooks/useLastMainRoute";
 import { FeedbackAdd } from "@/types/feedbacks";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
-type Props = {
-  cancelHref: string;
-};
 
 const FeedbackActions = ({ cancelHref }: { cancelHref: string }) => {
   return (
@@ -24,8 +21,9 @@ const FeedbackActions = ({ cancelHref }: { cancelHref: string }) => {
   );
 };
 
-export default function NewFeedbackForm({ cancelHref }: Props) {
+export default function NewFeedbackForm() {
   const router = useRouter();
+  const { lastMainRoute } = useLastMainRoute();
 
   const onSubmit = async (data: FeedbackAdd) => {
     const postOptions = {
@@ -43,7 +41,7 @@ export default function NewFeedbackForm({ cancelHref }: Props) {
       return;
     }
 
-    router.push(cancelHref);
+    router.push(lastMainRoute);
     router.refresh();
   };
 
@@ -52,7 +50,7 @@ export default function NewFeedbackForm({ cancelHref }: Props) {
       onSubmit={onSubmit}
       Icon={IconNewFeedback}
       title="Create New Feedback"
-      Actions={() => <FeedbackActions cancelHref={cancelHref} />}
+      Actions={() => <FeedbackActions cancelHref={lastMainRoute} />}
     />
   );
 }
