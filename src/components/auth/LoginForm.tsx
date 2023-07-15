@@ -71,10 +71,10 @@ export default function LoginForm({ csrfToken, providers }: LoginFormProps) {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-4 pt-8">
           <FormFieldGroup fieldName="username" title="Username">
-            <Input {...register("username")} />
+            <Input {...register("username")} autoComplete="username"/>
           </FormFieldGroup>
           <FormFieldGroup fieldName="password" title="Password">
-            <Input {...register("password")} type="password" />
+            <Input {...register("password")} type="password" autoComplete="current-password"/>
           </FormFieldGroup>
         </div>
         <div className="mt-6 flex w-full items-center gap-2">
