@@ -35,7 +35,7 @@ export default function BackButton({
       size="raw"
       className={cn(
         buttonVariants({ variant, className }),
-        "px-0 text-xs tablet:text-h4"
+        "px-0 text-xs tablet:text-h4 h-9"
       )}
       href={href}
     >
