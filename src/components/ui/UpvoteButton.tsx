@@ -70,18 +70,19 @@ export default function UpvoteButton({
       onClick={onClick}
       variant="interactive"
       className={cn(
-        "flex h-auto items-center gap-[10px] py-1 font-bold text-darker-blue tablet:pb-[6px] tablet:pl-4 tablet:pr-[16.5px] tablet:pt-[7px] desktop:pb-[10px] desktop:pt-[11px]",
+        "z-100 !pointer-events-auto flex h-auto items-center gap-[10px] py-1 font-bold text-darker-blue tablet:pb-[6px] tablet:pl-4 tablet:pr-[16.5px] tablet:pt-[7px] desktop:pb-[10px] desktop:pt-[11px]",
         sizeClass,
         className
       )}
       aria-selected={isUpvoted ? true : false}
+      disabled={!isAuthenticated}
       title={!isAuthenticated ? "You must be logged in to upvote" : ""}
       {...props}
     >
-      <i className="[&>svg>path]:stroke-current">
+      <i className="pointer-events-none [&>svg>path]:stroke-current">
         <UpIcon />
       </i>
-      <span>{upvoteCount}</span>
+      <span className="pointer-events-none">{upvoteCount}</span>
     </Button>
   );
 }
