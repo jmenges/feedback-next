@@ -37,7 +37,7 @@ export default async function Home({
   const feedbacksQueryOptions: FeedbacksQueryOptions = {
     category: validCategory,
     sort: validSortOption,
-    user: user,
+    authUserId: user?.id,
   };
 
   /* Execute queries */

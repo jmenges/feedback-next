@@ -41,5 +41,5 @@ export type FeedbackUpdate = { id: string } & Pick<
 export type FeedbacksQueryOptions = {
   category?: CategoryValue;
   sort?: SortOptionValue;
-  user?: User;
+  authUserId?: string;
 };
