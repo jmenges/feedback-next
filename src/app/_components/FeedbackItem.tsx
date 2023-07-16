@@ -26,12 +26,12 @@ export default function FeedbackItem({
   isAuthenticated,
 }: Props) {
   let isUpvoted = false;
-  if ('upvotes' in feedback ){
+  if ("upvotes" in feedback) {
     isUpvoted = feedback.upvotes.length > 0;
   }
 
   return (
-    <Card className={cn("flex flex-wrap items-start", className)}>
+    <Card className={cn("flex max-tablet:flex-wrap items-start", className)}>
       {/* TITLE, DESCRIPTION, TAG */}
       <div className="mb-4 w-full space-y-2 tablet:order-2 tablet:mb-0 tablet:w-auto">
         <h4 className="tablet:text-h3">{feedback.title}</h4>
@@ -46,11 +46,11 @@ export default function FeedbackItem({
         className="tablet:order-1 tablet:mr-10"
         isAuthenticated={isAuthenticated}
       />
+      {/* COMMENT COUNT */}
       <CommentCounter
         className="ml-auto tablet:order-3 tablet:self-center"
         count={feedback._count.comments}
       />
-      {/* COMMENT COUNT */}
     </Card>
   );
 }

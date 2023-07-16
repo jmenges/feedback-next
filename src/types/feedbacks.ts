@@ -4,7 +4,10 @@ import {
   feedbackPopulated,
   feedbackPopulatedAuthenticated,
 } from "@/models/feedback";
+import { CategoryValue } from "@/types/categories";
+import { SortOptionValue } from "@/types/sortOptions";
 import { Prisma } from "@prisma/client";
+import { User } from "next-auth";
 
 /**
  * Feedbacks
@@ -34,3 +37,9 @@ export type FeedbackUpdate = { id: string } & Pick<
   Prisma.FeedbackUpdateInput,
   "title" | "category" | "description" | "status"
 >;
+
+export type FeedbacksQueryOptions = {
+  category?: CategoryValue;
+  sort?: SortOptionValue;
+  user?: User;
+};

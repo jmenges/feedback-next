@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/app/_components/ui/select";
+import { useFeedbacksLoading } from "@/context/FeedbacksLoadingContext";
 import useFeedbackSorter from "@/hooks/useFeedbackSorter";
 import { SortOptionValue } from "@/types/sortOptions";
 
@@ -18,9 +19,15 @@ export default function FeedbackSorter() {
     setActiveOption,
   } = useFeedbackSorter();
 
+  const {
+    setFeedbacksLoading
+  } = useFeedbacksLoading();
+
+
   /* Change handler */
   const onValueChange = (value: SortOptionValue) => {
     setActiveOption(value);
+    setFeedbacksLoading(true);
   };
 
   /* JSX */

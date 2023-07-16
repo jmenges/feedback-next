@@ -1,10 +1,13 @@
 import FeedbackList from "@/app/_components/FeedbackList";
 import NavBar from "@/app/_components/NavBar";
 import HomeActionBar from "@/app/_components/action-bar/HomeActionBar";
+import FeedbackListSkeleton from "@/app/_components/skeletons/FeedbackListSkeleton";
+import FeedbacksLoadingProvider from "@/context/FeedbacksLoadingContext";
 import { categories } from "@/data/categories";
 import { sortOptions } from "@/data/sortOptions";
 import { getServerUser } from "@/lib/server";
 import { Feedback } from "@/models/feedback";
+import { FeedbacksQueryOptions } from "@/types/feedbacks";
 import { Suspense } from "react";
 
 /**
@@ -30,44 +33,49 @@ export default async function Home({
 
   /* Get auth user */
   const user = await getServerUser();
-  // const isAuthenticated = user?.id !== undefined
-  const isAuthenticated = user?.id !== undefined;
 
-  /* Execute queries */
-  const feedbacks = await Feedback.queryAll({
+  const feedbacksQueryOptions: FeedbacksQueryOptions = {
     category: validCategory,
     sort: validSortOption,
-    authUserId: user?.id,
-  });
+    user: user,
+  };
+
+  /* Execute queries */
   const dbRoadmapCounts = await Feedback.getRoadmapCounts();
 
   /* Calculated values */
-  const feedbackCount = feedbacks?.length || 0;
   const roadmapCounts = dbRoadmapCounts.map((roadmapCount) => ({
     title: roadmapCount.status,
     count: roadmapCount._count.status,
   }));
+  const isAuthenticated = user?.id !== undefined;
 
   /* JSX */
   return (
     <div className="flex flex-wrap tablet:gap-6">
-      <NavBar user={user} roadmapCounts={roadmapCounts} />
-      <main className="mt-[80px] flex-grow tablet:mt-0">
-        <div className="tablet:mb-6">
-          <HomeActionBar
-            feedbackCount={feedbackCount}
-            isAuthenticated={isAuthenticated}
-          />
-        </div>
-        <Suspense fallback={<div>Loading...</div>}>
-          <FeedbackList
-            className="overflow-y-auto p-6  pt-8 max-tablet:h-[calc(100vh-136px)] tablet:p-0"
-            validCategory={validCategory}
-            validSortOption={validSortOption}
-            isAuthenticated={isAuthenticated}
-          />
-        </Suspense>
-      </main>
+      <FeedbacksLoadingProvider>
+        <NavBar user={user} roadmapCounts={roadmapCounts} />
+        <main className="mt-[80px] flex-grow tablet:mt-0">
+          <div className="tablet:mb-6">
+            <HomeActionBar
+              isAuthenticated={isAuthenticated}
+              feedbacksQueryOptions={feedbacksQueryOptions}
+            />
+          </div>
+          {/* Fallback is shown during intitial render */}
+          <Suspense
+            fallback={
+              <FeedbackListSkeleton className="overflow-y-auto p-6  pt-8 max-tablet:h-[calc(100vh-136px)] tablet:p-0" />
+            }
+          >
+            <FeedbackList
+              className="overflow-y-auto p-6  pt-8 max-tablet:h-[calc(100vh-136px)] tablet:p-0"
+              isAuthenticated={isAuthenticated}
+              feedbacksQueryOptions={feedbacksQueryOptions}
+            />
+          </Suspense>
+        </main>
+      </FeedbacksLoadingProvider>
     </div>
   );
 }

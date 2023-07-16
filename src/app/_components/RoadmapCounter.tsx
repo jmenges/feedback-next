@@ -12,10 +12,11 @@ type RoadmapCounterProps = {
   className?: string;
 };
 
-export default function RoadmapCounter({
+export default async function RoadmapCounter({
   counts,
   className,
 }: RoadmapCounterProps) {
+  
   return (
     <Card className={className}>
       <div className="mb-6 flex justify-between gap-6">

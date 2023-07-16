@@ -1,10 +1,10 @@
 # Portfolio Project
 
-
 This Project uses the following technologies
 
 - NextJs 13 with app directory
-- Serverside rendering, where possible
+- Server side rendering, where possible
+- Data streaming for lists to provide better UX
 - Data validation on server with zod
 - ORM: Prisma
 - Forms: react-hook-form

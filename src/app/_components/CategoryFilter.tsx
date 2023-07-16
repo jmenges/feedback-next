@@ -2,6 +2,7 @@
 
 import Card from "@/app/_components/Card";
 import Category from "@/app/_components/ui/Category";
+import { useFeedbacksLoading } from "@/context/FeedbacksLoadingContext";
 import { categories } from "@/data/categories";
 import { cn } from "@/lib/utils";
 import { CategoryValue } from "@/types/categories";
@@ -25,6 +26,7 @@ export default function CategoryFilter({ className }: { className?: string }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams()!;
+  const { setFeedbacksLoading } = useFeedbacksLoading();
 
   /* Calculatations */
   const queryParamCategory = useMemo(
@@ -62,6 +64,7 @@ export default function CategoryFilter({ className }: { className?: string }) {
 
     /* Set query parameter based on active category */
     const nextCategory = activeCategory === "all" ? "" : activeCategory;
+    setFeedbacksLoading(true);
     setCategoryQueryString(nextCategory);
   }, [activeCategory, pathname, queryParamCategory]);
 

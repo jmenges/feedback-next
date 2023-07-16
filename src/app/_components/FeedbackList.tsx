@@ -1,53 +1,46 @@
 import FeedbackItem from "@/app/_components/FeedbackItem";
+import FeedbackListSkeletonRenderer from "@/app/_components/FeedbackListSkeletonRenderer";
 import { cn } from "@/lib/utils";
 import { Feedback } from "@/models/feedback";
-import { CategoryValue } from "@/types/categories";
-import {
-  FeedbackPopulated,
-  FeedbackPopulatedAuthenticated,
-} from "@/types/feedbacks";
-import { SortOptionValue } from "@/types/sortOptions";
-import { User } from "next-auth";
+import { FeedbacksQueryOptions } from "@/types/feedbacks";
 import Link from "next/link";
-import React from "react";
 
 type Props = {
-  // feedbacks: FeedbackPopulated[] | FeedbackPopulatedAuthenticated[];
-  user?: User;
-  validCategory?: CategoryValue;
-  validSortOption?: SortOptionValue;
   isAuthenticated: boolean;
+  feedbacksQueryOptions?: FeedbacksQueryOptions;
   className?: string;
 };
 
 export default async function FeedbackList({
-  // feedbacks,
-  user,
-  validCategory,
-  validSortOption,
   isAuthenticated,
+  feedbacksQueryOptions,
   className,
 }: Props) {
   const feedbacks = await Feedback.queryAll({
-    category: validCategory,
-    sort: validSortOption,
-    authUserId: user?.id,
+    ...feedbacksQueryOptions,
   });
 
+  // Random value to force rerender of DisableFeedbackLoadingOnRender
+  const random = Math.random();
+
   return (
-    <div className={cn("flex flex-col space-y-4", className)}>
-      {!!feedbacks && (
-        <>
-          {feedbacks.map((feedback) => (
-            <Link key={feedback.id} href={`/feedback/${feedback.id}`}>
-              <FeedbackItem
-                feedback={feedback}
-                isAuthenticated={isAuthenticated}
-              />
-            </Link>
-          ))}
-        </>
-      )}
-    </div>
+    <>
+      <div className={cn("flex flex-col space-y-4", className)}>
+        <FeedbackListSkeletonRenderer random={random}>
+          {!!feedbacks && (
+            <>
+              {feedbacks.map((feedback) => (
+                <Link key={feedback.id} href={`/feedback/${feedback.id}`}>
+                  <FeedbackItem
+                    feedback={feedback}
+                    isAuthenticated={isAuthenticated}
+                  />
+                </Link>
+              ))}
+            </>
+          )}
+        </FeedbackListSkeletonRenderer>
+      </div>
+    </>
   );
 }

@@ -6,8 +6,8 @@ import React from "react";
 
 import IconClose from "@/../public/icons/mobile/icon-close.svg";
 import IconHamburger from "@/../public/icons/mobile/icon-hamburger.svg";
-import { cn } from "@/lib/utils";
 import RoadmapCounter from "@/app/_components/RoadmapCounter";
+import { cn } from "@/lib/utils";
 import { User } from "next-auth";
 
 type Props = {
