@@ -1,5 +1,5 @@
-import RoadmapList from "@/components/RoadmapList";
-import RoadmapActionBar from "@/components/action-bar/RoadmapActionBar";
+import RoadmapList from "@/app/_components/RoadmapList";
+import RoadmapActionBar from "@/app/_components/action-bar/RoadmapActionBar";
 import { roadmaps } from "@/data/roadmaps";
 import { getRoadmapCounts, getServerUser } from "@/lib/server";
 import { Feedback } from "@/models/feedback";

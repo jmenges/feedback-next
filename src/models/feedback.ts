@@ -127,6 +127,10 @@ export abstract class Feedback {
     /* Handle sorting */
     const orderBy = this.getSortOrder(sort);
 
+    const test = await new Promise((resolve, reject) => {
+      setTimeout(() => {resolve("")}, Math.random()*5000)
+    })
+
     /* Execute query */
     const feedbacks = await db.feedback.findMany({
       where: {

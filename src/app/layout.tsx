@@ -1,9 +1,9 @@
-import StoreLastMainRouteInLocalStorage from "@/components/StoreLastMainRouteInLocalStorage";
+import StoreLastMainRouteInLocalStorage from "@/app/_components/StoreLastMainRouteInLocalStorage";
 import SessionContext from "@/context/SessionContext";
 import { cn } from "@/lib/utils";
 import { Jost } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/app/_components/ui/toaster";
 
 const jost = Jost({ subsets: ["latin"] });
 

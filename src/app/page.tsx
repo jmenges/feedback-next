@@ -1,10 +1,11 @@
-import FeedbackList from "@/components/FeedbackList";
-import NavBar from "@/components/NavBar";
-import HomeActionBar from "@/components/action-bar/HomeActionBar";
+import FeedbackList from "@/app/_components/FeedbackList";
+import NavBar from "@/app/_components/NavBar";
+import HomeActionBar from "@/app/_components/action-bar/HomeActionBar";
 import { categories } from "@/data/categories";
 import { sortOptions } from "@/data/sortOptions";
 import { getServerUser } from "@/lib/server";
 import { Feedback } from "@/models/feedback";
+import { Suspense } from "react";
 
 /**
  * As opposed to the client side implementation,
@@ -58,13 +59,14 @@ export default async function Home({
             isAuthenticated={isAuthenticated}
           />
         </div>
-        {!!feedbacks && (
+        <Suspense fallback={<div>Loading...</div>}>
           <FeedbackList
             className="overflow-y-auto p-6  pt-8 max-tablet:h-[calc(100vh-136px)] tablet:p-0"
+            validCategory={validCategory}
+            validSortOption={validSortOption}
             isAuthenticated={isAuthenticated}
-            feedbacks={feedbacks}
           />
-        )}
+        </Suspense>
       </main>
     </div>
   );

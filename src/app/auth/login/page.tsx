@@ -1,9 +1,9 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-import LoginForm from "@/components/auth/LoginForm";
+import LoginForm from "@/app/_components/auth/LoginForm";
 import { getServerUser } from "@/lib/server";
-import Card from "@/components/Card";
+import Card from "@/app/_components/Card";
 import { getProviders } from "next-auth/react";
 import Link from "next/link";
 

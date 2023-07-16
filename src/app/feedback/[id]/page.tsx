@@ -1,8 +1,8 @@
-import BackToMainRouteButton from "@/components/BackToMainRouteButton";
-import FeedbackItem from "@/components/FeedbackItem";
-import CommentForm from "@/components/comments/CommentForm";
-import CommentList from "@/components/comments/CommentList";
-import { Button } from "@/components/ui/button";
+import BackToMainRouteButton from "@/app/_components/BackToMainRouteButton";
+import FeedbackItem from "@/app/_components/FeedbackItem";
+import CommentForm from "@/app/_components/comments/CommentForm";
+import CommentList from "@/app/_components/comments/CommentList";
+import { Button } from "@/app/_components/ui/button";
 import { getServerUser } from "@/lib/server";
 import { Feedback } from "@/models/feedback";
 import Link from "next/link";
