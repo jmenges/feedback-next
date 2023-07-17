@@ -1,7 +1,7 @@
-import FeedbackList from "@/app/_components/FeedbackList";
-import NavBar from "@/app/_components/NavBar";
-import HomeActionBar from "@/app/_components/action-bar/HomeActionBar";
-import FeedbackListSkeleton from "@/app/_components/skeletons/FeedbackListSkeleton";
+import FeedbackList from "@/components/FeedbackList";
+import NavBar from "@/components/NavBar";
+import HomeActionBar from "@/components/action-bar/HomeActionBar";
+import FeedbackListSkeleton from "@/components/skeletons/FeedbackListSkeleton";
 import FeedbacksLoadingProvider from "@/context/FeedbacksLoadingContext";
 import { categories } from "@/data/categories";
 import { sortOptions } from "@/data/sortOptions";

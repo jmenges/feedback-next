@@ -1,5 +1,5 @@
-import BackToMainRouteButton from "@/app/_components/BackToMainRouteButton";
-import NewFeedbackForm from "@/app/_components/feedback-form/NewFeedbackForm";
+import BackToMainRouteButton from "@/components/BackToMainRouteButton";
+import NewFeedbackForm from "@/components/feedback-form/NewFeedbackForm";
 
 export default function NewFeedback() {
   return (
