@@ -7,8 +7,8 @@ import FormFieldGroup from "@/components/feedback-form/FormFieldGroup";
 import { useForm } from "react-hook-form";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { useToast } from "../../../hooks/useToast";
 import { BuiltInProviderType } from "next-auth/providers";
+import { useToast } from "@/hooks/useToast";
 
 type LoginFormProps = {
   csrfToken?: string;
