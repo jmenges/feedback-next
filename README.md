@@ -14,7 +14,7 @@ This Project uses the following technologies
 - Component library: shadcn
 
 
-# Setps to run locally
+# Steps to run locally
 
 ### Install packages
 
